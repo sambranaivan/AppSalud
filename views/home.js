@@ -23,6 +23,24 @@ export default class Home extends Component {
     }
   }
 
+  // Check internte
+  componentDidMount() {
+    NetInfo.isConnected.addEventListener(
+      'connectionChange',
+      this._handleConnectivityChange
+    );
+    NetInfo.isConnected.fetch().done(
+      (isConnected) => { this.setState({ isConnected }); }
+    );
+    ///inicializo el contador
+    this._getRegCount();
+
+
+    // this._getPhotosAsync().catch(error => {
+    //   console.error(error);
+    // });
+  }
+
   async _getPhotosAsync() {
     let { status_camera } = await Permissions.askAsync(Permissions.CAMERA_ROLL);
     if (status_camera !== 'granted') {
@@ -143,43 +161,7 @@ export default class Home extends Component {
 
  
   
-  saveData = async () => {
-   try {
-     
-    ///get current data
-    let data = await AsyncStorage.getItem('data');
-    if(data !== null)//ya hay algo cargado?
-    {
-        //convierto string a objeto !
-        var data = JSON.parse(data);
-        //nuevo objeto 
-        var nuevo = { nombre: 'ivan', apellido: 'sambrana' };
-        //inserto nuevo objeto
-        data.push(nuevo);
-        //convierto de nuevo a string!
-        data = JSON.stringify(data);
-        //guardo en el coso
-        AsyncStorage.setItem('data',data);
-        //muestro en consola
-        console.log("data")
-        console.log(data);
-      
-    }
-    else{//es el primero asi que se inicializa
-      data = [];
-      data.push({nombre:"primero",apellido:"ultimo"});
-      AsyncStorage.setItem('data', JSON.stringify(data));
-      console.log("array")
-      console.log(data);
 
-    }
-
-
-   } catch (error) {
-     console.log(error)
-   }
-   
-  }
 
   ViewData = async()=>{
     try {
@@ -211,25 +193,7 @@ export default class Home extends Component {
   }
 
 
-  // Check internte
-  componentDidMount() {
-    NetInfo.isConnected.addEventListener(
-      'connectionChange',
-      this._handleConnectivityChange
-    );
-    NetInfo.isConnected.fetch().done(
-      (isConnected) => { this.setState({ isConnected }); }
-    );
-      ///inicializo el contador
-      this._getRegCount();
-      
-
-      // this._getPhotosAsync().catch(error => {
-      //   console.error(error);
-      // });
-
-    
-  }
+  
 
   
 
