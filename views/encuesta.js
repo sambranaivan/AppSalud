@@ -383,7 +383,7 @@ const styles = StyleSheet.create({
         // marginTop: 50,
         paddingLeft: 20,
         paddingRight: 20,
-        backgroundColor: '#f2f2f0',
+        // backgroundColor: '#f2f2f0',
         
         // backgroundColor: '#ffffff',
     },
