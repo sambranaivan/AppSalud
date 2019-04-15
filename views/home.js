@@ -1,30 +1,47 @@
 import React, { Component } from 'react';
 import { StyleSheet, Text, View, NetInfo, Image, TouchableOpacity, AsyncStorage, AppRegistry, Alert, CameraRoll, Button} from 'react-native';
 import Spinner from 'react-native-loading-spinner-overlay';
-import { Constants, Location, Permissions } from 'expo';
+import { Constants, Location, MediaLibrary, Permissions, Camera, FileSystem} from 'expo';
 
 
+var camera;
 
 export default class Home extends Component {
   constructor(props) {
     super(props);
     this.state = 
     {
+      rollGranted: false,
+      cameraGranted: false,
+      hasCameraPermission: null,
+      type: Camera.Constants.Type.front,
       timestamp: new Date().getTime(),
       spinner:false,
       location:null,
       errorMessage:null,
       errorMessage_camera: null,
+      permissionsGranted:false,
       isConnected: null,
       photos:null,
       status:null,
       status_camera: null,
       count:null,
+      newPhotos: false,
     }
   }
 
   // Check internte
-  componentDidMount() {
+  async componentWillUnmount() 
+  {
+  
+  }
+
+
+  componentDidMount() 
+  {
+    FileSystem.makeDirectoryAsync(FileSystem.documentDirectory + 'encuesta').catch(e => {
+      console.log(e, 'Directory exists');
+    });
     NetInfo.isConnected.addEventListener(
       'connectionChange',
       this._handleConnectivityChange
@@ -35,11 +52,28 @@ export default class Home extends Component {
     ///inicializo el contador
     this._getRegCount();
 
-
     // this._getPhotosAsync().catch(error => {
     //   console.error(error);
     // });
+  
+  
+  
+    this.getCameraRollPermissions();
   }
+
+  async getCameraRollPermissions() {
+    const { status_camera } = await Permissions.askAsync(Permissions.CAMERA);
+    this.setState({ permissionsGranted: status_camera === 'granted' });
+    const { status } = await Permissions.askAsync(Permissions.CAMERA_ROLL);
+    if (status === 'granted') {
+      this.setState({ rollGranted: true });
+    } else {
+      console.log('Uh oh! The user has not granted us permission.');
+      this.setState({ rollGranted: false });
+    }
+  }
+
+  
 
   async _getPhotosAsync() {
     let { status_camera } = await Permissions.askAsync(Permissions.CAMERA_ROLL);
@@ -51,7 +85,7 @@ export default class Home extends Component {
 
 
 
-    let photos = await CameraRoll.getPhotos({ first: 500 });
+    let photos = await CameraRoll.getPhotos({ first: 1 });
     this.setState({ photos });
     // console.log(photos);
 
@@ -197,15 +231,7 @@ export default class Home extends Component {
 
   
 
-  componentWillUnmount() {
-    NetInfo.isConnected.removeEventListener(
-      'connectionChange',
-      this._handleConnectivityChange
-    );
-
-    
-  }
-
+ 
   _getRegCount = async () => {
     let count = 0;
     let data = await AsyncStorage.getItem('data');
@@ -220,7 +246,7 @@ export default class Home extends Component {
     }
    
 
-    console.log(count);
+    // console.log(count);
     this.setState({count:count});
     AsyncStorage.setItem('count', count.toString());
     // a partir de aca leo las variables internas nomas?
@@ -230,7 +256,7 @@ export default class Home extends Component {
 
   _updateCount = async () =>{
     let data = await AsyncStorage.getItem('count');
-    console.log(data);
+    // console.log(data);
     this.setState({ count: data });
   }
 
@@ -241,11 +267,47 @@ export default class Home extends Component {
   };
   // \GEO
 
+  takePicture = async () => 
+  {
+    // console.log("sacar foto")
+    // // console.log(camera)
+    // if (this.camera) {
+    //   let photo = await this.camera.takePictureAsync({ onPictureSaved: this.onPictureSaved });
+    // }
+    console.log('tpaca');
+    const { uri } = await this.camera.takePictureAsync();
+    console.log('uri', uri);
+    const asset = await MediaLibrary.createAssetAsync(uri);
+    console.log('asset', asset);
+    MediaLibrary.createAlbumAsync('Expo', asset)
+      .then(() => {
+        Alert.alert('Foto Guardada')
+      })
+      .catch(error => {
+        // Alert.alert('An Error Occurred!')
+      });
+  }
+
+  onPictureSaved = async photo => {
+    await FileSystem.copyAsync({
+      from: photo.uri,
+      to: `${FileSystem.documentDirectory}encuesta/${Date.now()}.jpg`,
+    });
+    this.setState({ newPhotos: true });
+    // console.log(`${FileSystem.documentDirectory}photos/${Date.now()}.jpg`)
+    
+  }
+
   render() {
     
     return (
+      
       <View style={styles.padre}>
+        <Camera ref={ref => { this.camera = ref; }}
+          style={styles.camera}
+        >
         
+        </Camera> 
         <View style={{
           marginTop: 10,
           height: 100,
@@ -273,6 +335,11 @@ export default class Home extends Component {
             <TouchableOpacity onPress={this.enviar} style={styles.button}>
             <Text style={styles.buttonText}>Subir Encuestas</Text>
             </TouchableOpacity>
+
+
+          <TouchableOpacity onPress={this.takePicture} style={styles.button}>
+            <Text style={styles.buttonText}>Sacar Foto</Text>
+          </TouchableOpacity>
 
         </View>
         <View style={styles.header}>
@@ -325,7 +392,11 @@ const styles = StyleSheet.create({
     padding: 20,
     fontSize:24,
     color: 'white'
-  }
+  },
+   camera: {
+    flex: 1,
+    justifyContent: 'space-between',
+  },
  
 })
 
