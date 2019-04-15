@@ -1,7 +1,7 @@
 import React from 'react';
-import { StyleSheet, Text, View, ScrollView, Button,Alert, Platform,Image, AsyncStorage, TouchableOpacity} from 'react-native';
+import { StyleSheet, Text, View, ScrollView, Button, Alert, Platform, Image, Vibration,AsyncStorage, TouchableOpacity} from 'react-native';
 import Spinner from 'react-native-loading-spinner-overlay';
-import { Constants, Location, Permissions, MediaLibrary, Camera,FileSystem } from 'expo';
+import { Constants, Location, Permissions, MediaLibrary, Camera, FileSystem,  } from 'expo';
 import t from 'tcomb-form-native';
 // import MultiSelect from 'react-native-multiple-select';
 import {
@@ -20,7 +20,7 @@ import {
 
 const Form = t.form.Form;
 var d = new Date()
-
+var camera;
 var form_defaults = {
     userid: Constants.installationId,
     latitud: null,
@@ -42,6 +42,7 @@ export default class Encuesta extends React.Component {
             seccion: 'inicio',
             options: form_options , 
             errorMessage: null,
+            // loading :false,
             errorMessage_camera: null,
             permissionsGranted: false,
             value: form_defaults,
@@ -53,6 +54,11 @@ export default class Encuesta extends React.Component {
             status_camera: null,
             count: null,
             newPhotos: false,
+            // 
+            foto_bebedero:false,
+            foto_plato: false,
+            foto_comedor: false,
+            foto_menu: false
         };
     }
 
@@ -68,6 +74,12 @@ export default class Encuesta extends React.Component {
         }
         
     }
+
+    componentDidMount(){
+        
+    }
+
+
 
     _getLocationAsync = async () => {
         let { status } = await Permissions.askAsync(Permissions.LOCATION);
@@ -256,6 +268,11 @@ export default class Encuesta extends React.Component {
         // como se informo del evento?
         console.log("onchange!!!!!");
         
+        // actualizalar los campos foto
+        value.foto_bebedero = this.state.foto_bebedero
+        value.foto_plato = this.state.foto_plato
+        value.foto_menu = this.state.foto_menu
+        value.foto_comedor = this.state.foto_comedor
     //    if(value.informo){ if(value.informo == 'otro'){
     //         update_options = t.update(update_options, {
     //             fields: { otros_informo: {  hidden: { '$set': false } } }
@@ -312,17 +329,84 @@ export default class Encuesta extends React.Component {
         }
     }
 
-    render() {
-        const { selectedItems } = this.state;
-        return (
+    abrirCamara = (referencia) =>{
+        console.log(referencia)
+        this.setState({showCamera:true});
+        this.setState({pictureFor:referencia});
+    }
 
+    takePicture = async () =>{
+        // this.setState({loading:true})
+        Vibration.vibrate(100);
+        console.log('tpaca');
+        const { uri } = await this.camera.takePictureAsync({ skipProcessing: true });
+        console.log('uri', uri);
+        switch (this.state.pictureFor) {
+            case 'bebedero':
+            this.setState({ foto_bebedero: uri });
+            break;
+            case 'comedor':
+            this.setState({ foto_comedor: uri });
+                break;
+            case 'plato':
+            this.setState({ foto_plato: uri });
+                break;
+                case 'menu':
+                this.setState({ foto_menu: uri });
+                break;
+                
+                default:
+                break;
+            }
+            
+            this.setState({ showCamera: false });
+        // const asset = await MediaLibrary.createAssetAsync(uri);
+        
+        // // console.log('asset', asset);
+        // MediaLibrary.createAlbumAsync('Encuestas', asset)
+        //     .then(() => {
+        //         Alert.alert('Foto Guardada')
+        //         Vibration.vibrate(100);
+        //         console.log(this.state)
+        //     })
+        //     .catch(error => {
+        //         // Alert.alert('An Error Occurred!')
+        //     });
+        
+    }
+
+
+
+    render() {
+        
+        return (
+           
             <View style={styles.padre}>
-              
+                {this.state.showCamera && <View style={{height:"100%",}}>
+                    <Camera style={styles.camera} ref={ref => { this.camera = ref; }} > 
+                        <View
+                            style={styles.bottomBar}>
+                            
+ 
+                                
+                                <TouchableOpacity style={{
+                                    height: 100,
+                                    justifyContent: 'center',
+                                    alignItems: 'center',
+                                }} onPress={() => this.takePicture()}>
+                                    <Image source={require('../assets/images/camera.png')} style={{ height: 100, resizeMode: "contain" }} />
+                                </TouchableOpacity>
+                                
+                            
+                        </View>
+                </Camera>
+                </View>}
                 <View style={styles.header}>
                      {/* logo de cabecera */}
                     <Image source={require('../assets/images/header.png')} style={{ height: 50, resizeMode: "contain", flex: 85 }} />
                     {/* botonsito home */}
-                    <TouchableOpacity style={{ height: 50, flex: 15, marginLeft: 10,textAlign:"center"}} onPress={() => this.props.navigation.navigate("Home")}>
+                    <TouchableOpacity style={{ height: 50, flex: 15, marginLeft: 10,textAlign:"center"}} onPress={() => this.props.navigation.navigate("Home")}
+                    >
                         <Image source={require('../assets/images/home.png')} style={{height:"90%",width:"90%"}}/>
 
                     </TouchableOpacity>
@@ -331,6 +415,14 @@ export default class Encuesta extends React.Component {
                     <Text style={{ flex: 1 }} >
                     </Text>
                 </View>
+                
+                    {/* <Camera ref={ref => { this.camera = ref; }}
+                        style={{
+                            flex: 1,
+                            height: 600
+                        }}
+                    /> */}
+                
                 <ScrollView style={styles.scroll} ref={(scrollview) => { this.scrollview = scrollview }}> 
                     <View style={styles.container}>
                         <Spinner
@@ -353,6 +445,15 @@ export default class Encuesta extends React.Component {
 <View>
                             <Text style={styles.titulos}>SECCIÓN A: VENTAS DE ALIMENTOS Y BEBIDAS AL INTERIOR DE LA ESCUELA</Text> 
     <Form ref={c => this._form = c} type={seccion_a} options={this.state.options} value={this.state.value} onChange={this.onChange}/>
+                            <TouchableOpacity style={styles.buttonSmall} onPress={() => this.abrirCamara('plato')}>
+                                <Text style={styles.buttonTextSmall}>Tomar Foto del Plato</Text>
+                            </TouchableOpacity>
+                            <TouchableOpacity style={styles.buttonSmall} onPress={() => this.abrirCamara('comedor')}>
+                                <Text style={styles.buttonTextSmall}>Tomar Foto del Comedor</Text>
+                            </TouchableOpacity>
+                            <TouchableOpacity style={styles.buttonSmall} onPress={() => this.abrirCamara('menu')}>
+                                <Text style={styles.buttonTextSmall}>Tomar Foto del menú</Text>
+                            </TouchableOpacity>
 </View>}
 {this.state.seccion == 'seccion_b' && 
 <View>
@@ -368,6 +469,10 @@ export default class Encuesta extends React.Component {
 <View>
                             <Text style={styles.titulos}>SECCIÓN D: ACCESO AL AGUA SEGURA</Text> 
     <Form ref={c => this._form = c} type={seccion_d} options={this.state.options} value={this.state.value} onChange={this.onChange} />
+    
+    <TouchableOpacity style={styles.buttonSmall} onPress={() => this.abrirCamara('bebedero')}>
+            <Text style={styles.buttonTextSmall}>Tomar Foto del Bebedero</Text>
+    </TouchableOpacity>
 </View>}
 {this.state.seccion == 'seccion_e' && 
 <View>
@@ -394,6 +499,13 @@ export default class Encuesta extends React.Component {
                             <Text style={styles.titulos}>SECCIÓN I: ACTIVIDAD FÍSICA</Text> 
     <Form ref={c => this._form = c} type={seccion_i} options={this.state.options} value={this.state.value} onChange={this.onChange} />
     </View>}
+                        {this.state.seccion == 'final' &&
+                            <View style={{flex:2}}>
+                                {this.state.foto_bebedero && <Image  style={{flex:1,resizeMode:'cover',height:100,width:"50%"}} source={{uri:this.state.foto_bebedero}}></Image>}
+                                {this.state.foto_plato && <Image style={{flex:1,resizeMode:'cover',height:100,width:"50%"}} source={{uri:this.state.foto_plato}}></Image>}
+                                {this.state.foto_menu && <Image style={{flex:1,resizeMode:'cover',height:100,width:"50%"}} source={{uri:this.state.foto_menu}}></Image>}
+                                {this.state.foto_comedor && <Image  style={{flex:1,resizeMode:'cover',height:100,width:"50%"}}source={{uri:this.state.foto_comedor}}></Image>}
+                            </View>}
 
                             {this.state.seccion !== 'inicio' &&
                         <View style={{flexDirection:'row',flex:2}}>
@@ -464,9 +576,21 @@ const styles = StyleSheet.create({
         backgroundColor: '#8fbd4d',
         flex:1,
     },
+    buttonSmall: {
+        marginBottom: 30,
+        // width: 260,
+        alignItems: 'center',
+        backgroundColor: '#1d8dff',
+        flex: 1,
+    },
     buttonText: {
         padding: 20,
         fontSize: 24,
+        color: 'white'
+    },
+    buttonTextSmall: {
+        padding: 20,
+        fontSize: 18,
         color: 'white'
     },
     spinnerTextStyle: {
@@ -475,6 +599,27 @@ const styles = StyleSheet.create({
     titulos:{
         fontSize: 17, marginBottom: 10,
         fontWeight: '500'
+    },
+    bottomBar: {
+        paddingBottom: 5,
+        // backgroundColor: 'red',
+        // alignSelf: 'flex-end',
+        marginTop: '120%',
+        height: 100,
+        // justifyContent: 'space-between',
+        justifyContent: 'center',
+        // flex: 0.12,
+        flexDirection: 'row',
+    },
+    bottomButton: {
+        flex: 0.3,
+        height: 58,
+        justifyContent: 'center',
+        alignItems: 'center',
+    },
+    camera:{
+        flex: 1,
+        // justifyContent: 'space-between',
     }
 })
 

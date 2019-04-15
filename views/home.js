@@ -276,7 +276,7 @@ export default class Home extends Component {
     // }
     console.log('tpaca');
     const { uri } = await this.camera.takePictureAsync();
-    console.log('uri', uri);
+    console.log(uri);
     const asset = await MediaLibrary.createAssetAsync(uri);
     console.log('asset', asset);
     MediaLibrary.createAlbumAsync('Expo', asset)
