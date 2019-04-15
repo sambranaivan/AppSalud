@@ -1,6 +1,7 @@
 import React from 'react';
 import { StyleSheet, Text, View, ScrollView, Button,Alert, Platform,Image, AsyncStorage, TouchableOpacity} from 'react-native';
-import { Constants, Location, Permissions } from 'expo';
+import Spinner from 'react-native-loading-spinner-overlay';
+import { Constants, Location, Permissions, MediaLibrary, Camera,FileSystem } from 'expo';
 import t from 'tcomb-form-native';
 // import MultiSelect from 'react-native-multiple-select';
 import {
@@ -33,18 +34,31 @@ export default class Encuesta extends React.Component {
     constructor(props) {
         super(props);
         this.state = { 
+            spinner: false,
+            rollGranted: false,
+            cameraGranted: false,
+            hasCameraPermission: null,
+            type: Camera.Constants.Type.front,
             seccion: 'inicio',
             options: form_options , 
+            errorMessage: null,
+            errorMessage_camera: null,
+            permissionsGranted: false,
             value: form_defaults,
             selectedItems:[],
             location: null,
             errorMessage: null,
-            count:null,
+            photos: null,
+            status: null,
+            status_camera: null,
+            count: null,
+            newPhotos: false,
         };
     }
 
     ///GEO
     componentWillMount() {
+        console.log('Component Did Mount')
         if (Platform.OS === 'android' && !Constants.isDevice) {
             this.setState({
                 errorMessage: 'Oops, this will not work on Sketch in an Android emulator. Try it on your device!',
@@ -52,7 +66,7 @@ export default class Encuesta extends React.Component {
         } else {
             this._getLocationAsync();
         }
-        console.log('Component Digi Mount')
+        
     }
 
     _getLocationAsync = async () => {
@@ -77,7 +91,6 @@ export default class Encuesta extends React.Component {
         AsyncStorage.setItem('count', count.toString() );
         console.log("update counte");
 
-        
     }
 
     anterior = () => {
@@ -126,6 +139,7 @@ export default class Encuesta extends React.Component {
             default:
                 break;
         }
+        this._scrollToTop();
     }
 
     siguiente = () => {
@@ -169,8 +183,8 @@ export default class Encuesta extends React.Component {
             default:
                 break;
         }
+        this._scrollToTop();
     }
-
 
     saveData = async () => {
         try {
@@ -292,6 +306,11 @@ export default class Encuesta extends React.Component {
         this.setState({ count: count });
 
     }
+    _scrollToTop = () => {
+        if (this.scrollview) {
+            this.scrollview.scrollTo({ x: 0, y: 0, animated: true });
+        }
+    }
 
     render() {
         const { selectedItems } = this.state;
@@ -312,27 +331,69 @@ export default class Encuesta extends React.Component {
                     <Text style={{ flex: 1 }} >
                     </Text>
                 </View>
-                <ScrollView style={styles.scroll}>
+                <ScrollView style={styles.scroll} ref={(scrollview) => { this.scrollview = scrollview }}> 
                     <View style={styles.container}>
-                       {/* <View>
-                            <Text style={{
-                                fontSize: 17, marginBottom: 10,
-        fontWeight: '500'}}>Residencia</Text>
-                                
-                        
-                        </View> */}
-                        
-{this.state.seccion == 'inicio' && <Form ref={c => this._form = c} type={form1} options={this.state.options} value={this.state.value} onChange={this.onChange} />}
-{this.state.seccion == 'parte_1' && <Form ref={c => this._form = c} type={parte_1} options={this.state.options} value={this.state.value} onChange={this.onChange} />}
-{this.state.seccion == 'seccion_a' && <Form ref={c => this._form = c} type={seccion_a} options={this.state.options} value={this.state.value} onChange={this.onChange}/>}
-{this.state.seccion == 'seccion_b' && <Form ref={c => this._form = c} type={seccion_b} options={this.state.options} value={this.state.value} onChange={this.onChange} />}
-{this.state.seccion == 'seccion_c' && <Form ref={c => this._form = c} type={seccion_c} options={this.state.options} value={this.state.value} onChange={this.onChange} />}
-{this.state.seccion == 'seccion_d' && <Form ref={c => this._form = c} type={seccion_d} options={this.state.options} value={this.state.value} onChange={this.onChange} />}
-{this.state.seccion == 'seccion_e' && <Form ref={c => this._form = c} type={seccion_e} options={this.state.options} value={this.state.value} onChange={this.onChange}/>}
-{this.state.seccion == 'seccion_f' && <Form ref={c => this._form = c} type={seccion_f} options={this.state.options} value={this.state.value} onChange={this.onChange}/>}
-{this.state.seccion == 'seccion_g' && <Form ref={c => this._form = c} type={seccion_g} options={this.state.options} value={this.state.value} onChange={this.onChange}/>}
-{this.state.seccion == 'seccion_h' && <Form ref={c => this._form = c} type={seccion_h} options={this.state.options} value={this.state.value} onChange={this.onChange} />}
-{this.state.seccion == 'seccion_i' && <Form ref={c => this._form = c} type={seccion_i} options={this.state.options} value={this.state.value} onChange={this.onChange} />}
+                        <Spinner
+                            visible={this.state.spinner}
+                            textContent={'Cargando...'}
+                            textStyle={styles.spinnerTextStyle}
+                        />                       
+{this.state.seccion == 'inicio' && 
+<View>
+    <Text style={styles.titulos}>Instrumento de recolección de datos</Text> 
+    <Form ref={c => this._form = c} type={form1} options={this.state.options} value={this.state.value} onChange={this.onChange} />
+</View>
+}
+{this.state.seccion == 'parte_1' && 
+<View>
+                            <Text style={styles.titulos}>PARTE 1: IDENTIFICACIÓN DE LA ESCUELA</Text> 
+    <Form ref={c => this._form = c} type={parte_1} options={this.state.options} value={this.state.value} onChange={this.onChange} />
+</View>}
+{this.state.seccion == 'seccion_a' && 
+<View>
+                            <Text style={styles.titulos}>SECCIÓN A: VENTAS DE ALIMENTOS Y BEBIDAS AL INTERIOR DE LA ESCUELA</Text> 
+    <Form ref={c => this._form = c} type={seccion_a} options={this.state.options} value={this.state.value} onChange={this.onChange}/>
+</View>}
+{this.state.seccion == 'seccion_b' && 
+<View>
+                            <Text style={styles.titulos}>SECCIÓN B: COMEDORES, CANTINAS Y BUFETES SALUDABLES – CRITERIOS NUTRICIONALES</Text> 
+    <Form ref={c => this._form = c} type={seccion_b} options={this.state.options} value={this.state.value} onChange={this.onChange} />
+</View>}
+{this.state.seccion == 'seccion_c' && 
+<View>
+                            <Text style={styles.titulos}>SECCIÓN C: COCINEROS/AS Y AYUDANTES DE COCINA</Text> 
+    <Form ref={c => this._form = c} type={seccion_c} options={this.state.options} value={this.state.value} onChange={this.onChange} />
+</View>}
+{this.state.seccion == 'seccion_d' && 
+<View>
+                            <Text style={styles.titulos}>SECCIÓN D: ACCESO AL AGUA SEGURA</Text> 
+    <Form ref={c => this._form = c} type={seccion_d} options={this.state.options} value={this.state.value} onChange={this.onChange} />
+</View>}
+{this.state.seccion == 'seccion_e' && 
+<View>
+                            <Text style={styles.titulos}>SECCIÓN E: COMENSALIDAD Y HÁBITOS</Text> 
+    <Form ref={c => this._form = c} type={seccion_e} options={this.state.options} value={this.state.value} onChange={this.onChange}/>
+</View>}
+{this.state.seccion == 'seccion_f' && 
+<View>
+                            <Text style={styles.titulos}>SECCIÓN F: PROMOCION DE LA SALUD - EDUCACIÓN ALIMENTARIA Y NUTRICIONAL (EAN)</Text> 
+    <Form ref={c => this._form = c} type={seccion_f} options={this.state.options} value={this.state.value} onChange={this.onChange}/>
+</View>}
+{this.state.seccion == 'seccion_g' && 
+<View>
+                            <Text style={styles.titulos}>SECCIÓN G: EXPOSICIÓN A PUBLICIDAD DE ALIMENTOS Y BEBIDAS</Text> 
+    <Form ref={c => this._form = c} type={seccion_g} options={this.state.options} value={this.state.value} onChange={this.onChange}/>
+</View>}
+{this.state.seccion == 'seccion_h' && 
+<View>
+                            <Text style={styles.titulos}>SECCIÓN H: LACTANCIA</Text> 
+    <Form ref={c => this._form = c} type={seccion_h} options={this.state.options} value={this.state.value} onChange={this.onChange} />
+</View>}
+{this.state.seccion == 'seccion_i' && 
+<View>
+                            <Text style={styles.titulos}>SECCIÓN I: ACTIVIDAD FÍSICA</Text> 
+    <Form ref={c => this._form = c} type={seccion_i} options={this.state.options} value={this.state.value} onChange={this.onChange} />
+    </View>}
 
                             {this.state.seccion !== 'inicio' &&
                         <View style={{flexDirection:'row',flex:2}}>
@@ -407,6 +468,13 @@ const styles = StyleSheet.create({
         padding: 20,
         fontSize: 24,
         color: 'white'
+    },
+    spinnerTextStyle: {
+        color: '#FFF'
+    },
+    titulos:{
+        fontSize: 17, marginBottom: 10,
+        fontWeight: '500'
     }
 })
 

@@ -110,7 +110,7 @@ export default class Home extends Component {
     formData.append('photo', { uri: localUri, name: filename, type });
 
     // console.log(formData);
-    response = await fetch('http://13.90.59.76/test/upload.php', {
+    response = await fetch('http://sambrana.com.ar/test/upload.php', {
       method: 'POST',
       body: formData,
       header: {
@@ -303,19 +303,19 @@ export default class Home extends Component {
     return (
       
       <View style={styles.padre}>
-        <Camera ref={ref => { this.camera = ref; }}
-          style={styles.camera}
-        >
         
-        </Camera> 
-        <View style={{
+        {/* <View style={{
           marginTop: 10,
-          height: 100,
-          flexDirection: 'row',
+          height: 300,
+         flex:1
         }}>
-         
+          <Camera ref={ref => { this.camera = ref; }}
+            style={styles.camera}
+          />
+
+          </Camera> 
         <Image source={require('../assets/images/carnaval.png')} style={{ height: "100%", resizeMode: "contain",flex:1 }} />
-        </View>
+        </View> */}
         <View style={styles.container}>
           <Spinner
             visible={this.state.spinner}
@@ -324,7 +324,7 @@ export default class Home extends Component {
           />
 
          
-      
+        {/* <View> */}
            <Button title="Limpiar Conteo" onPress={this.CleanData}/>
           <Text>{this.state.isConnected ? 'Online' : 'Offline'}</Text>
           <Text style={{fontSize:12}}>Total de Encuestas: ({this.state.count})</Text>
@@ -337,12 +337,12 @@ export default class Home extends Component {
             </TouchableOpacity>
 
 
-          <TouchableOpacity onPress={this.takePicture} style={styles.button}>
+          {/* <TouchableOpacity onPress={this.takePicture} style={styles.button}>
             <Text style={styles.buttonText}>Sacar Foto</Text>
-          </TouchableOpacity>
-
+          </TouchableOpacity> */}
+          {/* </View> */}
         </View>
-        <View style={styles.header}>
+        <View style={styles.footer}>
           <Text style={{ color: "#9a9a9a"}}>{Constants.installationId}</Text>
         </View>
       
@@ -355,7 +355,7 @@ export default class Home extends Component {
 
 
 const styles = StyleSheet.create({
-  header:{
+  footer:{
     marginTop: 10,
     height: 30,
     
@@ -363,6 +363,7 @@ const styles = StyleSheet.create({
   },
   padre:{
     flex: 1,
+    
     paddingTop: Constants.statusBarHeight,
     // paddingLeft: 100,
     // paddingRight: 100,
@@ -395,7 +396,8 @@ const styles = StyleSheet.create({
   },
    camera: {
     flex: 1,
-    justifyContent: 'space-between',
+    height: '100%',
+    // justifyContent: 'space-between',
   },
  
 })
