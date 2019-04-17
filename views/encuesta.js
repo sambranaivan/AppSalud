@@ -7,6 +7,8 @@ import t from 'tcomb-form-native';
 import {
     form1, parte_1,
     seccion_a,
+    seccion_a_2,
+    seccion_a_3,
     seccion_b,
     seccion_c,
     seccion_d,
@@ -14,8 +16,8 @@ import {
     seccion_f,
     seccion_g,
     seccion_h,
-    seccion_i
-    ,form_options} from './formulario';
+    seccion_i} from './formulario';
+import form_options from './options';
 
 
 const Form = t.form.Form;
@@ -57,6 +59,9 @@ export default class Encuesta extends React.Component {
             // 
             foto_bebedero:false,
             foto_plato: false,
+            foto_plato_desayuno: false,
+            foto_plato_almuerzo: false,
+            foto_plato_merienda: false,
             foto_comedor: false,
             foto_menu: false
         };
@@ -117,8 +122,12 @@ export default class Encuesta extends React.Component {
             case 'seccion_a':
                 this.setState({ seccion: 'parte_1' });
                 break;
-            case 'seccion_b':
+            case 'seccion_a_1':
                 this.setState({ seccion: 'seccion_a' });
+            case 'seccion_a_2':
+                this.setState({ seccion: 'seccion_a_1' });
+            case 'seccion_b':
+                this.setState({ seccion: 'seccion_a_3' });
                 break;
             case 'seccion_c':
                 this.setState({ seccion: 'seccion_b' });
@@ -165,6 +174,12 @@ export default class Encuesta extends React.Component {
                 this.setState({ seccion: 'seccion_a' });
                 break;
             case 'seccion_a':
+                this.setState({ seccion: 'seccion_a_2' });
+                break;
+            case 'seccion_a_2':
+                this.setState({ seccion: 'seccion_a_3' });
+                break;
+            case 'seccion_a_3':
                 this.setState({ seccion: 'seccion_b' });
                 break;
             case 'seccion_b':
@@ -445,6 +460,24 @@ export default class Encuesta extends React.Component {
 <View>
                             <Text style={styles.titulos}>SECCIÓN A: VENTAS DE ALIMENTOS Y BEBIDAS AL INTERIOR DE LA ESCUELA</Text> 
     <Form ref={c => this._form = c} type={seccion_a} options={this.state.options} value={this.state.value} onChange={this.onChange}/>
+                          
+</View>}
+                        {this.state.seccion == 'seccion_a_2' &&
+                            <View>
+                                <Text style={styles.titulos}>SECCIÓN A: VENTAS DE ALIMENTOS Y BEBIDAS AL INTERIOR DE LA ESCUELA</Text>
+                                <Form ref={c => this._form = c} type={seccion_a_2} options={this.state.options} value={this.state.value} onChange={this.onChange} />
+
+                            </View>}
+                        {this.state.seccion == 'seccion_a_3' &&
+                            <View>
+                                <Text style={styles.titulos}>SECCIÓN A: VENTAS DE ALIMENTOS Y BEBIDAS AL INTERIOR DE LA ESCUELA</Text>
+                                <Form ref={c => this._form = c} type={seccion_a_3} options={this.state.options} value={this.state.value} onChange={this.onChange} />
+
+                            </View>}
+{this.state.seccion == 'seccion_b' && 
+<View>
+                            <Text style={styles.titulos}>SECCIÓN B: COMEDORES, CANTINAS Y BUFETES SALUDABLES – CRITERIOS NUTRICIONALES</Text> 
+    <Form ref={c => this._form = c} type={seccion_b} options={this.state.options} value={this.state.value} onChange={this.onChange} />
                             <TouchableOpacity style={styles.buttonSmall} onPress={() => this.abrirCamara('plato')}>
                                 <Text style={styles.buttonTextSmall}>Tomar Foto del Plato</Text>
                             </TouchableOpacity>
@@ -454,11 +487,6 @@ export default class Encuesta extends React.Component {
                             <TouchableOpacity style={styles.buttonSmall} onPress={() => this.abrirCamara('menu')}>
                                 <Text style={styles.buttonTextSmall}>Tomar Foto del menú</Text>
                             </TouchableOpacity>
-</View>}
-{this.state.seccion == 'seccion_b' && 
-<View>
-                            <Text style={styles.titulos}>SECCIÓN B: COMEDORES, CANTINAS Y BUFETES SALUDABLES – CRITERIOS NUTRICIONALES</Text> 
-    <Form ref={c => this._form = c} type={seccion_b} options={this.state.options} value={this.state.value} onChange={this.onChange} />
 </View>}
 {this.state.seccion == 'seccion_c' && 
 <View>
@@ -556,7 +584,7 @@ const styles = StyleSheet.create({
         // marginTop: 50,
         paddingLeft: 20,
         paddingRight: 20,
-        // backgroundColor: '#f2f2f0',
+        backgroundColor: '#f2f2f0',
         
         // backgroundColor: '#ffffff',
     },
