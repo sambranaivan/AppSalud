@@ -1,8 +1,8 @@
 
 var form_options = {
     i18n: {
-        optional: ' ',
-        required: '*'
+        optional: '',
+        required: ''
     },
     fields: {
         latitud: {
@@ -56,7 +56,7 @@ var form_options = {
             label:"1.8 ¿Cuál es el N° del personal docente y no docente que trabaja en el establecimiento? \n a-Cantidad"
         },
         ctrl_sanitario: {
-            label:"1.9 ¿En la institución se realizan controles sanitarios?"
+            label: "1.9 ¿En la institución se realizan controles sanitarios? \nEspecificar (bacteriológicos, microbiológicos, químicos)"
         },
         ctrl_sanitario_detalle:{
             label:"Especificar cuáles y en qué lugares se realizan",
@@ -246,324 +246,579 @@ var form_options = {
         label:"Empanadas fritas",
     }
 ,
-    compra_may_men: si_no,
+    compra_may_men: {
+        label:"A.4 ¿Existen acuerdos para comprar por menos y/o mayor de alimentos con industrias, cooperados, tamberos, microemprendedores,etc"
+    },
     compra_may_men_detalle:{
-        label:
+        label:"Detallar",
+        
+        hidden:true
     },//TODO hidden
-    capacitacion_comercio: si_no,
+    capacitacion_comercio:{
+        label:"A.5 ¿Se realizan capacitaciones a los encargados de las concesiones de los kioscos saludables?"
+    },
     capacitacion_comercio_detalle:{
-        label:
+        label:"¿Sobre que temáticas?",
+        
+        hidden:true
     },//TODO hidden
-    comercializacion_inmediacion: si_no,//TODO cambiar columna
+    comercializacion_inmediacion: {
+        label:"A.6 ¿Se comercializan alimentos y bebidas en las inmediaciones de la escuela?\n (comercios,vendedores ambulantes?)"
+    },//TODO cambiar columna
     comercializacion_inmediacion_detalle:{
-        label:
+        label:"cuales?",
+        hidde:true
     },//TODO hidden
-})
-
-const seccion_b = t.struct({
-    //SECCIÓN B: COMEDORES, CANTINAS Y BUFETES SALUDABLES – CRITERIOS NUTRICIONALES
-    // multiple B1
-    prestacion_servicio_desayuno: si_no,
-    prestacion_servicio_almuerzo: si_no,
-    prestacion_servicio_merienda: si_no,
-    // prestacion_servicio_escolar:{
-        label:
+    prestacion_servicio_desayuno: {
+        label:"B.1 Identificar si el establecimiento cuenta con prestaciones ofrecidas como servicio escolar \n Desayuno"
+    },
+    prestacion_servicio_almuerzo: {
+        label: "Almuerzo"
+    },
+    prestacion_servicio_merienda: {
+    // prestacion_servicio_escola:{
+        label: "Merienda"
     },
     // B2
     // foto_plato: t.maybe(t.String),//TODO hidden
-    foto_plato_desayuno: t.maybe(t.String),//TODO nueva columna
-    foto_plato_almuerzo: t.maybe(t.String),//TODO nueva columna
-    foto_plato_merienda: t.maybe(t.String),//TODO nueva columna
+    foto_plato_desayuno: {
+        
+        hidden:true
+    },//TODO nueva columna
+    foto_plato_almuerzo: {
+        
+        hidden:true
+    },//TODO nueva columna
+    foto_plato_merienda: {
+        
+        hidden:true
+    },//TODO nueva columna
     // multiple
     tipo_gestion_estructurada_desayuno:{
-        label:
+        label: "B.3 Si el establecimiento ofrece comidas estructuradas, ¿Cómo se gestiona en cada caso? Detallar a quién/es se realiza la compra de los insumos. \n Desayuno"
     },
     tipo_gestion_estructurada_almuerzo:{
-        label:
+        label: "Almuerzo"
     },
     tipo_gestion_estructurada_merienda:{
-        label:
+        label: "Merienda"
     },
     // 
     compra_insumo:{
-        label:
+        label:"Detallar a quién/es se realiza la compra de los insumos"
     },//a quien se le compra lo unsimo
-    salon_comedor: si_no,
-    foto_comedor: t.maybe(t.String),
-    foto_area_elaboracion: t.maybe(t.String),//TODO nueva columna
-    foto_servicio_alimentos: t.maybe(t.String),//TODO nueva columna
-    lugar_desayuno_merienda: t.enums({
-        aula: "Aula", comedor: "Comedor", otro: "Otros"
-    }),
-    lugar_desayuno_merienda_otros: t.maybe(t.String),//TODO hidden
-    lugar_almuerzo: t.enums({
-        aula: "Aula", comedor: "Comedor", otro: "Otros"
-    }),
-    lugar_almuerzo_otros: t.maybe(t.String),//TODO hidden
-    silla_mesa: si_no,
-    utensilios: si_no,
+    salon_comedor: {
+        label:"B.4 Identificar si el establecimiento cuenta con un salón comedor de usoexclusivo."
+    },
+    foto_comedor: {
+        
+        hidden:true,
+    },
+    foto_area_elaboracion: {
+        
+        hidden:true,
+    },
+    foto_servicio_alimentos: {
+        
+        hidden:true,
+    },
+    lugar_desayuno_merienda:{
+        label:"B.6.Identificar en qué lugar desayunan/meriendan los niñxs?"
+    },
+    lugar_desayuno_merienda_otros:{
+        label:"Cual?",
+        
+        hidden:true
+    },
+    lugar_almuerzo: {
+        label:"B.7 Identificar en qué lugar almuerzan los niñxs?"
+    },
+    lugar_almuerzo_otros: {
+        label:"Cual?",
+        
+        hidden:true,
+    },
+    silla_mesa: {
+        label: "B.8. ¿Hay suficiente cantidad de sillas y mesas durante el servicio de lacomida?"
+    },
+    utensilios: {
+        label: "B.9. ¿Hay suficiente cantidad de utensilios durante el servicio de la comida?"
+    },
     observaciones:{
-        label:
+        label: "Observaciones"
     },
     ///b.10
     supervicion_menu:{
-        label:
+        label:"B.10.a ¿Quién confecciona y supervisa los menús?"
     },
     recomendaciones_gapa:{
-        label:
+        label:"B.10.b ¿Siguen las recomendaciones de las GAPA?"
     },
     recomendaciones_macro_micronutrientes:{
-        label:
+        label:"B.10.c ¿Cumplen las recomendaciones de macro y micronutrientes según grupo etario?"
     },
     //b11
-    menu_vista: t.Boolean,
-    foto_menu: t.maybe(t.String),
+    menu_vista: {
+        label:"B.11 ¿Se encuentra el menú a la vista en el comedor?"
+    },
+    foto_menu:{
+        
+        hidden:true,
+    },
     //b12
-    lugar_preparacion_comida: si_no,
-    //b12
-    menu_especial: t.enums({
-        no: "No Ofrece",
-        diabetico: "Diabético",
-        celiaco: "Celiaco",
-        hipocalorico: "Hipocalórico",
-        otro: "Otro (Especificar)"
-    }),
-    menu_especial_otro: t.maybe(t.String),//TODO hidden
+    lugar_preparacion_comida: {
+        label:"B.12. ¿La comida se elabora en la escuela o viene preparada de otro lugar?"
+    },
+    //b13
+    menu_especial:{
+        label:"B.13 ¿Se ofrece menú especial?"
+    },
+    menu_especial_otro: {
+        label:"Cuales?",
+        
+        hidden:true
+    },
+    alimento_tradicional:{
+        label:"B.14. ¿Se incluyen alimentos tradicionales según región en los menús escolares?"
+    },
+    alimento_tradicional_detalle: {
+        
+        hidden:true,
+        label:"Cuales?"
+    },//TODO si en anterios
+    alimento_tradicional_frecuencia: {
+        label:"Con que frecuencia?",
+        
+        hidden:true
+    },
+    informe_menu: {
+        label:"B.15. ¿Se informa a las familias sobre los menús semanales?"
+    },
+    // 
+    durante_comida_agua_segura: {
+        label:"B.16. ¿Qué bebida/as se ofrece/n durante las comidas? \n Agua Segura"
+    },
+    durante_comida_gaseosa_azucarada:{
+        label:"Bebidas Gaseosas Azucaradas"
+    },
+    durante_comida_jugo_industrial_para_consumir:{
+        label:"Jugos Industrializados listos para consumir"
+    },
+    durante_comida_jugo_industrial_para_reconstituir:{
+        label:"Jugos industrializados para reconstituir"
+    },
+    durante_comida_agua_saborizada:{
+        label:"Aguas saborizadas"
+    },
+    durante_comida_jugo_fruta_fresa:{
+        label: "Jugos de fruta fresca"
+    },
+    // 
+    huerta:{
+        label:"B.17.¿Cuenta el establecimiento con huertas propias?"
 
-    alimento_tradicional: si_no,
-    alimento_tradicional_detalle: t.maybe(t.String),//TODO si en anterios
-    alimento_tradicional_frecuencia: t.maybe(t.String),//TODO si en anterios
-    informe_menu: si_no,
-    // 
-    durante_comida_agua_segura: si_no,
-    durante_comida_gaseosa_azucarada: si_no,
-    durante_comida_jugo_industrial_para_consumir: si_no,
-    durante_comida_jugo_industrial_para_reconstituir: si_no,
-    durante_comida_agua_saborizada: si_no,
-    durante_comida_jugo_fruta_fresa: si_no,
-    // 
-    huerta: si_no,
-    sal_libre: si_no,
+    },
+    sal_libre: {
+        label:"B.18. Identifique si la sal se encuentra o no a libre disposición para su consumo. (Incluye todo tipo de presentación)"
+    },
     //  multiple
-    sal_presentacion_salero: si_no,
-    sal_presentacion_sobres: si_no,
-    sal_presentacion_sal_baja_sodio: si_no,
-    sal_presentacion_otro: si_no,//TODO nuevo caluma
-    sal_presentacion_otro_detalle: t.maybe(t.String),//TODO hidden
+    sal_presentacion_salero: {
+        label:"B.19. Registre los formatos en los que se ofrece sal en el punto de comercialización.\n Salero"
+    },
+    sal_presentacion_sobres: {
+        label:"Sobres de 5gr"
+    },
+    sal_presentacion_sal_baja_sodio: {
+        label:"Sal baja en sodio"
+    },
+   
+    sal_presentacion_otro_detalle:
+    {
+        label:"Otro",
+        // hidden:true
+    },
     // 
     habitos_comida:{
-        label:
+        label: "B.20. ¿Se aprovecha el espacio de las comidas para promocionar hábitos y comportamientos que motiven a los niñxs respecto a la alimentación saludable, comensalidad, convivencia y compañerismo?"
     },
-})
-
-const seccion_c = t.struct(
-    {
         //SECCIÓN C: COCINEROS/AS Y AYUDANTES DE COCINA
         encargado_alimento:{
-            label:
+            label: "C.1. ¿Quiénes se encargan de la manipulación y preparación de los alimentos?"
         },
-        ayudantes: si_no,
-        ayudantes_capacitados: si_no,
-        ayudantes_capacitados_tematica: t.maybe(t.String),
-    }
-)
+        ayudantes: {
+            label: "C.2. ¿Cuentan los cocineros/as y/o ayudantes de cocina con libreta sanitaria al día?"
+        },
+        ayudantes_capacitados: {
+            label:"C.3. ¿Los cocineros/as y/o ayudantes de cocina son capacitados periódicamente?"
+        },
+        ayudantes_capacitados_tematica: {
+            label:"Sobre que temáticas?"
+        },
 
-const seccion_d = t.struct({
     //SECCIÓN D: ACCESO AL AGUA SEGURA
     //d.1
-    agua_corriente: si_no,
+    agua_corriente: {
+        label: "D.1. ¿Cuenta la institución con agua corriente?"
+    },
 
 
     //si es no
-    agua_presentacion: t.maybe(t.String),//TODO HIDDEN
-    agua_estrategia_segura: t.maybe(t.String),//TODO HIDDEN
+    agua_presentacion: {
+        label: "D.2. Si la respuesta es no, ¿De qué manera se ofrece el agua?",
+        
+        hidden:true,
+    },
+    agua_estrategia_segura:{
+        label:" ¿Qué estrategias utilizan para hacerla segura?",
+        
+        hidden:true
+    },
 
     // agua_segura_utilizacion:t.String,
     // MULTIPLE
-    agua_segura_beber: si_no,
-    agua_segura_hacer_hielo: si_no,
-    agua_segura_lavar_alimentos: si_no,
-    agua_segura_cocinar: si_no,
-    agua_segura_infusiones: si_no,
-    agua_segura_cepillarse_dientes: si_no,
-    agua_segura_cepillarse_otro_detalle: t.maybe(t.String),
+    agua_segura_beber: {
+        label:"D.3. ¿Para qué se utiliza el agua segura? \n Beber"
+    },
+    agua_segura_hacer_hielo: {
+        label:"Hacer hielo"
+    },
+    agua_segura_lavar_alimentos: {
+        label:"Lavar alimentos"
+    },
+    agua_segura_cocinar: {
+        label:"Cocinar"
+    },
+    agua_segura_infusiones: {
+        label:"Realizar infusiones"
+    },
+    agua_segura_cepillarse_dientes: {
+        label:"Cepillarse los dientes"
+    },
+    agua_segura_cepillarse_otro_detalle: {
+        label:"Otro (Especificar)"
+    },
     // 
     // D.4
     procedimiento_limpieza_almacen:{
-        label:
+        label: "D.4. ¿Cuál es el procedimiento de limpieza y almacenamiento de agua segura con el que cuenta el establecimiento?"
     },
-    hay_bebedero: si_no,
-    bebedores_cantidad: t.maybe(t.Number),//TODO hidden
-    foto_bebedero: t.maybe(t.String),
+    hay_bebedero:{
+        label:"D.5. ¿Hay bebederos o bocas de dispendio gratuito de agua, en adecuado estadode funcionamiento?"
+    },
+    bebedores_cantidad: {
+        label: "(Detallar cantidad)",
+        hidden:true
+    },//TODO hidden
+    foto_bebedero: {
+        
+        hidden:true,
+    },
     // D.6 multiple
-    lugar_bebedero_patio: si_no,
-    lugar_bebedero_banio: si_no,
-    lugar_bebedero_espacio_comun: si_no,
-    lugar_bebedero_otro: t.maybe(t.String),
-})
-const seccion_e = t.struct({
+    lugar_bebedero_patio: {
+        label: "D.6. ¿En lugar se encuentran situados los bebederos? \n Patios"
+    },
+    lugar_bebedero_banio: {
+        label:"Baños"
+    },
+    lugar_bebedero_espacio_comun: {
+        label:"Espacios comunes abietos"
+    },
+    lugar_bebedero_otro:{
+        label:"Otro (Especificar)"
+    },
+
     //SECCIÓN E: COMENSALIDAD Y HÁBITOS
 
     // desde hasta y duracion por tipo  
     permanencia_desde_desayuno_merienda:{
-        label:
+        label:"E.1. Registrar la duración (tiempo de permanencia de los niñxs) por tipo de prestación, cuando la misma se ofrece en el aula o elcomedor: \n Desayuno/Merienda \n Hora de Inicio"
     },
     permanencia_hasta_desayuno_merienda:{
-        label:
+        label:"Hora de Finalización" 
     },
     permanencia_duracion_desayuno_merienda:{
-        label:
+        label: "Duración (minutos)"
     },
     // 
     permanencia_desde_almuerzo:{
-        label:
+        label: "Almuerzo \n Hora de Incio"
     },
     permanencia_hasta_almuerzo:{
-        label:
+        label: "Hora de Finalización"
     },
     permanencia_duracion_almuerzo:{
-        label:
+        label: "Duración (minutos)"
     },
     // 
-    permanencia_otro: t.maybe(t.String),
-    permanencia_desde_otro: t.maybe(t.String),
-    permanencia_hasta_otro: t.maybe(t.String),
-    permanencia_duracion_otro: t.maybe(t.String),
+    permanencia_otro: {
+        label:"Otro (Especificar)"
+    },
+    permanencia_desde_otro: {
+        label:"Hora de Inicio"
+    },
+    permanencia_hasta_otro: {
+        label:"Hora de Finalización"
+    },
+    permanencia_duracion_otro: {
+        label:"Duración (minutos)"
+    },
 
     // 
     acompanan_nino:{
-        label:
+        label: "E.2. ¿Quién/es acompañan a los niñxos durante las comidas?"
     },
-    nino_lavan: si_no,
-    nino_cepillan: si_no,
-    pantallas_vista: t.enums({
-        nunca: "No, Nunca",
-        algunas_veces: "Algunas Veces",
-        frecuentemente: "Frecuentemente",
-        siempre: "Siempre",
-        nosabe: "NS/NC"
-    }),
-})
 
-const seccion_f = t.struct({
+    nino_lavan: {
+        label: "E.3. ¿Los/as niñxos se lavan las manos antes de cada comida?"
+    },
+    nino_cepillan: {
+        label: "E.4. ¿Los/as niñxos se cepillan los dientes luego  de cada comida?"
+    },
+    pantallas_vista:{
+        label:"E.5. En general, mientras los niñxs comen, ¿miran pantallas de algún dispositivo electrónico como celular, televisión, computadora, etc?"
+    },
     //SECCIÓN F: PROMOCION DE LA SALUD - EDUCACIÓN ALIMENTARIA Y NUTRICIONAL (EAN)
-    promo_salud: si_no,
-    promo_salud_detalle: t.maybe(t.String),
+    promo_salud: {
+        label:"F.1. ¿Observa algunas estrategias, recomendaciones o mensajes de promoción de la salud en paredes, puertas, carteleras del interior del establecimiento?"
+    },
+    promo_salud_detalle: {
+        label: "¿Ejemplos de agua segura, alimentos saludables, huertas familiares?",
+        
+        hidden:true,
+    },
 
     // multiple solo si si
-    promo_tematicas_alimentacion_saludable: t.maybe(si_no),
-    prome_tematicas_alimentacion_activida_fisica: t.maybe(si_no),
-    promo_tematicas_alimentacion_consumo_alcohol: t.maybe(si_no),
-    promo_tematicas_alimentacion_consumo_tabaco: t.maybe(si_no),
-    promo_tematicas_alimentacion_consumo_sal: t.maybe(si_no),
-    promo_tematicas_observaciones: t.maybe(t.String),
+    promo_tematicas_alimentacion_saludable: {
+        label:"F.2.Por favor, registre las temáticas que abordan las estrategias, recomendaciones o mensajes de promoción de la salud que observa en el interior del edificio \n Alimentación saludable"
+    },
+    prome_tematicas_alimentacion_activida_fisica: {
+        label:"Promoción de actividad física"
+    },
+    promo_tematicas_alimentacion_consumo_alcohol: {
+        label: "Consumo de alcohol"
+    },
+    promo_tematicas_alimentacion_consumo_tabaco: {
+        label:"Consumo de tabaco"
+    },
+    promo_tematicas_alimentacion_consumo_sal: {
+        label: "Consumo de sal"
+    },
+    promo_tematicas_observaciones: {
+        label:"Observaciones:"
+    },
     // 
-    clase_extracurricular: si_no,
-    clase_extracurricular_detalle: t.maybe(t.String),
+    clase_extracurricular: {
+        label: "F.3.En el establecimiento, ¿se dictan talleres/cursos/clases extraescolares/extracurricularesde EAN o de alguna temática sobre alimentación saludable? "
+    },
+    clase_extracurricular_detalle: {
+        label:"¿A quién/es están dirigidos?",
+        
+        hidden:true
+    },
     // 
-    programas_ean: si_no,
-
-    materia_especifica_existente: si_no,
-    materia_especifica_existente_detalle: t.maybe(t.String),
-})
-const seccion_g = t.struct({
+    programas_ean: {
+        label: "F.4.¿Cuenta el establecimiento con programas de EAN en la currícula?"
+    },
+    materia_especifica_existente_detalle:{
+        label: "¿Cómo materias específicas o como contenido de otras materias existentes?", hidden: true        
+    },
     //SECCIÓN G: EXPOSICIÓN A PUBLICIDAD DE ALIMENTOS Y BEBIDAS
-    publicidad_alimento: si_no,
+    publicidad_alimento: {
     // lugar_publico:{
-        label:
+        label: "G.1. Identifique la presencia o no de publicidad de alimentos o bebidas en el punto de comercialización"
     },
     // Multiple
-    publicidad_alimento_paredes: si_no,
-    publicidad_alimento_mobiliario: si_no,
-    publicidad_alimento_mesa: si_no,
-    publicidad_alimento_menu: si_no,
-    publicidad_alimento_fachada: si_no,
-    publicidad_alimento_otro: t.maybe(t.String),
+    publicidad_alimento_paredes: {
+        label:"G.2. Registre el/los lugar/lugares en los que se encuentran exhibidas las publicidades \n En las paredes"
+    },
+    publicidad_alimento_mobiliario: {
+        label:"Sobre el mobiliario"
+    },
+    publicidad_alimento_mesa: {
+        label:"En los accesorios de mesa"
+    },
+    publicidad_alimento_menu: {
+        label: "En el menú"
+    },
+    publicidad_alimento_fachada: {
+        label:"En la fachada"
+    },
+    publicidad_alimento_otro: {
+        label:"Otro (Especifique)"
+    },
     // 
-    incentivo_consumo: si_no,
-    incentivo_consumo_detalle: t.maybe(t.String),//TODO hidden
-})
-const seccion_h = t.struct({
+    incentivo_consumo:{
+        label:"G.3. Identifique si en el punto de comercialización se incentiva el consumo de productos mediante mensajes, fotos, dibujos, platos exhibidos, etc. Por ejemplo “probá las nuevas medialunas calentitas”, “acompañá tu comida con papas fritas crocantes”, foto de una hamburguesa, etc"
+    },
+    incentivo_consumo_detalle:{
+        label:"Detallar",
+        hidden:true
+    },
+
     //SECCIÓN H: LACTANCIA
-    alumna_embarazada: si_no,
-    espacio_lactancia: si_no,
-    promueven_espacio_lactiancia: si_no,
-    promueven_espacio_lactiancia_detalle: t.maybe(t.String),
-})
-const seccion_i = t.struct({
+    alumna_embarazada: {
+        label: "H.1. ¿Asisten alumnas embarazadas y/o personal docente y no docente a la escuela?"
+    },
+    espacio_lactancia: {
+        label:"H.2. Identificar si el establecimiento cuenta con un espacio amigo de la lactancia materna."
+    },
+    promueven_espacio_lactiancia: {
+        label: "H.3. ¿Existen estrategias que promuevan la lactancia materna en mujeres que asistan y/o trabajen en la institución y se encuentren en periodo de lactancia?"
+    },
+    promueven_espacio_lactiancia_detalle: {
+        label:"Si (Detallar)",
+        hidden:true
+    },
+
     //SECCIÓN I: ACTIVIDAD FÍSICA 	
     // i.1
-    // educacion_fisica:{
-        label:
+    
+    actividad_fisica_inicial_dias: {
+        label: "I.1 ¿Cuántos días y minutos de educación física realizan por semana los alumnos de cada curso? \nEducación Inicial \nDías por Semana"
     },
-    actividad_fisica_inicial_dias: t.number,
-    actividad_fisica_inicial_minutos: t.number,
-    actividad_fisica_primer_ciclo_dias: t.number,
-    actividad_fisica_primer_ciclo_minutos: t.number,
-    actividad_fisica_segundo_ciclo_dias: t.number,
-    actividad_fisica_segundo_ciclo_minutos: t.number,
-    actividad_fisica_segundo_ciclo_dias: t.number,
-    actividad_fisica_segundo_ciclo_minutos: t.number,
-    actividad_fisica_aclaracion: t.maybe(t.String),
+    actividad_fisica_inicial_minutos:{
+        label: "Minutos por día"
+    },
+    actividad_fisica_primer_ciclo_dias: {
+            label: "Educación primaria: \nPrimer ciclo(1º, 2º y 3º grado) \nDías por Semana"
+    },
+    actividad_fisica_primer_ciclo_minutos: {
+         label: "Minutos por día"
+    },
+    actividad_fisica_segundo_ciclo_dias: {
+        label: "Educación primaria: \nSegundo ciclo(4º, 5º, 6º y 7º)*"
+    },
+    actividad_fisica_segundo_ciclo_minutos: {
+         label: "Minutos por día"
+    },
+    actividad_fisica_secundaria_ciclo_dias: {
+            label: "Educación Secundaria (de 1ro a 5to ó 1º a 6to año) \nDías por Semana"
+    },
+    actividad_fisica_secundaria_ciclo_minutos: {
+         label: "Minutos por día"
+    },
+    actividad_fisica_aclaracion:{
+        label: " En el caso de que los minutos destinados a la clase no sean efectivos por traslados u otros motivos por favor aclare."
+    },
     // i.2
-    profe_titulo: si_no,
-    profe_titulo_detalle_no: t.maybe(t.String),
+    profe_titulo: {
+        label: "I.2 ¿El docente a cargo de la clase de educación física tiene título de profesor de educación física?"
+    },
+    profe_titulo_detalle_no: {
+        label:"No (Detalle)",
+        hidden:true
+    },
     // i.3
-    evaluacion_aptitud: si_no,
-    evaluacion_aptitud_detalle_no: t.maybe(t.String),
+    evaluacion_aptitud:{
+        label: "I.3 ¿Se realizan evaluaciones de la aptitud física anualmente?"
+    },
+    evaluacion_aptitud_detalle_no: {
+        label:"No (detalle)",
+        hidden:true
+    },
     // i.4
-    apto_medico: si_no,
+    apto_medico:{
+        label:"I.4 ¿Se exige apto médico para iniciar las clases?"
+    },
     // por no
-    apto_medico_detalle_no: t.maybe(t.string),
+    apto_medico_detalle_no: {
+        label: "No(detalle si exigen otro documento o ninguno)",
+        hidden:true
+    },
     // por si 
-    detalle_exigencias: t.maybe(t.string),
-    detalle_normativa: t.maybe(t.string),
-    detalle_exige_niveles: t.maybe(t.string),
-    detalle_cuantos_alumnos: t.maybe(t.number),
+    detalle_exigencias: {
+        label:"I.4.a) Detalle las exigencias del instrumento",
+        hidden:true
+
+    },
+    detalle_normativa: {
+        label:"I.4.b) Detalle si existe normativa jurisdiccional que respalde este pedido por parte de la escuela",
+        
+        hidden:true
+    },
+    detalle_exige_niveles: {
+        label:"I.4.c) Si se exige en todos los niveles",
+        
+        hidden:true
+    },
+    detalle_cuantos_alumnos: {
+        label:"I.4.d) ¿Cuántos alumnos no participan a las clases de educación física por la no presentación de este documento?",
+        
+        hidden:true
+    },
     // porcentjes???
-    detalle_porcentajes_alumnos_primaria: t.maybe(t.number),
-    detalle_porcentajes_alumnos_secundaria: t.maybe(t.number),
+    detalle_porcentajes_alumnos_primaria:{
+        label:"Escriba en porcentaje sobre el total del alumnado \nen primaria",
+        hidden:true
+    },
+    detalle_porcentajes_alumnos_secundaria: {
+        label:"en secundaria",
+        hidden:true
+    },
     //  i.5
 
-    espacio_activ_fisica: si_no,
+    espacio_activ_fisica: {
+        label:"I.5 ¿El establecimiento cuenta con un espacio que favorezca la realización de actividad física durante los recreos?"
+    },
     espacio_activ_fisica_detalle:{
-        label:
+        label:"I.5.b Detalle"
     },
     // i.6
-    espacio_activ_fisica: si_no,
+    espacio_activ_fisica:{
+        label:"I.6 En caso de que cuente con un espacio disponible, por favor identificar si está permitido el movimiento espontáneo (se permite correr, saltar, hacer juegos activos)."
+    },
     espacio_activ_fisica_detalle:{
-        label:
+        label: "I.6.b Detalle"
     },
 
     // i.7
-    actividad_extracurricular: si_no,
+    actividad_extracurricular: {
+        label: "I.7 ¿La escuela participa de actividades extracurriculares a favor de la actividad física (torneos deportivo-recreativas, campamentos, caminatas?"
+    },
     actividad_extracurricular_detalle:{
-        label:
+        label: "I.7.b Detalle"
     },
     // i.8
-    propuestas_sociocultural: si_no,
-    propuestas_sociocultural: t.maybe(t.String),
+    propuestas_sociocultural: {
+        label: "I.8 ¿La escuela ofrece sus instalaciones para propuestas socioeducativas de promoción de la actividad física, fuera del horario de clases?"
+    },
+    propuestas_sociocultural_detalle:{
+        label:"I.8.b Detalle"
+    },
     // i.9
-    vestimenta: si_no,
+    vestimenta: {
+        label:"I.9  ¿La vestimenta recomendada por la escuela favorece la práctica de actividad física diaria?"
+    },
     // i.10
-    clase_mix: si_no,
+    clase_mix: {
+        label:"I.10 ¿Las clases de educación física son mixtas?"
+    },
+    clase_mix_nivel_educatio:
+    {
+        label:"Especifique nivel educativo"
+    },
     // i.11
-    enfoque_inclusivo: si_no,
+    enfoque_inclusivo: {
+        label: "I.11 ¿ Los espacios promueven la igualdad de oportunidades frente a la práctica de actividad física del todo el alumnado desde un enfoque inclusivo?"
+    },
     enfoque_inclusivo_detalle:{
-        label:
+        label: "I.11.b Detalle"
     },
     //  i.12 a
-    accesos: si_no,
-    accesos:{
-        label:
+    accesos: {
+        label:"I.12.a ¿Los accesos a la escuela son social y físicamente seguros para favorecer el transporte activo de sus alumnos/a?"
+    },
+    accesos_detalle:{
+        label:"Detalle"
     },
     //  i.12 b
-    promueve_transporte_activo: si_no,
+    promueve_transporte_activo: {
+        label: "I.12.b- ¿La escuela promueve desde sus instalaciones el transporte activo de sus alumnos/as?"
+    },
     promueve_transporte_activo_detalle:{
-        label:
-    }
-})
-
-        // 
+        label:"Detalle"
     }
 }
+}
+
+export default form_options;

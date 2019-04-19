@@ -27,6 +27,7 @@ var form_defaults = {
     userid: Constants.installationId,
     latitud: null,
     longitud: null,
+    cargo_otro:null,
     fecha_realizacion: d.getFullYear()+"-"+d.getMonth()+"-"+d.getDate()
 }
 
@@ -57,13 +58,14 @@ export default class Encuesta extends React.Component {
             count: null,
             newPhotos: false,
             // 
+            foto_plato_desayuno:false,
+            foto_plato_almuerzo:false,
+            foto_plato_merienda:false,
+            foto_comedor:false,
+            foto_area_elaboracion:false,
+            foto_servicio_alimentos:false,
+            foto_menu:false,
             foto_bebedero:false,
-            foto_plato: false,
-            foto_plato_desayuno: false,
-            foto_plato_almuerzo: false,
-            foto_plato_merienda: false,
-            foto_comedor: false,
-            foto_menu: false
         };
     }
 
@@ -81,7 +83,9 @@ export default class Encuesta extends React.Component {
     }
 
     componentDidMount(){
-        
+        // setInterval(() => {
+        //         console.log(this.state.seccion)
+        // }, 1000);
     }
 
 
@@ -112,20 +116,20 @@ export default class Encuesta extends React.Component {
 
     anterior = () => {
         switch (this.state.seccion) {
-            case 'inicio':
-                // this.setState({ seccion: 'parte_1' });
-                break;
-                
+                         
             case 'parte_1':
                 this.setState({ seccion: 'inicio' });
                 break;
             case 'seccion_a':
                 this.setState({ seccion: 'parte_1' });
                 break;
-            case 'seccion_a_1':
-                this.setState({ seccion: 'seccion_a' });
+          
             case 'seccion_a_2':
-                this.setState({ seccion: 'seccion_a_1' });
+                this.setState({ seccion: 'seccion_a' });
+                break;
+            case 'seccion_a_3':
+                this.setState({ seccion: 'seccion_a_2' });
+                break;
             case 'seccion_b':
                 this.setState({ seccion: 'seccion_a_3' });
                 break;
@@ -153,63 +157,71 @@ export default class Encuesta extends React.Component {
             case 'final':
                 this.setState({ seccion: 'seccion_i' });
                 break;
-            // case 'seccion_i':
-            //     this.setState({ seccion: 'final' });
-            //     break;
+            
 
             default:
                 break;
         }
+        
         this._scrollToTop();
     }
 
     siguiente = () => {
 
-        switch (this.state.seccion) 
+        info = this._form.getValue();
+        if(info)
         {
-            case 'inicio':
-                this.setState({seccion:'parte_1'});
-                break;
-            case 'parte_1':
-                this.setState({ seccion: 'seccion_a' });
-                break;
-            case 'seccion_a':
-                this.setState({ seccion: 'seccion_a_2' });
-                break;
-            case 'seccion_a_2':
-                this.setState({ seccion: 'seccion_a_3' });
-                break;
-            case 'seccion_a_3':
-                this.setState({ seccion: 'seccion_b' });
-                break;
-            case 'seccion_b':
-                this.setState({ seccion: 'seccion_c' });
-                break;
-            case 'seccion_c':
-                this.setState({ seccion: 'seccion_d' });
-                break;
-            case 'seccion_d':
-                this.setState({ seccion: 'seccion_e' });
-                break;
-                 case 'seccion_e':
-                this.setState({ seccion: 'seccion_f' });
-                break;
-            case 'seccion_f':
-                this.setState({ seccion: 'seccion_g' });
-                break;
-            case 'seccion_g':
-                this.setState({ seccion: 'seccion_h' });
-                break;
-            case 'seccion_h':
-                this.setState({ seccion: 'seccion_i' });
-                break;
-            case 'seccion_i':
-                this.setState({ seccion: 'final' });
-                break;
-        
-            default:
-                break;
+
+            switch (this.state.seccion) 
+            {
+                case 'inicio':
+                    this.setState({seccion:'parte_1'});
+                    break;
+                case 'parte_1':
+                    this.setState({ seccion: 'seccion_a' });
+                    break;
+                case 'seccion_a':
+                    this.setState({ seccion: 'seccion_a_2' });
+                    break;
+                case 'seccion_a_2':
+                    this.setState({ seccion: 'seccion_a_3' });
+                    break;
+                case 'seccion_a_3':
+                    this.setState({ seccion: 'seccion_b' });
+                    break;
+                case 'seccion_b':
+                    this.setState({ seccion: 'seccion_c' });
+                    break;
+                case 'seccion_c':
+                    this.setState({ seccion: 'seccion_d' });
+                    break;
+                case 'seccion_d':
+                    this.setState({ seccion: 'seccion_e' });
+                    break;
+                    case 'seccion_e':
+                    this.setState({ seccion: 'seccion_f' });
+                    break;
+                case 'seccion_f':
+                    this.setState({ seccion: 'seccion_g' });
+                    break;
+                case 'seccion_g':
+                    this.setState({ seccion: 'seccion_h' });
+                    break;
+                case 'seccion_h':
+                    this.setState({ seccion: 'seccion_i' });
+                    break;
+                case 'seccion_i':
+                    this.setState({ seccion: 'final' });
+                    break;
+            
+                default:
+                    break;
+            }
         }
+        else{
+            alert("Complete todos los campos antes de continuar")
+        }
+        console.log(this.state.seccion)
         this._scrollToTop();
     }
 
@@ -284,21 +296,322 @@ export default class Encuesta extends React.Component {
         console.log("onchange!!!!!");
         
         // actualizalar los campos foto
-        value.foto_bebedero = this.state.foto_bebedero
-        value.foto_plato = this.state.foto_plato
-        value.foto_menu = this.state.foto_menu
+        value.foto_plato_desayuno = this.state.foto_plato_desayuno
+        value.foto_plato_almuerzo = this.state.foto_plato_almuerzo
+        value.foto_plato_merienda = this.state.foto_plato_merienda
         value.foto_comedor = this.state.foto_comedor
-    //    if(value.informo){ if(value.informo == 'otro'){
-    //         update_options = t.update(update_options, {
-    //             fields: { otros_informo: {  hidden: { '$set': false } } }
-    //         });
-    //     }
-    //     else{
-    //         update_options = t.update(update_options, {
-    //             fields: { otros_informo: { hidden: { '$set': true }}
-    //             }
-    //         });
-    //     }}
+        value.foto_area_elaboracion = this.state.foto_area_elaboracion
+        value.foto_servicio_alimentos = this.state.foto_servicio_alimentos
+        value.foto_menu = this.state.foto_menu
+        value.foto_bebedero = this.state.foto_bebedero
+
+        /**
+         * CAMPOS CONDICIONALES
+         */
+        // 1.5 Informante Clave
+        if(value.cargo_informante)
+        {
+            if(value.cargo_informante == "otro")
+            {
+                update_options = t.update(update_options,{
+                    fields:{cargo_otro:{hidden:{'$set':false}}}
+                })
+            }
+            else
+            {
+                update_options = t.update(update_options, {
+                    fields: { cargo_otro: { hidden: { '$set': true } } }
+                })
+            }
+        }
+        // 1.9 Control Sanitario
+        if (value.ctrl_sanitario) {
+            if (value.ctrl_sanitario == "si") {
+                update_options = t.update(update_options, {
+                    fields: { ctrl_sanitario_detalle: { hidden: { '$set': false } } }
+                })
+            }
+            else {
+                update_options = t.update(update_options, {
+                    fields: { ctrl_sanitario_detalle: { hidden: { '$set': true } } }
+                })
+            }
+        }
+        // 1.11 lugar fumando
+        if (value.lugar_fumador) {
+            if (value.lugar_fumador == "otro") {
+                update_options = t.update(update_options, {
+                    fields: { lugar_otro: { hidden: { '$set': false } } }
+                })
+            }
+            else {
+                update_options = t.update(update_options, {
+                    fields: { lugar_otro: { hidden: { '$set': true } } }
+                })
+            }
+        } 
+        // A.1 punto de comercializacion y A.2
+        if (value.punto_comercializacion) {
+            if (value.punto_comercializacion == "si") {
+                update_options = t.update(update_options, {
+                    fields: { categoria_comercializacion: { hidden: { '$set': false } } }
+                })
+            }
+            else {
+                update_options = t.update(update_options, {
+                    fields: { categoria_comercializacion: { hidden: { '$set': true } } }
+                })
+            }
+        } 
+        // 
+        //A.4 
+        if (value.compra_may_men) {
+            if (value.compra_may_men == "si") {
+                update_options = t.update(update_options, {
+                    fields: { compra_may_men_detalle: { hidden: { '$set': false } } }
+                })
+            }
+            else {
+                update_options = t.update(update_options, {
+                    fields: { compra_may_men_detalle: { hidden: { '$set': true } } }
+                })
+            }
+        } 
+        //A.5
+        if (value.capacitacion_comercio) {
+            if (value.capacitacion_comercio == "si") {
+                update_options = t.update(update_options, {
+                    fields: { capacitacion_comercio_detalle: { hidden: { '$set': false } } }
+                })
+            }
+            else {
+                update_options = t.update(update_options, {
+                    fields: { capacitacion_comercio_detalle: { hidden: { '$set': true } } }
+                })
+            }
+        } 
+        //A.6
+        if (value.comercializacion_inmediacion) {
+            if (value.comercializacion_inmediacion == "si") {
+                update_options = t.update(update_options, {
+                    fields: { comercializacion_inmediacion_detalle: { hidden: { '$set': false } } }
+                })
+            }
+            else {
+                update_options = t.update(update_options, {
+                    fields: { comercializacion_inmediacion_detalle: { hidden: { '$set': true } } }
+                })
+            }
+        } 
+        // 
+        //   //B.6
+        if (value.lugar_desayuno_merienda) {
+            if (value.lugar_desayuno_merienda == "otro") {
+                update_options = t.update(update_options, {
+                    fields: { lugar_desayuno_merienda_otros: { hidden: { '$set': false } } }
+                })
+            }
+            else {
+                update_options = t.update(update_options, {
+                    fields: { lugar_desayuno_merienda_otros: { hidden: { '$set': true } } }
+                })
+            }
+        } 
+
+        //   //B.7
+        if (value.lugar_almuerzo) {
+            if (value.lugar_almuerzo == "otro") {
+                update_options = t.update(update_options, {
+                    fields: { lugar_almuerzo_otros: { hidden: { '$set': false } } }
+                })
+            }
+            else {
+                update_options = t.update(update_options, {
+                    fields: { lugar_almuerzo_otros: { hidden: { '$set': true } } }
+                })
+            }
+        }  
+        //
+        //   //B.13
+        if (value.menu_especial) {
+            if (value.menu_especial == "si") {
+                update_options = t.update(update_options, {
+                    fields: { menu_especial_otro: { hidden: { '$set': false } } }
+                })
+            }
+            else {
+                update_options = t.update(update_options, {
+                    fields: { menu_especial_otro: { hidden: { '$set': true } } }
+                })
+            }
+        }
+        //   //B.14
+        if (value.alimento_tradicional) {
+            if (value.alimento_tradicional == "si") {
+                update_options = t.update(update_options, {
+                    fields: { alimento_tradicional_detalle: { hidden: { '$set': false } }, 
+                    alimento_tradicional_frecuencia: { hidden: { '$set': true } } }
+                })
+            }
+            else {
+                update_options = t.update(update_options, {
+                    fields: { alimento_tradicional_detalle: { hidden: { '$set': true } },
+                     alimento_tradicional_frecuencia: { hidden: { '$set': true } } }
+                })
+            }
+        }
+        //
+        // D.1
+        // 
+        if (value.agua_corriente) {
+            if (value.menu_especial == "otro") {
+                // por si
+                update_options = t.update(update_options, {
+                    fields: { agua_presentacion: { hidden: { '$set': true } }
+                        ,agua_estrategia_segura:{hidden:{'$set':true}}
+                    }
+                })
+            }
+            else {
+                // por no
+                update_options = t.update(update_options, {
+
+                    fields: { agua_presentacion: { hidden: { '$set': false } }
+                        , agua_estrategia_segura: { hidden: { '$set': false } }
+                 }
+                })
+            }
+        }
+        // D.5
+        if (value.hay_bebedero) {
+            if (value.hay_bebedero == "si") {
+                update_options = t.update(update_options, {
+                    fields: { bebedores_cantidad: { hidden: { '$set': false } } }
+                })
+            }
+            else {
+                update_options = t.update(update_options, {
+                    fields: { bebedores_cantidad: { hidden: { '$set': true } } }
+                })
+            }
+        }
+
+        // F.1
+        if (value.promo_salud) {
+            if (value.promo_salud == "si") {
+                update_options = t.update(update_options, {
+                    fields: { promo_salud_detalle: { hidden: { '$set': false } } }
+                })
+            }
+            else {
+                update_options = t.update(update_options, {
+                    fields: { promo_salud_detalle: { hidden: { '$set': true } } }
+                })
+            }
+        }
+        // F.3
+        if (value.clase_extracurricular) {
+            if (value.clase_extracurricular == "si") {
+                update_options = t.update(update_options, {
+                    fields: { clase_extracurricular_detalle: { hidden: { '$set': false } } }
+                })
+            }
+            else {
+                update_options = t.update(update_options, {
+                    fields: { clase_extracurricular_detalle: { hidden: { '$set': true } } }
+                })
+            }
+        }
+        // G.3
+        if (value.incentivo_consumo) {
+            if (value.incentivo_consumo == "si") {
+                update_options = t.update(update_options, {
+                    fields: { incentivo_consumo_detalle: { hidden: { '$set': false } } }
+                })
+            }
+            else {
+                update_options = t.update(update_options, {
+                    fields: { incentivo_consumo_detalle: { hidden: { '$set': true } } }
+                })
+            }
+        }
+         // H.3
+        if (value.promueven_espacio_lactiancia) {
+            if (value.promueven_espacio_lactiancia == "si") {
+                update_options = t.update(update_options, {
+                    fields: { promueven_espacio_lactiancia_detalle: { hidden: { '$set': false } } }
+                })
+            }
+            else {
+                update_options = t.update(update_options, {
+                    fields: { promueven_espacio_lactiancia_detalle: { hidden: { '$set': true } } }
+                })
+            }
+        }
+        // I
+        if (value.profe_titulo) {
+            if (value.profe_titulo == "si") {
+                update_options = t.update(update_options, {
+                    fields: { profe_titulo_detalle_no: { hidden: { '$set': false } } }
+                })
+            }
+            else {
+                update_options = t.update(update_options, {
+                    fields: { profe_titulo_detalle_no: { hidden: { '$set': true } } }
+                })
+            }
+        }
+
+        if (value.evaluacion_aptitud) {
+            if (value.evaluacion_aptitud == "no") {
+                update_options = t.update(update_options, {
+                    fields: { evaluacion_aptitud_detalle_no: { hidden: { '$set': false } } }
+                })
+            }
+            else {
+                update_options = t.update(update_options, {
+                    fields: { evaluacion_aptitud_detalle_no: { hidden: { '$set': true } } }
+                })
+            }
+        }
+
+        if (value.apto_medico) {
+            if (value.apto_medico == "no") {
+                update_options = t.update(update_options, {
+                    fields: { apto_medico_detalle_no: { hidden: { '$set': false } } 
+                        , detalle_exigencias: { hidde: { "$set": true } }
+                        , detalle_normativa: { hidde: { "$set": true } }
+                        , detalle_exige_niveles: { hidde: { "$set": true } }
+                        , detalle_cuantos_alumnos: { hidde: { "$set": true } }
+                        , detalle_porcentajes_alumnos_primaria: { hidde: { "$set": true } }
+                        , detalle_porcentajes_alumnos_secundaria: { hidde: { "$set": true } }
+                }
+                })
+            }
+            else {
+                        update_options = t.update(update_options, {
+                        fields: { apto_medico_detalle_no: { hidden: { '$set': true } } 
+                            , detalle_exigencias:{hidde:{"$set":false}}
+                            ,detalle_normativa:{hidde:{"$set":false}}
+                            ,detalle_exige_niveles:{hidde:{"$set":false}}
+                            ,detalle_cuantos_alumnos:{hidde:{"$set":false}}
+                            ,detalle_porcentajes_alumnos_primaria:{hidde:{"$set":false}}
+                            ,detalle_porcentajes_alumnos_secundaria:{hidde:{"$set":false}}
+                }
+                })
+            }
+        }
+
+
+
+
+
+
+
+
+
+
+
 
         var d = new Date()
         value.timestamp = Math.floor(d.getTime() / 1000)+""
@@ -306,7 +619,7 @@ export default class Encuesta extends React.Component {
         if (this.state.errorMessage) {
             
                 } else if (this.state.location) {
-                // text = JSON.stringify(this.state.location);
+                
                         value.longitud= this.state.location.coords.longitude ;
                         value.latitud =     this.state.location.coords.latitude;
                 }
@@ -357,21 +670,38 @@ export default class Encuesta extends React.Component {
         const { uri } = await this.camera.takePictureAsync({ skipProcessing: true });
         console.log('uri', uri);
         switch (this.state.pictureFor) {
-            case 'bebedero':
-            this.setState({ foto_bebedero: uri });
-            break;
-            case 'comedor':
-            this.setState({ foto_comedor: uri });
-                break;
-            case 'plato':
-            this.setState({ foto_plato: uri });
-                break;
-                case 'menu':
-                this.setState({ foto_menu: uri });
-                break;
+                case ("foto_plato_desayuno"):
+                    this.setState({foto_plato_desayuno:uri})
+                    break;
                 
-                default:
-                break;
+                case ("foto_plato_almuerzo"):
+                    this.setState({foto_plato_almuerzo:uri})
+                    break;
+                
+                case ("foto_plato_merienda"):
+                    this.setState({foto_plato_merienda:uri})
+                    break;
+                
+                case ("foto_comedor"):
+                    this.setState({foto_comedor:uri})
+                    break;
+                
+                case ("foto_area_elaboracion"):
+                    this.setState({foto_area_elaboracion:uri})
+                    break;
+                
+                case ("foto_servicio_alimentos"):
+                    this.setState({foto_servicio_alimentos:uri})
+                    break;
+                
+                case ("foto_menu"):
+                    this.setState({foto_menu:uri})
+                    break;
+                
+                case ("foto_bebedero"):
+                    this.setState({foto_bebedero:uri})
+                    break;
+                
             }
             
             this.setState({ showCamera: false });
@@ -462,31 +792,52 @@ export default class Encuesta extends React.Component {
     <Form ref={c => this._form = c} type={seccion_a} options={this.state.options} value={this.state.value} onChange={this.onChange}/>
                           
 </View>}
-                        {this.state.seccion == 'seccion_a_2' &&
-                            <View>
-                                <Text style={styles.titulos}>SECCIÓN A: VENTAS DE ALIMENTOS Y BEBIDAS AL INTERIOR DE LA ESCUELA</Text>
-                                <Form ref={c => this._form = c} type={seccion_a_2} options={this.state.options} value={this.state.value} onChange={this.onChange} />
+{this.state.seccion == 'seccion_a_2' &&
+    <View>
+        <Text style={styles.titulos}>SECCIÓN A: VENTAS DE ALIMENTOS Y BEBIDAS AL INTERIOR DE LA ESCUELA</Text>
+        <Form ref={c => this._form = c} type={seccion_a_2} options={this.state.options} value={this.state.value} onChange={this.onChange} />
 
-                            </View>}
-                        {this.state.seccion == 'seccion_a_3' &&
-                            <View>
-                                <Text style={styles.titulos}>SECCIÓN A: VENTAS DE ALIMENTOS Y BEBIDAS AL INTERIOR DE LA ESCUELA</Text>
-                                <Form ref={c => this._form = c} type={seccion_a_3} options={this.state.options} value={this.state.value} onChange={this.onChange} />
+    </View>}
+{this.state.seccion == 'seccion_a_3' &&
+    <View>
+        <Text style={styles.titulos}>SECCIÓN A: VENTAS DE ALIMENTOS Y BEBIDAS AL INTERIOR DE LA ESCUELA</Text>
+        <Form ref={c => this._form = c} type={seccion_a_3} options={this.state.options} value={this.state.value} onChange={this.onChange} />
 
-                            </View>}
+    </View>}
 {this.state.seccion == 'seccion_b' && 
 <View>
                             <Text style={styles.titulos}>SECCIÓN B: COMEDORES, CANTINAS Y BUFETES SALUDABLES – CRITERIOS NUTRICIONALES</Text> 
     <Form ref={c => this._form = c} type={seccion_b} options={this.state.options} value={this.state.value} onChange={this.onChange} />
-                            <TouchableOpacity style={styles.buttonSmall} onPress={() => this.abrirCamara('plato')}>
-                                <Text style={styles.buttonTextSmall}>Tomar Foto del Plato</Text>
+                            <TouchableOpacity style={this.state.foto_plato_desayuno && styles.buttonSmallCheck || styles.buttonSmall} 
+                                    onPress={() => this.abrirCamara('foto_plato_desayuno')}>
+                                <Text style={styles.buttonTextSmall}>Tomar Foto del Desayuno</Text>
                             </TouchableOpacity>
-                            <TouchableOpacity style={styles.buttonSmall} onPress={() => this.abrirCamara('comedor')}>
+                            <TouchableOpacity style={this.state.foto_plato_almuerzo && styles.buttonSmallCheck || styles.buttonSmall} 
+                                     onPress={() => this.abrirCamara('foto_plato_almuerzo')}>
+                                <Text style={styles.buttonTextSmall}>Tomar Foto del Almuerzo</Text>
+                            </TouchableOpacity>
+                            <TouchableOpacity style={this.state.foto_plato_merienda && styles.buttonSmallCheck || styles.buttonSmall} 
+                                     onPress={() => this.abrirCamara('foto_plato_merienda')}>
+                                <Text style={styles.buttonTextSmall}>Tomar Foto del Merienda</Text>
+                            </TouchableOpacity>
+                            {/*  */}
+                            <TouchableOpacity style={this.state.foto_comedor && styles.buttonSmallCheck || styles.buttonSmall} 
+                                     onPress={() => this.abrirCamara('foto_comedor')}>
                                 <Text style={styles.buttonTextSmall}>Tomar Foto del Comedor</Text>
                             </TouchableOpacity>
-                            <TouchableOpacity style={styles.buttonSmall} onPress={() => this.abrirCamara('menu')}>
+                            <TouchableOpacity style={this.state.foto_area_elaboracion && styles.buttonSmallCheck || styles.buttonSmall} 
+                                     onPress={() => this.abrirCamara('foto_area_elaboracion')}>
+                                <Text style={styles.buttonTextSmall}>Tomar Foto del area de elaboracion</Text>
+                            </TouchableOpacity>
+                            <TouchableOpacity style={this.state.foto_servicio_alimentos && styles.buttonSmallCheck || styles.buttonSmall} 
+                                     onPress={() => this.abrirCamara('foto_servicio_alimentos')}>
+                                <Text style={styles.buttonTextSmall}>Tomar Foto del area de Servicios</Text>
+                            </TouchableOpacity>
+                            <TouchableOpacity style={this.state.foto_menu && styles.buttonSmallCheck || styles.buttonSmall} 
+                                     onPress={() => this.abrirCamara('foto_menu')}>
                                 <Text style={styles.buttonTextSmall}>Tomar Foto del menú</Text>
                             </TouchableOpacity>
+                           
 </View>}
 {this.state.seccion == 'seccion_c' && 
 <View>
@@ -498,8 +849,9 @@ export default class Encuesta extends React.Component {
                             <Text style={styles.titulos}>SECCIÓN D: ACCESO AL AGUA SEGURA</Text> 
     <Form ref={c => this._form = c} type={seccion_d} options={this.state.options} value={this.state.value} onChange={this.onChange} />
     
-    <TouchableOpacity style={styles.buttonSmall} onPress={() => this.abrirCamara('bebedero')}>
-            <Text style={styles.buttonTextSmall}>Tomar Foto del Bebedero</Text>
+                            <TouchableOpacity style={this.state.foto_bebedero && styles.buttonSmallCheck || styles.buttonSmall} 
+                            onPress={() => this.abrirCamara('foto_bebedero')}>
+                            <Text style={styles.buttonTextSmall}>Tomar Foto del Bebedero</Text>
     </TouchableOpacity>
 </View>}
 {this.state.seccion == 'seccion_e' && 
@@ -529,10 +881,15 @@ export default class Encuesta extends React.Component {
     </View>}
                         {this.state.seccion == 'final' &&
                             <View style={{flex:2}}>
-                                {this.state.foto_bebedero && <Image  style={{flex:1,resizeMode:'cover',height:100,width:"50%"}} source={{uri:this.state.foto_bebedero}}></Image>}
-                                {this.state.foto_plato && <Image style={{flex:1,resizeMode:'cover',height:100,width:"50%"}} source={{uri:this.state.foto_plato}}></Image>}
-                                {this.state.foto_menu && <Image style={{flex:1,resizeMode:'cover',height:100,width:"50%"}} source={{uri:this.state.foto_menu}}></Image>}
-                                {this.state.foto_comedor && <Image  style={{flex:1,resizeMode:'cover',height:100,width:"50%"}}source={{uri:this.state.foto_comedor}}></Image>}
+                            {this.state.foto_plato_desayuno && <Image  style={{flex:1,resizeMode:'cover',height:100,width:"50%"}} source={{uri:this.state.foto_plato_desayuno}}></Image>}
+                            {this.state.foto_plato_almuerzo && <Image style={{ flex: 1, resizeMode: 'cover', height:100, width: "50%" }} source={{ uri: this.state.foto_plato_almuerzo }}></Image>}
+                            {this.state.foto_plato_merienda && <Image style={{ flex: 1, resizeMode: 'cover', height:100, width: "50%" }} source={{ uri: this.state.foto_plato_merienda }}></Image>}
+                            {this.state.foto_comedor && <Image style={{ flex: 1, resizeMode: 'cover', height:100, width: "50%" }} source={{ uri: this.state.foto_comedor }}></Image>}
+                            {this.state.foto_area_elaboracion && <Image style={{ flex: 1, resizeMode: 'cover', height:100, width: "50%" }} source={{ uri: this.state.foto_area_elaboracion }}></Image>}
+                            {this.state.foto_servicio_alimentos && <Image style={{ flex: 1, resizeMode: 'cover', height:100, width: "50%" }} source={{ uri: this.state.foto_servicio_alimentos }}></Image>}
+                            {this.state.foto_menu && <Image style={{ flex: 1, resizeMode: 'cover', height:100, width: "50%" }} source={{ uri: this.state.foto_menu }}></Image>}
+                            {this.state.foto_bebedero && <Image style={{ flex: 1, resizeMode: 'cover', height:100, width: "50%" }} source={{ uri: this.state.foto_bebedero }}></Image>}
+                               
                             </View>}
 
                             {this.state.seccion !== 'inicio' &&
@@ -607,8 +964,17 @@ const styles = StyleSheet.create({
     buttonSmall: {
         marginBottom: 30,
         // width: 260,
+        // height:30,
         alignItems: 'center',
         backgroundColor: '#1d8dff',
+        flex: 1,
+    },
+    buttonSmallCheck: {
+        marginBottom: 30,
+        // width: 260,
+        // height:30,
+        alignItems: 'center',
+        backgroundColor: '#00cc00',
         flex: 1,
     },
     buttonText: {

@@ -54,12 +54,7 @@ const parte_1 = t.struct(
             de_registro:"Obtenido de Registro"
         }),
         num_docente_nodocente: t.Number,
-        ctrl_sanitario: t.enums({
-            bacterilogicos:"Bacteriológicos",
-            microbiologicos:"Microbiológicos",
-            quimicos:"Químicos",
-            no:"No"
-        }),
+        ctrl_sanitario: si_no,
         ctrl_sanitario_detalle: t.maybe(t.String),
         persona_fumando: si_no,
         lugar_fumador: t.enums({
@@ -72,7 +67,7 @@ const parte_1 = t.struct(
             accessos:"Acceso al establecimiento",
             otro:"Otro"
         }),
-        lugar_otro:t.maybe(t.String)//TODO hidden
+        lugar_otro:t.maybe(t.String)
     }
 )
 
@@ -91,59 +86,60 @@ const seccion_a_2 = t.struct({
 
 
     // lista_productos:t.String
-    gaseosas: si_no,
-    agua_saborizada: si_no,
-    jugo_de_frutas: si_no,
-    bebidad_energizantes: si_no,
-    bebidas_alcohol: si_no,
-    galletas_dulces: si_no,
-    bizcochos_grasa: si_no,
-    agua_con_sin_gas: si_no,
-    licuado_frutas: si_no,
-    jugos_industrializados: si_no,
-    frutos_secos: si_no,
-    frutas_disecadas: si_no,
-    frutas_frescas: si_no,
-    ensalada_frutas: si_no,
-    gaseosas_light: si_no,
-    galletitas_cereal: si_no,
-    barras_cereal: si_no,
-    sopas_instantaneas: si_no,
-    golosinas_sin_azucar: si_no,
-    yogur_entero: si_no,
-    alfajores_obleas: si_no,
-    chicles_caramelos: si_no,
-    careales_azucarados: si_no,
-    chocolates_con_azucar: si_no,
-    copetin: si_no,
-    facturas: si_no,
-    tortas_con_crema: si_no,
-    hamburguesas_de_carne: si_no,
-    panchos: si_no,
-    pizzas_sin_verdura: si_no,
-    helados: si_no,
-    cereales_sin_azucar: si_no,
-    galletas_arroz: si_no,
-    yogures_sin_azucar: si_no,
-    postres_lacteos_sin_azucar: si_no,
-    leche_descremada: si_no,
-    barras_cereales: si_no,
-    semillas_sin_sal: si_no,
-    ensalada_vegetales: si_no,
-    papas_fritas_naturales: si_no,
-    pizza_con_verdura: si_no,
-    postres_lacteos: si_no,
-    sandwich_de_milanesa: si_no,
-    galletas_dulces_sin_relleno: si_no,
-    galletitas_de_agua: si_no,
-    alfajores_obles_de_arroz: si_no,
-    sandwich_magro: si_no,
-    budines: si_no,
-    tarta_de_verdura: si_no,
-    empanadas_al_horno_verdura: si_no,
-    empanadas_al_horno_fiambre: si_no,
-    sandwich_embutido: si_no,
-    empanadas_fritas: si_no
+    gaseosas: t.maybe(si_no),
+    agua_saborizada: t.maybe(si_no),
+    jugo_de_frutas: t.maybe(si_no),
+    bebidad_energizantes: t.maybe(si_no),
+    bebidas_alcohol: t.maybe(si_no),
+    galletas_dulces: t.maybe(si_no),
+    bizcochos_grasa: t.maybe(si_no),
+    agua_con_sin_gas: t.maybe(si_no),
+    licuado_frutas: t.maybe(si_no),
+    jugos_industrializados: t.maybe(si_no),
+    frutos_secos: t.maybe(si_no),
+    frutas_disecadas: t.maybe(si_no),
+    frutas_frescas: t.maybe(si_no),
+    ensalada_frutas: t.maybe(si_no),
+    gaseosas_light: t.maybe(si_no),
+    agua_saborizada_ligth:t.maybe(si_no),
+    galletitas_cereal: t.maybe(si_no),
+    barras_cereal: t.maybe(si_no),
+    sopas_instantaneas: t.maybe(si_no),
+    golosinas_sin_azucar: t.maybe(si_no),
+    yogur_entero: t.maybe(si_no),
+    alfajores_obleas: t.maybe(si_no),
+    chicles_caramelos: t.maybe(si_no),
+    careales_azucarados: t.maybe(si_no),
+    chocolates_con_azucar: t.maybe(si_no),
+    copetin: t.maybe(si_no),
+    facturas: t.maybe(si_no),
+    tortas_con_crema: t.maybe(si_no),
+    hamburguesas_de_carne: t.maybe(si_no),
+    panchos: t.maybe(si_no),
+    pizzas_sin_verdura: t.maybe(si_no),
+    helados: t.maybe(si_no),
+    cereales_sin_azucar: t.maybe(si_no),
+    galletas_arroz: t.maybe(si_no),
+    yogures_sin_azucar: t.maybe(si_no),
+    postres_lacteos_sin_azucar: t.maybe(si_no),
+    leche_descremada: t.maybe(si_no),
+    barras_cereales: t.maybe(si_no),
+    semillas_sin_sal: t.maybe(si_no),
+    ensalada_vegetales: t.maybe(si_no),
+    papas_fritas_naturales: t.maybe(si_no),
+    pizza_con_verdura: t.maybe(si_no),
+    postres_lacteos: t.maybe(si_no),
+    sandwich_de_milanesa: t.maybe(si_no),
+    galletas_dulces_sin_relleno: t.maybe(si_no),
+    galletitas_de_agua: t.maybe(si_no),
+    alfajores_obles_de_arroz: t.maybe(si_no),
+    sandwich_magro: t.maybe(si_no),
+    budines: t.maybe(si_no),
+    tarta_de_verdura: t.maybe(si_no),
+    empanadas_al_horno_verdura: t.maybe(si_no),
+    empanadas_al_horno_fiambre: t.maybe(si_no),
+    sandwich_embutido: t.maybe(si_no),
+    empanadas_fritas: t.maybe(si_no)
 })
 
 
@@ -164,7 +160,7 @@ const seccion_b = t.struct({
     prestacion_servicio_merienda: si_no,
     // prestacion_servicio_escolar: t.String,
     // B2
-    // foto_plato: t.maybe(t.String),//TODO hidden
+    
     foto_plato_desayuno: t.maybe(t.String),//TODO nueva columna
     foto_plato_almuerzo: t.maybe(t.String),//TODO nueva columna
     foto_plato_merienda: t.maybe(t.String),//TODO nueva columna
@@ -226,7 +222,7 @@ const seccion_b = t.struct({
     sal_presentacion_salero: si_no,
     sal_presentacion_sobres: si_no,
     sal_presentacion_sal_baja_sodio: si_no,
-    sal_presentacion_otro: si_no,//TODO nuevo caluma
+    // sal_presentacion_otro: si_no,//TODO nuevo caluma
     sal_presentacion_otro_detalle: t.maybe(t.String),//TODO hidden
     // 
     habitos_comida: t.String,
@@ -321,7 +317,6 @@ const seccion_f = t.struct({
     // 
     programas_ean: si_no,
   
-    materia_especifica_existente: si_no,
     materia_especifica_existente_detalle: t.maybe(t.String),
 })
 const seccion_g = t.struct({
@@ -350,14 +345,14 @@ const seccion_i = t.struct({
     //SECCIÓN I: ACTIVIDAD FÍSICA 	
     // i.1
     // educacion_fisica: t.String,
-    actividad_fisica_inicial_dias:t.number,
-    actividad_fisica_inicial_minutos: t.number,
-    actividad_fisica_primer_ciclo_dias: t.number,
-    actividad_fisica_primer_ciclo_minutos: t.number,
-    actividad_fisica_segundo_ciclo_dias:t.number,
-    actividad_fisica_segundo_ciclo_minutos: t.number,
-    actividad_fisica_segundo_ciclo_dias: t.number,
-    actividad_fisica_segundo_ciclo_minutos: t.number,
+    actividad_fisica_inicial_dias:t.Number,
+    actividad_fisica_inicial_minutos: t.Number,
+    actividad_fisica_primer_ciclo_dias: t.Number,
+    actividad_fisica_primer_ciclo_minutos: t.Number,
+    actividad_fisica_segundo_ciclo_dias:t.Number,
+    actividad_fisica_segundo_ciclo_minutos: t.Number,
+    actividad_fisica_secundaria_ciclo_dias: t.Number,
+    actividad_fisica_secundaria_ciclo_minutos: t.Number,
     actividad_fisica_aclaracion: t.maybe(t.String),
     // i.2
     profe_titulo: si_no,
@@ -368,15 +363,15 @@ const seccion_i = t.struct({
     // i.4
     apto_medico: si_no,
     // por no
-    apto_medico_detalle_no:t.maybe(t.string),
+    apto_medico_detalle_no:t.maybe(t.String),
     // por si 
-    detalle_exigencias: t.maybe(t.string),
-    detalle_normativa:t.maybe(t.string),
-    detalle_exige_niveles:t.maybe(t.string),
-    detalle_cuantos_alumnos:t.maybe(t.number),
+    detalle_exigencias: t.maybe(t.String),
+    detalle_normativa:t.maybe(t.String),
+    detalle_exige_niveles:t.maybe(t.String),
+    detalle_cuantos_alumnos:t.maybe(t.Number),
     // porcentjes???
-    detalle_porcentajes_alumnos_primaria:t.maybe(t.number),
-    detalle_porcentajes_alumnos_secundaria: t.maybe(t.number),
+    detalle_porcentajes_alumnos_primaria:t.maybe(t.Number),
+    detalle_porcentajes_alumnos_secundaria: t.maybe(t.Number),
     //  i.5
    
     espacio_activ_fisica: si_no,
@@ -390,17 +385,18 @@ const seccion_i = t.struct({
     actividad_extracurricular_detalle: t.String,
     // i.8
     propuestas_sociocultural: si_no,
-    propuestas_sociocultural: t.maybe(t.String),
+    propuestas_sociocultural_detalle: t.maybe(t.String),
     // i.9
     vestimenta: si_no,
     // i.10
     clase_mix: si_no,
+    clase_mix_nivel_educativo: t.maybe(t.String),
     // i.11
     enfoque_inclusivo: si_no,
     enfoque_inclusivo_detalle: t.String,
     //  i.12 a
     accesos: si_no,
-    accesos: t.String,
+    accesos_detalle: t.String,
     //  i.12 b
     promueve_transporte_activo: si_no,
     promueve_transporte_activo_detalle: t.String
