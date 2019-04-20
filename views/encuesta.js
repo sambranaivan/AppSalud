@@ -169,7 +169,7 @@ export default class Encuesta extends React.Component {
     siguiente = () => {
 
         info = this._form.getValue();
-        if(info)
+        if(true)
         {
 
             switch (this.state.seccion) 
@@ -228,26 +228,8 @@ export default class Encuesta extends React.Component {
     saveData = async () => {
         try {
             
-            nuevo = this._form.getValue(); // use that ref to get the form value
-            ///get current data
-            if(!nuevo){
-                Alert.alert(
-                    'Complete Todos los campos',
-                    'Presione Aceptar para continuar',
-                    [
-                        { text: 'Aceptar', onPress: () => console.log('OK Pressed') },
-                    ],
-                    { cancelable: false },)
-                return
-            }
-
-            // validar campos opcionales
-            // if(opcionales)
-            // {
-               
-            // }
-           
-
+            // nuevo = this._form.getValue(); // use that ref to get the form value
+            nuevo = this.state.value;
             let data = await AsyncStorage.getItem('data');
             if (data !== null)//ya hay algo cargado?
             {
@@ -277,7 +259,6 @@ export default class Encuesta extends React.Component {
             }
 
             alert("Encuesta Guardada")
-
 
             this.setState({ value: null });
             this.setState({count:data.length})
@@ -892,7 +873,7 @@ export default class Encuesta extends React.Component {
                                
                             </View>}
 
-                            {this.state.seccion !== 'inicio' &&
+                        {this.state.seccion !== 'inicio' && this.state.seccion !== 'final' &&
                         <View style={{flexDirection:'row',flex:2}}>
                                 <TouchableOpacity onPress={this.anterior} style={styles.button}>
                                     <Text style={styles.buttonText}>Atras</Text>
@@ -906,6 +887,14 @@ export default class Encuesta extends React.Component {
                                 <TouchableOpacity onPress={this.siguiente} style={styles.button}>
                                     <Text style={styles.buttonText}>Siguiente</Text>
                                 </TouchableOpacity></View>
+                            }
+                            {
+                                this.state.seccion == 'final' &&
+                            <View>
+                                <TouchableOpacity onPress={this.saveData} style={styles.button}>
+                                    <Text style={styles.buttonText}>Guardar</Text>
+                                </TouchableOpacity>
+                            </View>
                             }
                         
                         

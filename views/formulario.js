@@ -42,7 +42,7 @@ const parte_1 = t.struct(
             docente:"Docente de mayor puntaje",
             otro:"Otro(especificar)"
         }),
-        cargo_otro:t.String,///TODO hidden
+        cargo_otro:t.maybe(t.String),///TODO hidden
         tipo_jornada: t.enums({
             simple:"Simple",
             completa:"Completa",
@@ -145,13 +145,12 @@ const seccion_a_2 = t.struct({
 
 const seccion_a_3 = t.struct({
 compra_may_men:si_no,
-compra_may_men_detalle: t.String,//TODO hidden
+compra_may_men_detalle: t.maybe(t.String),//TODO hidden
 capacitacion_comercio:si_no,
-capacitacion_comercio_detalle:t.String,//TODO hidden
+capacitacion_comercio_detalle:t.maybe(t.String),
 comercializacion_inmediacion:si_no,//TODO cambiar columna
-comercializacion_inmediacion_detalle: t.String,//TODO hidden
+comercializacion_inmediacion_detalle:t.maybe( t.String)
 })
-
 const seccion_b = t.struct({
     //SECCIÓN B: COMEDORES, CANTINAS Y BUFETES SALUDABLES – CRITERIOS NUTRICIONALES
     // multiple B1
@@ -256,7 +255,7 @@ agua_corriente:si_no,
     agua_segura_cocinar: si_no,
     agua_segura_infusiones: si_no,
     agua_segura_cepillarse_dientes: si_no,
-    agua_segura_cepillarse_otro_detalle: t.maybe(t.String),
+    agua_segura_otro_detalle: t.maybe(t.String),
 // 
     // D.4
     procedimiento_limpieza_almacen:t.String,
@@ -375,14 +374,14 @@ const seccion_i = t.struct({
     //  i.5
    
     espacio_activ_fisica: si_no,
-    espacio_activ_fisica_detalle: t.String,
+    espacio_activ_fisica_detalle: t.maybe(t.String),
     // i.6
-    espacio_activ_fisica: si_no,
-    espacio_activ_fisica_detalle: t.String,
+    espacio_movimiento_espontaneo: si_no,
+    espacio_movimiento_espontaneo_detalle: t.maybe(t.String),
 
     // i.7
     actividad_extracurricular: si_no,
-    actividad_extracurricular_detalle: t.String,
+    actividad_extracurricular_detalle:t.maybe( t.String),
     // i.8
     propuestas_sociocultural: si_no,
     propuestas_sociocultural_detalle: t.maybe(t.String),

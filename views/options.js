@@ -204,7 +204,7 @@ var form_options = {
         label: "Ensalada de vegetales",
     },
     papas_fritas_naturales:{
-        label: "Papas fritas naturales u platos fritos como bastones de pollo o de queso",
+        label: "Papas fritas naturales o platos fritos como bastones de pollo o de queso",
     },
     pizza_con_verdura:{
         label: "Pizza con verduras",
@@ -494,7 +494,7 @@ var form_options = {
     agua_segura_cepillarse_dientes: {
         label:"Cepillarse los dientes"
     },
-    agua_segura_cepillarse_otro_detalle: {
+    agua_segura_otro_detalle: {
         label:"Otro (Especificar)"
     },
     // 
@@ -764,10 +764,10 @@ var form_options = {
         label:"I.5.b Detalle"
     },
     // i.6
-    espacio_activ_fisica:{
+        espacio_movimiento_espontaneo:{
         label:"I.6 En caso de que cuente con un espacio disponible, por favor identificar si está permitido el movimiento espontáneo (se permite correr, saltar, hacer juegos activos)."
     },
-    espacio_activ_fisica_detalle:{
+    espacio_movimiento_espontaneo_detalle:{
         label: "I.6.b Detalle"
     },
 

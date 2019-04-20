@@ -55,9 +55,7 @@ export default class Home extends Component {
     // this._getPhotosAsync().catch(error => {
     //   console.error(error);
     // });
-  
-  
-  
+
     this.getCameraRollPermissions();
   }
 
@@ -97,10 +95,7 @@ export default class Home extends Component {
       filename = localUri.split('/').pop()+".png";
       this.subirfoto(localUri,filename,type);
       // 
-
-
     }
-
 
   }
 
@@ -110,7 +105,9 @@ export default class Home extends Component {
     formData.append('photo', { uri: localUri, name: filename, type });
 
     // console.log(formData);
-    response = await fetch('http://sambrana.com.ar/test/upload.php', {
+    // response = await fetch('http://192.168.0.100/test/upload.php', 
+    response = await fetch('http://linsse.com.ar/salud/api/subirfoto', 
+    {
       method: 'POST',
       body: formData,
       header: {
@@ -118,6 +115,27 @@ export default class Home extends Component {
       },
     }).then(console.log("ok"))
    
+  }
+
+  subirAllPhotos = async(data) => {
+    console.log("SUBIR ALL PHOTOS")
+    this.setState({ spinner: true });
+    // primero retomo todo el array y busco las fotos en cada caso?
+    colleccion = JSON.parse(data);
+    i = 1;
+    colleccion.forEach(element => {
+      console.log(i)
+      i++;
+      if(element.foto_bebedero)
+        {
+          console.log("subiendo")
+        type = 'image/jpeg';
+        localUri = element.foto_bebedero;
+        filename = localUri.split('/').pop();
+        this.subirfoto(localUri, filename, type);
+        }
+    });
+    this.setState({ spinner: false });
   }
 
 
@@ -130,18 +148,24 @@ export default class Home extends Component {
     // let server = "192.168.1.15"//totolink
     // let server = "10.1.17.203"//estadistica
     // let server = "13.90.59.76"//Azure Chamaoke
-    let server = "estadisticas.apps.mcypcorrientes.gob.ar/"//Azure Chamaoke
+    // let server = "192.168.0.16/salud"//Azure Chamaoke
+      let server = "linsse.com.ar/salud"//Azure Chamaoke
     console.log("send data to "+server);
     this.setState({spinner:true});
     
+    /**
+     * SUBIR FORMULARIO
+     */
    try {
      let data = await AsyncStorage.getItem('data');
+    
+     console.log(data);
      if (data !== null)//ya hay algo cargado?
      {
       // enviar la data
 
        // http://localhost/apiEncuestoff/public/api/carnaval/send
-       const myRequest = new Request('http://'+server+'api/carnaval/send',
+       const myRequest = new Request('http://'+server+'/api/subir',
          {
            method: 'POST',
            body: data
@@ -152,7 +176,7 @@ export default class Home extends Component {
          .then(response => {
            if (response.status === 200) {
              this.setState({ spinner: false });
-            //  alert('Actualizado')
+
             Alert.alert(
   'Encuestas Actualizada',
   'Presione Aceptar para continuar',
@@ -162,19 +186,25 @@ export default class Home extends Component {
   {cancelable: false},
 );
            } else {
-             console.log(response);
+            //  console.log(response);
              throw new Error('Something went wrong on api server!');
            }
          })
          .then(response => {
            // console.log("Debug")
-           console.debug(response);
+          //  console.debug(response);
            // ...
          }).catch(error => {
-           console.error(error);
+          //  console.error(error);
          });
 
       // fin de envio
+       /**
+    * Subir fotos si hay
+    */
+       this.subirAllPhotos(data);
+
+    //  
      }
      else
      {
@@ -186,6 +216,9 @@ export default class Home extends Component {
    } catch (error) {
      alert(error)
    }
+
+   
+
   }
   else{
     alert("No hay Coneccion a Internet");
