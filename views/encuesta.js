@@ -1,5 +1,5 @@
 import React from 'react';
-import { StyleSheet, Text, View, ScrollView, Button, Alert, Platform, Image, Vibration,AsyncStorage, TouchableOpacity} from 'react-native';
+import { StyleSheet, Text, View, ScrollView, Button, Alert, Platform, Image, Vibration, AsyncStorage, TouchableOpacity, BackHandler} from 'react-native';
 import Spinner from 'react-native-loading-spinner-overlay';
 import { Constants, Location, Permissions, MediaLibrary, Camera, FileSystem,  } from 'expo';
 import t from 'tcomb-form-native';
@@ -82,10 +82,19 @@ export default class Encuesta extends React.Component {
         
     }
 
-    componentDidMount(){
-        // setInterval(() => {
-        //         console.log(this.state.seccion)
-        // }, 1000);
+    
+
+    componentDidMount() {
+        BackHandler.addEventListener('hardwareBackPress', this.handleBackPress);
+    }
+
+    componentWillUnmount() {
+        BackHandler.removeEventListener('hardwareBackPress', this.handleBackPress);
+    }
+
+    handleBackPress = () => {
+        this.anterior();
+        return true;
     }
 
 

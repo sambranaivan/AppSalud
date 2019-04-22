@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { StyleSheet, Text, View, NetInfo, Image, TouchableOpacity, AsyncStorage, AppRegistry, Alert, CameraRoll, Button} from 'react-native';
+import { StyleSheet, Text, View, NetInfo, Image, TouchableOpacity, BackHandler,AsyncStorage, AppRegistry, Alert, CameraRoll, Button} from 'react-native';
 import Spinner from 'react-native-loading-spinner-overlay';
 import { Constants, Location, MediaLibrary, Permissions, Camera, FileSystem} from 'expo';
 
@@ -31,14 +31,21 @@ export default class Home extends Component {
   }
 
   // Check internte
-  async componentWillUnmount() 
-  {
-  
+  componentWillUnmount() {
+    BackHandler.removeEventListener('hardwareBackPress', this.handleBackPress);
   }
 
 
+ 
+
+  handleBackPress = () => {
+   console.log("Prevente Back")
+   return true
+  }
+
   componentDidMount() 
   {
+    BackHandler.addEventListener('hardwareBackPress', this.handleBackPress);
     FileSystem.makeDirectoryAsync(FileSystem.documentDirectory + 'encuesta').catch(e => {
       console.log(e, 'Directory exists');
     });
