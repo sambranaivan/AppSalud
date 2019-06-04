@@ -25,6 +25,7 @@ const parte_1 = t.struct(
             publico:"Público",
             privado: "Privado",
         }),
+        cue_anexo: t.String,
         rama: t.enums({
             inicial:"Inicial",
             primaria:'Primaria',
@@ -32,7 +33,7 @@ const parte_1 = t.struct(
             psicologia:"Psicología",
             secundaria:"Secundaria",
             secundaria_tecnica:"Secundaria Técnica",
-            secundatia_agraria_cept:"Secundaria Agraria"
+            secundaria_agraria_cept:"Secundaria Agraria"
         }),
         nomynum_establecimiento: t.String,
         cargo_informante: t.enums({
@@ -151,23 +152,26 @@ capacitacion_comercio_detalle:t.maybe(t.String),
 comercializacion_inmediacion:si_no,//TODO cambiar columna
 comercializacion_inmediacion_detalle:t.maybe( t.String)
 })
+
+
 const seccion_b = t.struct({
     //SECCIÓN B: COMEDORES, CANTINAS Y BUFETES SALUDABLES – CRITERIOS NUTRICIONALES
     // multiple B1
     prestacion_servicio_desayuno: si_no,
+    tipo_gestion_estructurada_desayuno: t.maybe(t.String),
     prestacion_servicio_almuerzo: si_no,
+    tipo_gestion_estructurada_almuerzo: t.maybe(t.String),
     prestacion_servicio_merienda: si_no,
+    // multiple
+    tipo_gestion_estructurada_merienda: t.maybe(t.String),
+    // 
     // prestacion_servicio_escolar: t.String,
     // B2
+    
     
     foto_plato_desayuno: t.maybe(t.String),//TODO nueva columna
     foto_plato_almuerzo: t.maybe(t.String),//TODO nueva columna
     foto_plato_merienda: t.maybe(t.String),//TODO nueva columna
-    // multiple
-    tipo_gestion_estructurada_desayuno: t.String,
-    tipo_gestion_estructurada_almuerzo: t.String,
-    tipo_gestion_estructurada_merienda: t.String,
-    // 
     compra_insumo: t.String,//a quien se le compra lo unsimo
     salon_comedor: si_no,
     foto_comedor: t.maybe(t.String),
@@ -189,24 +193,26 @@ const seccion_b = t.struct({
     recomendaciones_gapa: t.String,
     recomendaciones_macro_micronutrientes: t.String,
     //b11
-    menu_vista: t.Boolean,
+    menu_vista: si_no,
     foto_menu: t.maybe(t.String),
     //b12
-    lugar_preparacion_comida: si_no,
-    //b12
-    menu_especial: t.enums({
-        no:"No Ofrece",
-        diabetico:"Diabético",
-        celiaco:"Celiaco",
-        hipocalorico:"Hipocalórico",
-        otro:"Otro (Especificar)"
+    lugar_preparacion_comida: t.enums({
+        escuela:"Se elabora en la escuela",
+        otro_lugar:"Viene preparada de otro lugar"
     }),
-    menu_especial_otro: t.maybe(t.String),//TODO hidden
+    //b13
+    
+        menu_especial_no:si_no,
+        menu_especial_diabetico:si_no,
+        menu_especial_celiaco:si_no,
+        menu_especial_hipocalorico:si_no,
+        menu_especial_otro:t.maybe(si_no),//TODO nueva tabla
 
     alimento_tradicional: si_no,
     alimento_tradicional_detalle: t.maybe(t.String),//TODO si en anterios
     alimento_tradicional_frecuencia: t.maybe(t.String),//TODO si en anterios
-    informe_menu: si_no,
+    informe_menu: si_no,//TODO por que medio
+    informe_menu_medio:t.maybe(t.String),
     // 
     durante_comida_agua_segura:si_no,
     durante_comida_gaseosa_azucarada:si_no,
@@ -214,17 +220,17 @@ const seccion_b = t.struct({
     durante_comida_jugo_industrial_para_reconstituir:si_no,
     durante_comida_agua_saborizada:si_no,
     durante_comida_jugo_fruta_fresa:si_no,
-    // 
+    durante_comida_jugo_fruta_fresa_agregada: t.maybe(si_no),
+    // // 
     huerta: si_no,
+    huerta_si:t.maybe(t.enums({
+        solo_escuela:"Solo escuela",
+        otra_institucion:"Junto a otras instituciones"
+    })),
     sal_libre: si_no,
-    //  multiple
-    sal_presentacion_salero: si_no,
-    sal_presentacion_sobres: si_no,
-    sal_presentacion_sal_baja_sodio: si_no,
-    // sal_presentacion_otro: si_no,//TODO nuevo caluma
-    sal_presentacion_otro_detalle: t.maybe(t.String),//TODO hidden
-    // 
-    habitos_comida: t.String,
+   
+    habitos_comida: si_no,
+    habitos_comida_detalle: t.maybe(t.String)
 })
 
 const seccion_c = t.struct(
@@ -237,15 +243,34 @@ const seccion_c = t.struct(
     }
 )
 
+// const seccion_b = t.struct(
+//     {
+//         //SECCIÓN C: COCINEROS/AS Y AYUDANTES DE COCINA
+//         encargado_alimento: t.String,
+//         ayudantes: si_no,
+//         ayudantes_capacitados: si_no,
+//         ayudantes_capacitados_tematica: t.maybe(t.String),
+//     }
+// )
+
 const seccion_d = t.struct({
   //SECCIÓN D: ACCESO AL AGUA SEGURA
   //d.1
 agua_corriente:si_no,
-
-
 //si es no
-    agua_presentacion: t.maybe(t.String),//TODO HIDDEN
-    agua_estrategia_segura: t.maybe(t.String),//TODO HIDDEN
+
+    agua_presentacion: t.maybe(t.String),//
+    agua_donde_se_obtiene: t.maybe(t.enums({
+        perforacion:"Agua de Perforación",
+        pozo:"Agua de Pozo",
+        pastillas:"Pastillas potabilizadoras",
+        rio:"Rio" ,
+        arroyo:"Arroyo",
+        laguna:"Laguna",
+        otro:"Otro (especificar)"
+    })),//
+    agua_donde_se_obtiene_otro: t.maybe(t.String),
+    agua_estrategia_segura: t.maybe(t.String),//
 
 // agua_segura_utilizacion:t.String,
 // MULTIPLE
@@ -255,12 +280,13 @@ agua_corriente:si_no,
     agua_segura_cocinar: si_no,
     agua_segura_infusiones: si_no,
     agua_segura_cepillarse_dientes: si_no,
+    agua_segura_riego_huerta: si_no,//TODO nuevo campo
     agua_segura_otro_detalle: t.maybe(t.String),
 // 
     // D.4
     procedimiento_limpieza_almacen:t.String,
     hay_bebedero:si_no,
-    bebedores_cantidad:t.maybe(t.Number),//TODO hidden
+    bebedores_cantidad:t.maybe(t.Number),
     foto_bebedero:t.maybe(t.String),
     // D.6 multiple
     lugar_bebedero_patio:si_no,
@@ -288,7 +314,27 @@ const seccion_e = t.struct({
 // 
 acompanan_nino:t.String,
 nino_lavan:si_no,
+    nino_lavan_donde:t.maybe(t.enums({
+        baño:"Baño",
+        patio: "Patio",
+        otro:"Otro (Especificar)"
+    })),
+        nino_lavan_donde_otro:t.maybe(t.String),
+    nino_lavan_solos:t.maybe(t.enums({
+        solos:"Solos",
+        adulto:"En compañia de un adulto",
+    })),
 nino_cepillan:si_no,
+    nino_cepillan_donde: t.maybe(t.enums({
+        baño: "Baño",
+        patio: "Patio",
+        otro: "Otro (Especificar)"
+    })),
+    nino_cepillan_donde_otro: t.maybe(t.String),
+    nino_cepillan_solos: t.maybe(t.enums({
+        solos: "Solos",
+        adulto: "En compañia de un adulto",
+    })),
 pantallas_vista:t.enums({
     nunca:"No, Nunca",
     algunas_veces:"Algunas Veces",
@@ -296,6 +342,14 @@ pantallas_vista:t.enums({
     siempre:"Siempre",
     nosabe:"NS/NC"
 }),  
+
+    pantallas_vista_celular:t.maybe(si_no),
+    pantallas_vista_tele:t.maybe(si_no),
+    pantallas_vista_compu:t.maybe(si_no),
+    pantallas_vista_otro:t.maybe(t.String),
+
+
+
 })
 
 const seccion_f = t.struct({
@@ -309,6 +363,8 @@ const seccion_f = t.struct({
     promo_tematicas_alimentacion_consumo_alcohol: t.maybe(si_no),
     promo_tematicas_alimentacion_consumo_tabaco: t.maybe(si_no),
     promo_tematicas_alimentacion_consumo_sal: t.maybe(si_no),
+    promo_tematicas_alimentacion_agua_segura: t.maybe(si_no),
+    promo_tematicas_alimentacion_huertas: t.maybe(si_no),
     promo_tematicas_observaciones:t.maybe(t.String),
     // 
     clase_extracurricular: si_no,
@@ -317,6 +373,7 @@ const seccion_f = t.struct({
     programas_ean: si_no,
   
     materia_especifica_existente_detalle: t.maybe(t.String),
+    programas_ean_materias:t.maybe(t.String),
 })
 const seccion_g = t.struct({
     //SECCIÓN G: EXPOSICIÓN A PUBLICIDAD DE ALIMENTOS Y BEBIDAS
@@ -344,14 +401,14 @@ const seccion_i = t.struct({
     //SECCIÓN I: ACTIVIDAD FÍSICA 	
     // i.1
     // educacion_fisica: t.String,
-    actividad_fisica_inicial_dias:t.Number,
-    actividad_fisica_inicial_minutos: t.Number,
-    actividad_fisica_primer_ciclo_dias: t.Number,
-    actividad_fisica_primer_ciclo_minutos: t.Number,
-    actividad_fisica_segundo_ciclo_dias:t.Number,
-    actividad_fisica_segundo_ciclo_minutos: t.Number,
-    actividad_fisica_secundaria_ciclo_dias: t.Number,
-    actividad_fisica_secundaria_ciclo_minutos: t.Number,
+    actividad_fisica_inicial_dias:t.maybe(t.Number),
+    actividad_fisica_inicial_minutos: t.maybe(t.Number),
+    actividad_fisica_primer_ciclo_dias: t.maybe(t.Number),
+    actividad_fisica_primer_ciclo_minutos: t.maybe(t.Number),
+    actividad_fisica_segundo_ciclo_dias:t.maybe(t.Number),
+    actividad_fisica_segundo_ciclo_minutos: t.maybe(t.Number),
+    actividad_fisica_secundaria_ciclo_dias: t.maybe(t.Number),
+    actividad_fisica_secundaria_ciclo_minutos: t.maybe(t.Number),
     actividad_fisica_aclaracion: t.maybe(t.String),
     // i.2
     profe_titulo: si_no,
@@ -378,7 +435,6 @@ const seccion_i = t.struct({
     // i.6
     espacio_movimiento_espontaneo: si_no,
     espacio_movimiento_espontaneo_detalle: t.maybe(t.String),
-
     // i.7
     actividad_extracurricular: si_no,
     actividad_extracurricular_detalle:t.maybe( t.String),
@@ -388,8 +444,15 @@ const seccion_i = t.struct({
     // i.9
     vestimenta: si_no,
     // i.10
-    clase_mix: si_no,
-    clase_mix_nivel_educativo: t.maybe(t.String),
+    clase_mix: t.enums({
+        no:"No",
+        genero:"Mixtas en cuanto a Género",
+        nivel_educativo: "Mixtas en cuanto a Nivel Educativo",
+        ambos: "Mixtas Génera & Nivel Educativo ",
+
+
+    }),
+    // clase_mix_nivel_educativo: t.maybe(t.String),
     // i.11
     enfoque_inclusivo: si_no,
     enfoque_inclusivo_detalle: t.String,
@@ -398,10 +461,28 @@ const seccion_i = t.struct({
     accesos_detalle: t.String,
     //  i.12 b
     promueve_transporte_activo: si_no,
-    promueve_transporte_activo_detalle: t.String
+    promueve_transporte_activo_detalle: t.String,
+
+    // nuevas preguntas
+   
+
 })
 
 
+// j.1
+const seccion_j = t.struct({
+prestacion_servicio: t.enums({
+    teknofood: "TeknoFood",
+    shonko: "Shonko"
+}),
+    califica: t.enums({
+        1: '1 (Muy Malo)',
+        2: "2",
+        3: "3",
+        4: "4",
+        5: "5 (Muy Bueno)",
+    })
+})
 
 
 
@@ -418,4 +499,6 @@ export {
     seccion_f,
     seccion_g,
     seccion_h,
-    seccion_i}
+    seccion_i,
+    seccion_j
+}

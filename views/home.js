@@ -131,16 +131,58 @@ export default class Home extends Component {
     colleccion = JSON.parse(data);
     i = 1;
     colleccion.forEach(element => {
-      console.log(i)
+      console.log(element)
       i++;
+      type = 'image/jpeg';
       if(element.foto_bebedero)
         {
-          console.log("subiendo")
-        type = 'image/jpeg';
         localUri = element.foto_bebedero;
         filename = localUri.split('/').pop();
+        console.log("subiendo"+filename);
         this.subirfoto(localUri, filename, type);
         }
+      if (element.foto_plato_desayuno) {
+        localUri = element.foto_plato_desayuno;
+        filename = localUri.split('/').pop();
+        console.log("subiendo"+filename);
+        this.subirfoto(localUri, filename, type);
+      }
+      if (element.foto_plato_almuerzo) {
+        localUri = element.foto_plato_almuerzo;
+        filename = localUri.split('/').pop();
+        console.log("subiendo"+filename);
+        this.subirfoto(localUri, filename, type);
+      }
+      if (element.foto_plato_merienda) {
+        localUri = element.foto_plato_merienda;
+        filename = localUri.split('/').pop();
+        console.log("subiendo"+filename);
+        this.subirfoto(localUri, filename, type);
+      }
+      if (element.foto_comedor) {
+        localUri = element.foto_comedor;
+        filename = localUri.split('/').pop();
+        console.log("subiendo"+filename);
+        this.subirfoto(localUri, filename, type);
+      }
+      if (element.foto_area_elaboracion) {
+        localUri = element.foto_area_elaboracion;
+        filename = localUri.split('/').pop();
+        console.log("subiendo"+filename);
+        this.subirfoto(localUri, filename, type);
+      }
+      if (element.foto_servicio_alimentos) {
+        localUri = element.foto_servicio_alimentos;
+        filename = localUri.split('/').pop();
+        console.log("subiendo"+filename);
+        this.subirfoto(localUri, filename, type);
+      }
+      if (element.foto_menu) {
+        localUri = element.foto_menu;
+        filename = localUri.split('/').pop();
+        console.log("subiendo"+filename);
+        this.subirfoto(localUri, filename, type);
+      }      
     });
     this.setState({ spinner: false });
   }
@@ -198,11 +240,11 @@ export default class Home extends Component {
            }
          })
          .then(response => {
-           // console.log("Debug")
-          //  console.debug(response);
+           console.log("Debug")
+           console.debug(response);
            // ...
          }).catch(error => {
-          //  console.error(error);
+           console.error(error);
          });
 
       // fin de envio

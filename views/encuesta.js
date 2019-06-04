@@ -16,7 +16,9 @@ import {
     seccion_f,
     seccion_g,
     seccion_h,
-    seccion_i} from './formulario';
+    seccion_i,
+    seccion_j
+} from './formulario';
 import form_options from './options';
 
 
@@ -28,7 +30,7 @@ var form_defaults = {
     latitud: null,
     longitud: null,
     cargo_otro:null,
-    fecha_realizacion: d.getFullYear()+"-"+d.getMonth()+"-"+d.getDate()
+    fecha_realizacion: d.getFullYear()+"-"+(d.getMonth()+1)+"-"+d.getDate()
 }
 
 
@@ -163,8 +165,11 @@ export default class Encuesta extends React.Component {
             case 'seccion_i':
                 this.setState({ seccion: 'seccion_h' });
                 break;
-            case 'final':
+            case 'seccion_j':
                 this.setState({ seccion: 'seccion_i' });
+                break;
+            case 'final':
+                this.setState({ seccion: 'seccion_j' });
                 break;
             
 
@@ -220,6 +225,9 @@ export default class Encuesta extends React.Component {
                     this.setState({ seccion: 'seccion_i' });
                     break;
                 case 'seccion_i':
+                    this.setState({ seccion: 'seccion_j' });
+                    break;
+                case 'seccion_j':
                     this.setState({ seccion: 'final' });
                     break;
             
@@ -239,6 +247,8 @@ export default class Encuesta extends React.Component {
             
             // nuevo = this._form.getValue(); // use that ref to get the form value
             nuevo = this.state.value;
+            console.log("Guardando");
+            console.log(nuevo);
             let data = await AsyncStorage.getItem('data');
             if (data !== null)//ya hay algo cargado?
             {
@@ -327,6 +337,18 @@ export default class Encuesta extends React.Component {
                 })
             }
         }
+        // if (value.clase_mix) {
+        //     if (value.clase_mix == "no") {
+        //         update_options = t.update(update_options, {
+        //             fields: { clase_mix_nivel_educativo: { hidden: { '$set': false } } }
+        //         })
+        //     }
+        //     else {
+        //         update_options = t.update(update_options, {
+        //             fields: { clase_mix_nivel_educativo: { hidden: { '$set': true } } }
+        //         })
+        //     }
+        // }
         // 1.11 lugar fumando
         if (value.lugar_fumador) {
             if (value.lugar_fumador == "otro") {
@@ -393,7 +415,44 @@ export default class Encuesta extends React.Component {
                 })
             }
         } 
-        // 
+        // B
+        // B1 y B3
+        if (value.prestacion_servicio_desayuno) {
+            if (value.prestacion_servicio_desayuno == "si") {
+                update_options = t.update(update_options, {
+                    fields: { tipo_gestion_estructurada_desayuno: { hidden: { '$set': false } } }
+                })
+            }
+            else {
+                update_options = t.update(update_options, {
+                    fields: { tipo_gestion_estructurada_desayuno: { hidden: { '$set': true } } }
+                })
+            }
+        } 
+        if (value.prestacion_servicio_almuerzo) {
+            if (value.prestacion_servicio_almuerzo == "si") {
+                update_options = t.update(update_options, {
+                    fields: { tipo_gestion_estructurada_almuerzo: { hidden: { '$set': false } } }
+                })
+            }
+            else {
+                update_options = t.update(update_options, {
+                    fields: { tipo_gestion_estructurada_almuerzo: { hidden: { '$set': true } } }
+                })
+            }
+        } 
+        if (value.prestacion_servicio_merienda) {
+            if (value.prestacion_servicio_merienda == "si") {
+                update_options = t.update(update_options, {
+                    fields: { tipo_gestion_estructurada_merienda: { hidden: { '$set': false } } }
+                })
+            }
+            else {
+                update_options = t.update(update_options, {
+                    fields: { tipo_gestion_estructurada_merienda: { hidden: { '$set': true } } }
+                })
+            }
+        } 
         //   //B.6
         if (value.lugar_desayuno_merienda) {
             if (value.lugar_desayuno_merienda == "otro") {
@@ -421,6 +480,8 @@ export default class Encuesta extends React.Component {
                 })
             }
         }  
+
+
         //
         //   //B.13
         if (value.menu_especial) {
@@ -450,15 +511,73 @@ export default class Encuesta extends React.Component {
                 })
             }
         }
+        // B.15
+        if (value.informe_menu) {
+            if (value.informe_menu == "si") {
+                update_options = t.update(update_options, {
+                    fields: { informe_menu_medio: { hidden: { '$set': false } } }
+                })
+            }
+            else {
+                update_options = t.update(update_options, {
+                    fields: { informe_menu_medio: { hidden: { '$set': true } } }
+                })
+            }
+        } 
+        // B.16
+        if (value.durante_comida_jugo_fruta_fresa) {
+            if (value.durante_comida_jugo_fruta_fresa == "si") {
+                update_options = t.update(update_options, {
+                    fields: { durante_comida_jugo_fruta_fresa_agregada: { hidden: { '$set': false } } }
+                })
+            }
+            else {
+                update_options = t.update(update_options, {
+                    fields: { durante_comida_jugo_fruta_fresa_agregada: { hidden: { '$set': true } } }
+                })
+            }
+        } 
+        // B.16
+        if (value.huerta) {
+            if (value.huerta == "si") {
+                update_options = t.update(update_options, {
+                    fields: { huerta_si: { hidden: { '$set': false } } }
+                })
+            }
+            else {
+                update_options = t.update(update_options, {
+                    fields: { huerta_si: { hidden: { '$set': true } } }
+                })
+            }
+        } 
+
+        // B.20
+        if (value.habitos_comida) {
+            if (value.habitos_comida == "si") {
+                update_options = t.update(update_options, {
+                    fields: { habitos_comida_detalle: { hidden: { '$set': false } } }
+                })
+            }
+            else {
+                update_options = t.update(update_options, {
+                    fields: { habitos_comida_detalle: { hidden: { '$set': true } } }
+                })
+            }
+        } 
+
         //
         // D.1
         // 
         if (value.agua_corriente) {
-            if (value.menu_especial == "otro") {
+            if (value.menu_especial == "no") {
                 // por si
                 update_options = t.update(update_options, {
-                    fields: { agua_presentacion: { hidden: { '$set': true } }
-                        ,agua_estrategia_segura:{hidden:{'$set':true}}
+                    fields: { 
+                        agua_presentacion: { hidden: { '$set': true } },
+                        agua_estrategia_segura:{hidden:{'$set':true}},
+                        agua_donde_se_obtiene: { hidden: { '$set': true } },
+                        agua_donde_se_obtiene_otro: { hidden: { '$set': true } }
+                        
                     }
                 })
             }
@@ -466,10 +585,27 @@ export default class Encuesta extends React.Component {
                 // por no
                 update_options = t.update(update_options, {
 
-                    fields: { agua_presentacion: { hidden: { '$set': false } }
-                        , agua_estrategia_segura: { hidden: { '$set': false } }
+                    fields: { 
+                        agua_presentacion: { hidden: { '$set': false } }, 
+                        agua_estrategia_segura: { hidden: { '$set': false } },
+                        agua_donde_se_obtiene: { hidden: { '$set': false } },
+                        agua_donde_se_obtiene_otro: { hidden: { '$set': false } }
                  }
                 })
+            }
+
+            // subnivel
+            if (value.agua_donde_se_obtiene) {
+                if (value.agua_donde_se_obtiene == "otro") {
+                    update_options = t.update(update_options, {
+                        fields: { agua_donde_se_obtiene_otro: { hidden: { '$set': false } } }
+                    })
+                }
+                else {
+                    update_options = t.update(update_options, {
+                        fields: { agua_donde_se_obtiene_otro: { hidden: { '$set': true } } }
+                    })
+                }
             }
         }
         // D.5
@@ -484,18 +620,157 @@ export default class Encuesta extends React.Component {
                     fields: { bebedores_cantidad: { hidden: { '$set': true } } }
                 })
             }
+            
         }
+
+
+        // Seccion e
+        if (value.nino_lavan) {
+            if (value.nino_lavan == "si") {
+                update_options = t.update(update_options, {
+                    fields: { 
+                        nino_lavan_donde: { hidden: { '$set': false } },
+                        nino_lavan_donde_otro: { hidden: { '$set': false } },
+                        nino_lavan_solos: { hidden: { '$set': false } }, 
+                    }
+                })
+            }
+            else {
+                update_options = t.update(update_options, {
+                    fields: { 
+                        nino_lavan_donde: { hidden: { '$set': true } },
+                        nino_lavan_donde_otro: { hidden: { '$set': true } },
+                        nino_lavan_solos: { hidden: { '$set': false } },
+                    }
+                })
+            }
+
+        }
+        // subnivel
+        if (value.nino_lavan_donde) {
+            if (value.nino_lavan_donde == "otro") {
+                update_options = t.update(update_options, {
+                    fields: {
+                        
+                        nino_lavan_donde_otro: { hidden: { '$set': false } }
+                    }
+                })
+            }
+            else {
+                update_options = t.update(update_options, {
+                    fields: {
+                        
+                        nino_lavan_donde_otro: { hidden: { '$set': true } }
+                    }
+                })
+            }
+
+        }
+        // cepilla
+        // Seccion e
+        if (value.nino_cepillan) {
+            if (value.nino_cepillan == "si") {
+                update_options = t.update(update_options, {
+                    fields: {
+                        nino_cepillan_donde: { hidden: { '$set': false } },
+                        nino_cepillan_donde_otro: { hidden: { '$set': false } },
+                        nino_cepillan_solos: { hidden: { '$set': false } },
+                    }
+                })
+            }
+            else {
+                update_options = t.update(update_options, {
+                    fields: {
+                        nino_cepillan_donde: { hidden: { '$set': true } },
+                        nino_cepillan_donde_otro: { hidden: { '$set': true } },
+                        nino_cepillan_solos: { hidden: { '$set': false } },
+                    }
+                })
+            }
+
+        }
+        // subnivel
+        if (value.nino_cepillan_donde) {
+            if (value.nino_cepillan_donde == "otro") {
+                update_options = t.update(update_options, {
+                    fields: {
+
+                        nino_cepillan_donde_otro: { hidden: { '$set': false } }
+                    }
+                })
+            }
+            else {
+                update_options = t.update(update_options, {
+                    fields: {
+
+                        nino_cepillan_donde_otro: { hidden: { '$set': true } }
+                    }
+                })
+            }
+
+        }
+        // miran tele?
+        // Seccion e
+        if (value.pantallas_vista) {
+            if (value.pantallas_vista !== "nunca" && value.pantallas_vista !== "nosabe") {
+                update_options = t.update(update_options, {
+                    fields: {
+                        pantallas_vista_celular: { hidden: { '$set': false } },
+                        pantallas_vista_tele: { hidden: { '$set': false } },
+                        pantallas_vista_compu: { hidden: { '$set': false } },
+                        pantallas_vista_otro: { hidden: { '$set': false } },
+                       
+
+                    }
+                })
+            }
+            else {
+                update_options = t.update(update_options, {
+                    fields: {
+                        pantallas_vista_celular: { hidden: { '$set': true } },
+                        pantallas_vista_tele: { hidden: { '$set': true } },
+                        pantallas_vista_compu: { hidden: { '$set': true } },
+                        pantallas_vista_otro: { hidden: { '$set': true } },
+                       
+                    }
+                })
+            }
+
+        }
+        
 
         // F.1
         if (value.promo_salud) {
             if (value.promo_salud == "si") {
                 update_options = t.update(update_options, {
-                    fields: { promo_salud_detalle: { hidden: { '$set': false } } }
+                    fields: { 
+                        promo_salud_detalle: { hidden: { '$set': false } }, 
+                        promo_tematicas_alimentacion_saludable: { hidden: { '$set': false } }, 
+                        prome_tematicas_alimentacion_activida_fisica: { hidden: { '$set': false } }, 
+                        promo_tematicas_alimentacion_consumo_alcohol: { hidden: { '$set': false } }, 
+                        promo_tematicas_alimentacion_consumo_tabaco: { hidden: { '$set': false } }, 
+                        promo_tematicas_alimentacion_consumo_sal: { hidden: { '$set': false } }, 
+                        promo_tematicas_observaciones: { hidden: { '$set': false } },
+                            promo_tematicas_alimentacion_agua_segura: { hidden: { '$set': false } },
+                        promo_tematicas_alimentacion_huertas: { hidden: { '$set': false } },
+
+                    
+                    }
                 })
             }
             else {
                 update_options = t.update(update_options, {
-                    fields: { promo_salud_detalle: { hidden: { '$set': true } } }
+                    fields: { 
+                        promo_salud_detalle: { hidden: { '$set': true } },
+                        promo_tematicas_alimentacion_saludable: { hidden: { '$set': true } },
+                        prome_tematicas_alimentacion_activida_fisica: { hidden: { '$set': true } },
+                        promo_tematicas_alimentacion_consumo_alcohol: { hidden: { '$set': true } },
+                        promo_tematicas_alimentacion_consumo_tabaco: { hidden: { '$set': true } },
+                        promo_tematicas_alimentacion_consumo_sal: { hidden: { '$set': true } },
+                        promo_tematicas_observaciones: { hidden: { '$set': true } },
+                        promo_tematicas_alimentacion_agua_segura: { hidden: { '$set': true } },
+                        promo_tematicas_alimentacion_huertas:{ hidden: { '$set': true } },
+                    }
                 })
             }
         }
@@ -509,6 +784,25 @@ export default class Encuesta extends React.Component {
             else {
                 update_options = t.update(update_options, {
                     fields: { clase_extracurricular_detalle: { hidden: { '$set': true } } }
+                })
+            }
+        }
+        // F.4 programas ean
+        if (value.programas_ean) {
+            if (value.programas_ean == "si") {
+                update_options = t.update(update_options, {
+                    fields: { 
+                        materia_especifica_existente_detalle: { hidden: { '$set': false } },
+                        programas_ean_materias: { hidden: { '$set': false } },
+                     }
+                })
+            }
+            else {
+                update_options = t.update(update_options, {
+                    fields: { 
+                        materia_especifica_existente_detalle: { hidden: { '$set': true } },
+                        programas_ean_materias: { hidden: { '$set': true } },
+                     }
                 })
             }
         }
@@ -569,26 +863,74 @@ export default class Encuesta extends React.Component {
             if (value.apto_medico == "no") {
                 update_options = t.update(update_options, {
                     fields: { apto_medico_detalle_no: { hidden: { '$set': false } } 
-                        , detalle_exigencias: { hidde: { "$set": true } }
-                        , detalle_normativa: { hidde: { "$set": true } }
-                        , detalle_exige_niveles: { hidde: { "$set": true } }
-                        , detalle_cuantos_alumnos: { hidde: { "$set": true } }
-                        , detalle_porcentajes_alumnos_primaria: { hidde: { "$set": true } }
-                        , detalle_porcentajes_alumnos_secundaria: { hidde: { "$set": true } }
+                        , detalle_exigencias: { hidden: { "$set": true } }
+                        , detalle_normativa: { hidden: { "$set": true } }
+                        , detalle_exige_niveles: { hidden: { "$set": true } }
+                        , detalle_cuantos_alumnos: { hidden: { "$set": true } }
+                        , detalle_porcentajes_alumnos_primaria: { hidden: { "$set": true } }
+                        , detalle_porcentajes_alumnos_secundaria: { hidden: { "$set": true } }
                 }
                 })
             }
             else {
                         update_options = t.update(update_options, {
                         fields: { apto_medico_detalle_no: { hidden: { '$set': true } } 
-                            , detalle_exigencias:{hidde:{"$set":false}}
-                            ,detalle_normativa:{hidde:{"$set":false}}
-                            ,detalle_exige_niveles:{hidde:{"$set":false}}
-                            ,detalle_cuantos_alumnos:{hidde:{"$set":false}}
-                            ,detalle_porcentajes_alumnos_primaria:{hidde:{"$set":false}}
-                            ,detalle_porcentajes_alumnos_secundaria:{hidde:{"$set":false}}
+                            , detalle_exigencias:{hidden:{"$set":false}}
+                            ,detalle_normativa:{hidden:{"$set":false}}
+                            ,detalle_exige_niveles:{hidden:{"$set":false}}
+                            ,detalle_cuantos_alumnos:{hidden:{"$set":false}}
+                            ,detalle_porcentajes_alumnos_primaria:{hidden:{"$set":false}}
+                            ,detalle_porcentajes_alumnos_secundaria:{hidden:{"$set":false}}
                 }
                 })
+            }
+        }
+
+        if(value.rama){
+            switch(value.rama)
+            {
+                case "inicial":
+                    update_options = t.update(update_options, {
+                        fields: {
+                               actividad_fisica_inicial_dias: { hidden: { '$set': false } }
+                            ,  actividad_fisica_inicial_minutos: { hidden: { "$set": false } }
+                            ,  actividad_fisica_primer_ciclo_dias: { hidden: { "$set": true } }
+                            ,  actividad_fisica_primer_ciclo_minutos: { hidden: { "$set": true } }
+                            ,  actividad_fisica_segundo_ciclo_dias: { hidden: { "$set": true } }
+                            ,  actividad_fisica_segundo_ciclo_minutos: { hidden: { "$set": true } }
+                            ,  actividad_fisica_secundaria_ciclo_dias: { hidden: { "$set": true } }
+                            ,  actividad_fisica_secundaria_ciclo_minutos: { hidden: { "$set": true } }}})
+                break;
+                case "primaria":
+                    update_options = t.update(update_options, {
+                        fields: {
+                            actividad_fisica_inicial_dias: { hidden: { '$set': true } }
+                            , actividad_fisica_inicial_minutos: { hidden: { "$set": true } }
+                            , actividad_fisica_primer_ciclo_dias: { hidden: { "$set": false } }
+                            , actividad_fisica_primer_ciclo_minutos: { hidden: { "$set": false } }
+                            , actividad_fisica_segundo_ciclo_dias: { hidden: { "$set": false } }
+                            , actividad_fisica_segundo_ciclo_minutos: { hidden: { "$set": false } }
+                            , actividad_fisica_secundaria_ciclo_dias: { hidden: { "$set": true } }
+                            , actividad_fisica_secundaria_ciclo_minutos: { hidden: { "$set": true } }
+                        }
+                    })
+                    break;
+                case "secundaria":
+                case "secundaria_tecnica":
+                case "secundaria_agraria_cept":
+                    update_options = t.update(update_options, {
+                        fields: {
+                            actividad_fisica_inicial_dias: { hidden: { '$set': true } }
+                            , actividad_fisica_inicial_minutos: { hidden: { "$set": true } }
+                            , actividad_fisica_primer_ciclo_dias: { hidden: { "$set": true } }
+                            , actividad_fisica_primer_ciclo_minutos: { hidden: { "$set": true } }
+                            , actividad_fisica_segundo_ciclo_dias: { hidden: { "$set": true } }
+                            , actividad_fisica_segundo_ciclo_minutos: { hidden: { "$set": true } }
+                            , actividad_fisica_secundaria_ciclo_dias: { hidden: { "$set": false } }
+                            , actividad_fisica_secundaria_ciclo_minutos: { hidden: { "$set": false } }
+                        }
+                    })
+                    break;
             }
         }
 
@@ -869,6 +1211,11 @@ export default class Encuesta extends React.Component {
                             <Text style={styles.titulos}>SECCIÓN I: ACTIVIDAD FÍSICA</Text> 
     <Form ref={c => this._form = c} type={seccion_i} options={this.state.options} value={this.state.value} onChange={this.onChange} />
     </View>}
+                        {this.state.seccion == 'seccion_j' &&
+                            <View>
+                            <Text style={styles.titulos}>SECCIÓN J: PRESTACIÓN ALIMENTARIA</Text>
+                                <Form ref={c => this._form = c} type={seccion_j} options={this.state.options} value={this.state.value} onChange={this.onChange} />
+                            </View>}
                         {this.state.seccion == 'final' &&
                             <View style={{flex:2}}>
                             {this.state.foto_plato_desayuno && <Image  style={{flex:1,resizeMode:'cover',height:100,width:"50%"}} source={{uri:this.state.foto_plato_desayuno}}></Image>}

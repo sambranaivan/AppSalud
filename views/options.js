@@ -27,46 +27,50 @@ var form_options = {
         localidad:{
             label: "1.1 Localidad"
         },
-        establecimiento:{
-            label: "1.2 Establecimiento"
+        cue_anexo:{
+            label:"1.2 Cue Anexo"
         },
+        establecimiento:{
+            label: "1.3 Establecimiento"
+        },
+
         rama: {
-            label: "1.3 Rama"
+            label: "1.4 Rama"
         },
         nomynum_establecimiento:{
-            label:"1.4 Nombre y número del establecimiento"
+            label:"1.5 Nombre y número del establecimiento"
         },
         cargo_informante:{
-            label:"1.5 Cargo del informante clave"
+            label:"1.6 Cargo del informante clave"
         },
         cargo_otro:{
             label:"Especificar Cargo",
             hidden:true,
         },
         tipo_jornada: {
-            label:"1.6 Tipo de jornada"
+            label:"1.7 Tipo de jornada"
         },
         matricula_cantitad: {
-            label:"1.7 ¿Cuál es la matrícula de estudiantes en el establecimiento educativo? \n a-Cantidad:"
+            label:"1.8 ¿Cuál es la matrícula de estudiantes en el establecimiento educativo? \n a-Cantidad:"
         },
         obtencion_dato:{
             label:"b-Forma de obtención del dato:"
         },
         num_docente_nodocente: {
-            label:"1.8 ¿Cuál es el N° del personal docente y no docente que trabaja en el establecimiento? \n a-Cantidad"
+            label:"1.9 ¿Cuál es el N° del personal docente y no docente que trabaja en el establecimiento? \n a-Cantidad"
         },
         ctrl_sanitario: {
-            label: "1.9 ¿En la institución se realizan controles sanitarios? \nEspecificar (bacteriológicos, microbiológicos, químicos)"
+            label: "1.10 ¿En la institución se realizan controles sanitarios? \nEspecificar (bacteriológicos, microbiológicos, químicos)"
         },
         ctrl_sanitario_detalle:{
             label:"Especificar cuáles y en qué lugares se realizan",
             hidden:true,
         },
         persona_fumando: {
-            label:"1.10 Registrar si el día de l avisita identificó o percibió personas fumando dentro o fuera del establecimineto educativo"
+            label:"1.11 Registrar si el día de la visita identificó o percibió personas fumando dentro o fuera del establecimineto educativo"
         },
         lugar_fumador: {
-            label:"1.11 En caso de haber visto personas fumando o haber percibido olor a tabaco, registrar en qué lugar fue"
+            label:"1.12 En caso de haber visto personas fumando o haber percibido olor a tabaco, registrar en qué lugar fue"
         },
         lugar_otro:{
             label:"Especifique lugar",
@@ -272,13 +276,29 @@ var form_options = {
     prestacion_servicio_desayuno: {
         label:"B.1 Identificar si el establecimiento cuenta con prestaciones ofrecidas como servicio escolar \n Desayuno"
     },
+        // multiple
+        tipo_gestion_estructurada_desayuno: {
+            label: "¿Cómo se gestiona? Detallar a quién/es se realiza la compra de los insumos.",
+            hidden:true,
+        },
+        
     prestacion_servicio_almuerzo: {
         label: "Almuerzo"
     },
+        tipo_gestion_estructurada_almuerzo: {
+            label: "¿Cómo se gestiona?",
+            hidden:true,
+        },
+        
     prestacion_servicio_merienda: {
     // prestacion_servicio_escola:{
         label: "Merienda"
     },
+
+        tipo_gestion_estructurada_merienda: {
+            label: "¿Cómo se gestiona?",
+            hidden:true,
+        },
     // B2
     // foto_plato: t.maybe(t.String),//TODO hidden
     foto_plato_desayuno: {
@@ -293,16 +313,7 @@ var form_options = {
         
         hidden:true
     },//TODO nueva columna
-    // multiple
-    tipo_gestion_estructurada_desayuno:{
-        label: "B.3 Si el establecimiento ofrece comidas estructuradas, ¿Cómo se gestiona en cada caso? Detallar a quién/es se realiza la compra de los insumos. \n Desayuno"
-    },
-    tipo_gestion_estructurada_almuerzo:{
-        label: "Almuerzo"
-    },
-    tipo_gestion_estructurada_merienda:{
-        label: "Merienda"
-    },
+   
     // 
     compra_insumo:{
         label:"Detallar a quién/es se realiza la compra de los insumos"
@@ -352,7 +363,7 @@ var form_options = {
         label:"B.10.a ¿Quién confecciona y supervisa los menús?"
     },
     recomendaciones_gapa:{
-        label:"B.10.b ¿Siguen las recomendaciones de las GAPA?"
+        label:"B.10.b ¿Siguen las recomendaciones de las GAPA (Guía alimentarias para la Población Argentina)?"
     },
     recomendaciones_macro_micronutrientes:{
         label:"B.10.c ¿Cumplen las recomendaciones de macro y micronutrientes según grupo etario?"
@@ -370,14 +381,23 @@ var form_options = {
         label:"B.12. ¿La comida se elabora en la escuela o viene preparada de otro lugar?"
     },
     //b13
-    menu_especial:{
-        label:"B.13 ¿Se ofrece menú especial?"
-    },
-    menu_especial_otro: {
-        label:"Cuales?",
-        
-        hidden:true
-    },
+    
+        menu_especial_no: {
+            label: "B.13 ¿Se ofrece menú especial?"
+        },
+        menu_especial_diabetico: {
+            label:".. Diabetico"
+        },
+        menu_especial_celiaco: {
+            label:".. Celiaco"
+        },
+        menu_especial_hipocalorico: {
+            label:".. Hipocalórico"
+        },
+        menu_especial_otro: {
+            label:".. Otro menu especial?"
+        },
+  
     alimento_tradicional:{
         label:"B.14. ¿Se incluyen alimentos tradicionales según región en los menús escolares?"
     },
@@ -394,6 +414,10 @@ var form_options = {
     informe_menu: {
         label:"B.15. ¿Se informa a las familias sobre los menús semanales?"
     },
+        informe_menu_medio: {
+            label: "¿Por qué medio?",
+            hidden:true,
+        },
     // 
     durante_comida_agua_segura: {
         label:"B.16. ¿Qué bebida/as se ofrece/n durante las comidas? \n Agua Segura"
@@ -413,34 +437,46 @@ var form_options = {
     durante_comida_jugo_fruta_fresa:{
         label: "Jugos de fruta fresca"
     },
+        durante_comida_jugo_fruta_fresa_agregada:{
+            label:".. Con azúcares agregadas?",
+            hidden:true,
+        },
     // 
     huerta:{
         label:"B.17.¿Cuenta el establecimiento con huertas propias?"
-
+    },
+    huerta_si:{
+        label:".. Es llevada adelante sólo por la escuela o en conjunto con otras instituciones?",
+        hidden:true,
     },
     sal_libre: {
         label:"B.18. Identifique si la sal se encuentra o no a libre disposición para su consumo. (Incluye todo tipo de presentación)"
     },
-    //  multiple
-    sal_presentacion_salero: {
-        label:"B.19. Registre los formatos en los que se ofrece sal en el punto de comercialización.\n Salero"
-    },
-    sal_presentacion_sobres: {
-        label:"Sobres de 5gr"
-    },
-    sal_presentacion_sal_baja_sodio: {
-        label:"Sal baja en sodio"
-    },
+    // //  Eliminado
+    // sal_presentacion_salero: {
+    //     label:"B.19. Registre los formatos en los que se ofrece sal en el punto de comercialización.\n Salero"
+    // },
+    // sal_presentacion_sobres: {
+    //     label:"Sobres de 5gr"
+    // },
+    // sal_presentacion_sal_baja_sodio: {
+    //     label:"Sal baja en sodio"
+    // },
    
-    sal_presentacion_otro_detalle:
-    {
-        label:"Otro",
-        // hidden:true
-    },
-    // 
+    // sal_presentacion_otro_detalle:
+    // {
+    //     label:"Otro",
+    //     // hidden:true
+    // },
+    // // 
     habitos_comida:{
         label: "B.20. ¿Se aprovecha el espacio de las comidas para promocionar hábitos y comportamientos que motiven a los niñxs respecto a la alimentación saludable, comensalidad, convivencia y compañerismo?"
     },
+    habitos_comida_detalle:{
+        label: "¿Cuales o que tipo de promoción de hábito?",hidden:true
+    },
+
+
         //SECCIÓN C: COCINEROS/AS Y AYUDANTES DE COCINA
         encargado_alimento:{
             label: "C.1. ¿Quiénes se encargan de la manipulación y preparación de los alimentos?"
@@ -465,14 +501,20 @@ var form_options = {
     //si es no
     agua_presentacion: {
         label: "D.2. Si la respuesta es no, ¿De qué manera se ofrece el agua?",
-        
         hidden:true,
     },
     agua_estrategia_segura:{
-        label:" ¿Qué estrategias utilizan para hacerla segura?",
-        
+        label:" ¿Qué estrategias utilizan para hacerla segura?",        
         hidden:true
     },
+    agua_donde_se_obtiene:{
+        label:"¿Cual es la forma de acceder al agua?",
+        hidden:true,
+    },
+     agua_donde_se_obtiene_otro: {
+            label: ".. especificar",
+            hidden: true,
+        },
 
     // agua_segura_utilizacion:t.String,
     // MULTIPLE
@@ -487,6 +529,9 @@ var form_options = {
     },
     agua_segura_cocinar: {
         label:"Cocinar"
+    },
+    agua_segura_riego_huerta:{
+        label:"Riego de huerta escolar"
     },
     agua_segura_infusiones: {
         label:"Realizar infusiones"
@@ -515,7 +560,7 @@ var form_options = {
     },
     // D.6 multiple
     lugar_bebedero_patio: {
-        label: "D.6. ¿En lugar se encuentran situados los bebederos? \n Patios"
+        label: "D.6. ¿En qué lugar se encuentran situados los bebederos? \n Patios"
     },
     lugar_bebedero_banio: {
         label:"Baños"
@@ -531,7 +576,7 @@ var form_options = {
 
     // desde hasta y duracion por tipo  
     permanencia_desde_desayuno_merienda:{
-        label:"E.1. Registrar la duración (tiempo de permanencia de los niñxs) por tipo de prestación, cuando la misma se ofrece en el aula o elcomedor: \n Desayuno/Merienda \n Hora de Inicio"
+        label:"E.1. Registrar la duración (tiempo de permanencia de los niñxs) por tipo de prestación, cuando la misma se ofrece en el aula o el comedor: \n Desayuno/Merienda \n Hora de Inicio"
     },
     permanencia_hasta_desayuno_merienda:{
         label:"Hora de Finalización" 
@@ -562,7 +607,8 @@ var form_options = {
     permanencia_duracion_otro: {
         label:"Duración (minutos)"
     },
-
+    // 
+    // 
     // 
     acompanan_nino:{
         label: "E.2. ¿Quién/es acompañan a los niñxos durante las comidas?"
@@ -571,12 +617,57 @@ var form_options = {
     nino_lavan: {
         label: "E.3. ¿Los/as niñxos se lavan las manos antes de cada comida?"
     },
+        nino_lavan_donde: {
+            label: ".. ¿Donde?",
+            hidden:true,
+        },
+            nino_lavan_donde_otro: {
+                label: ".. Especificar",
+                hidden: true,
+            },
+
+        nino_lavan_solos:{
+            label:"¿Lo realizan solos o acompañados de un adulto responsable?",
+            hidden:true,
+        },
+        // 
     nino_cepillan: {
         label: "E.4. ¿Los/as niñxos se cepillan los dientes luego  de cada comida?"
     },
+        nino_cepillan_donde: {
+            label: ".. ¿Donde?",
+            hidden: true,
+        },
+        nino_cepillan_donde_otro: {
+            label: ".. Especificar",
+            hidden: true,
+        },
+
+        nino_cepillan_solos: {
+            label: "¿Lo realizan solos o acompañados de un adulto responsable?",
+            hidden: true,
+        },
+
     pantallas_vista:{
         label:"E.5. En general, mientras los niñxs comen, ¿miran pantallas de algún dispositivo electrónico como celular, televisión, computadora, etc?"
     },
+        pantallas_vista_celular: {
+            label:" Celular?",
+            hidden:true
+         },
+        pantallas_vista_tele: {
+            label:" Television?",
+            hidden:true
+         },
+        pantallas_vista_compu: {
+            label:" Computadora?",
+            hidden:true
+         },
+        pantallas_vista_otro: {
+            label:" Otra pantalla?",
+            hidden:true
+         },
+
     //SECCIÓN F: PROMOCION DE LA SALUD - EDUCACIÓN ALIMENTARIA Y NUTRICIONAL (EAN)
     promo_salud: {
         label:"F.1. ¿Observa algunas estrategias, recomendaciones o mensajes de promoción de la salud en paredes, puertas, carteleras del interior del establecimiento?"
@@ -589,23 +680,37 @@ var form_options = {
 
     // multiple solo si si
     promo_tematicas_alimentacion_saludable: {
-        label:"F.2.Por favor, registre las temáticas que abordan las estrategias, recomendaciones o mensajes de promoción de la salud que observa en el interior del edificio \n Alimentación saludable"
+        label:"F.2.Por favor, registre las temáticas que abordan las estrategias, recomendaciones o mensajes de promoción de la salud que observa en el interior del edificio \n Alimentación saludable",
+        hidden:true,
     },
     prome_tematicas_alimentacion_activida_fisica: {
-        label:"Promoción de actividad física"
+        label:"Promoción de actividad física",
+        hidden:true,
     },
     promo_tematicas_alimentacion_consumo_alcohol: {
-        label: "Consumo de alcohol"
+        label: "Consumo de alcohol",
+        hidden:true,
     },
     promo_tematicas_alimentacion_consumo_tabaco: {
-        label:"Consumo de tabaco"
+        label:"Consumo de tabaco",
+        hidden:true,
     },
     promo_tematicas_alimentacion_consumo_sal: {
-        label: "Consumo de sal"
+        label: "Consumo de sal",
+        hidden:true,
     },
     promo_tematicas_observaciones: {
-        label:"Observaciones:"
+        label:"Observaciones:",
+        hidden:true,
     },
+        promo_tematicas_alimentacion_agua_segura: {
+            label: "Agua Segura",
+            hidden: true,
+        },
+        promo_tematicas_alimentacion_huertas: {
+            label: "Huertas",
+            hidden: true,
+        },
     // 
     clase_extracurricular: {
         label: "F.3.En el establecimiento, ¿se dictan talleres/cursos/clases extraescolares/extracurricularesde EAN o de alguna temática sobre alimentación saludable? "
@@ -620,7 +725,12 @@ var form_options = {
         label: "F.4.¿Cuenta el establecimiento con programas de EAN en la currícula?"
     },
     materia_especifica_existente_detalle:{
-        label: "¿Cómo materias específicas o como contenido de otras materias existentes?", hidden: true        
+        label: "¿Cómo materias específicas o como contenido de otras materias existentes?", 
+        hidden: true        
+    },
+    programas_ean_materias:{
+        label:"¿En que Materias?",
+        hidden:true,
     },
     //SECCIÓN G: EXPOSICIÓN A PUBLICIDAD DE ALIMENTOS Y BEBIDAS
     publicidad_alimento: {
@@ -671,33 +781,42 @@ var form_options = {
     },
 
     //SECCIÓN I: ACTIVIDAD FÍSICA 	
-    // i.1
+    // i.1 todo hidden segun rama
     
     actividad_fisica_inicial_dias: {
+        hidden:true,
         label: "I.1 ¿Cuántos días y minutos de educación física realizan por semana los alumnos de cada curso? \nEducación Inicial \nDías por Semana"
     },
     actividad_fisica_inicial_minutos:{
+        hidden:true,
         label: "Minutos por día"
     },
     actividad_fisica_primer_ciclo_dias: {
-            label: "Educación primaria: \nPrimer ciclo(1º, 2º y 3º grado) \nDías por Semana"
+        hidden:true,    
+        label: "Educación primaria: \nPrimer ciclo(1º, 2º y 3º grado) \nDías por Semana"
     },
     actividad_fisica_primer_ciclo_minutos: {
-         label: "Minutos por día"
+        hidden:true, 
+        label: "Minutos por día"
     },
     actividad_fisica_segundo_ciclo_dias: {
+        hidden:true,
         label: "Educación primaria: \nSegundo ciclo(4º, 5º, 6º y 7º)*"
     },
     actividad_fisica_segundo_ciclo_minutos: {
-         label: "Minutos por día"
+        hidden:true, 
+        label: "Minutos por día"
     },
     actividad_fisica_secundaria_ciclo_dias: {
-            label: "Educación Secundaria (de 1ro a 5to ó 1º a 6to año) \nDías por Semana"
+        hidden:true,    
+        label: "Educación Secundaria (de 1ro a 5to ó 1º a 6to año) \nDías por Semana"
     },
     actividad_fisica_secundaria_ciclo_minutos: {
-         label: "Minutos por día"
+        hidden:true, 
+        label: "Minutos por día"
     },
     actividad_fisica_aclaracion:{
+        
         label: " En el caso de que los minutos destinados a la clase no sean efectivos por traslados u otros motivos por favor aclare."
     },
     // i.2
@@ -793,10 +912,11 @@ var form_options = {
     clase_mix: {
         label:"I.10 ¿Las clases de educación física son mixtas?"
     },
-    clase_mix_nivel_educatio:
-    {
-        label:"Especifique nivel educativo"
-    },
+    // clase_mix_nivel_educatio:
+    // {
+    //     label:"Especifique nivel educativo",
+    //     hidden:true,
+    // },
     // i.11
     enfoque_inclusivo: {
         label: "I.11 ¿ Los espacios promueven la igualdad de oportunidades frente a la práctica de actividad física del todo el alumnado desde un enfoque inclusivo?"
@@ -817,8 +937,16 @@ var form_options = {
     },
     promueve_transporte_activo_detalle:{
         label:"Detalle"
+    },
+    // j
+    prestacion_servicio:{
+        label:"La prestación del servicio proviene de " 
+    },
+    califica:{
+        label: " Del 1 al 5, siendo 1 muy malo y 5 muy bueno ¿Cómo califica la aceptación de los productos por parte de los alumnos? (Entendiendo aceptación como tolerancia al alimento y gusto)",
     }
 }
 }
+
 
 export default form_options;
