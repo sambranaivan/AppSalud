@@ -429,15 +429,22 @@ export default class Encuesta extends React.Component {
                 })
             }
         } 
+
         if (value.prestacion_servicio_almuerzo) {
             if (value.prestacion_servicio_almuerzo == "si") {
                 update_options = t.update(update_options, {
-                    fields: { tipo_gestion_estructurada_almuerzo: { hidden: { '$set': false } } }
+                    fields: {
+                        tipo_gestion_estructurada_almuerzo: { hidden: { '$set': false } },
+                        acompanan_nino: { hidden: { '$set': false } }    }
                 })
             }
             else {
+
                 update_options = t.update(update_options, {
-                    fields: { tipo_gestion_estructurada_almuerzo: { hidden: { '$set': true } } }
+                    fields: { tipo_gestion_estructurada_almuerzo: { hidden: { '$set': true } },
+                              acompanan_nino: { hidden: { '$set': true } }   
+                
+                            }
                 })
             }
         } 
@@ -569,7 +576,7 @@ export default class Encuesta extends React.Component {
         // D.1
         // 
         if (value.agua_corriente) {
-            if (value.menu_especial == "no") {
+          
                 // por si
                 update_options = t.update(update_options, {
                     fields: { 
@@ -607,7 +614,7 @@ export default class Encuesta extends React.Component {
                     })
                 }
             }
-        }
+        
         // D.5
         if (value.hay_bebedero) {
             if (value.hay_bebedero == "si") {
@@ -648,7 +655,7 @@ export default class Encuesta extends React.Component {
         }
         // subnivel
         if (value.nino_lavan_donde) {
-            if (value.nino_lavan_donde == "otro") {
+            if (value.nino_lavan_donde == "otro" && value.nino_lavan == "si") {
                 update_options = t.update(update_options, {
                     fields: {
                         
@@ -691,7 +698,7 @@ export default class Encuesta extends React.Component {
         }
         // subnivel
         if (value.nino_cepillan_donde) {
-            if (value.nino_cepillan_donde == "otro") {
+            if (value.nino_cepillan_donde == "otro" && value.nino_cepillan == "si") {
                 update_options = t.update(update_options, {
                     fields: {
 
@@ -803,6 +810,35 @@ export default class Encuesta extends React.Component {
                         materia_especifica_existente_detalle: { hidden: { '$set': true } },
                         programas_ean_materias: { hidden: { '$set': true } },
                      }
+                })
+            }
+        }
+        // G.1
+        if (value.publicidad_alimento) {
+            if (value.publicidad_alimento == "si") {
+                update_options = t.update(update_options, {
+                    fields: { 
+                        publicidad_alimento_paredes: { hidden: { '$set': false } } ,
+                        publicidad_alimento_mobiliario: { hidden: { '$set': false } },
+                        publicidad_alimento_mesa: { hidden: { '$set': false } },
+                        publicidad_alimento_menu: { hidden: { '$set': false } },
+                        publicidad_alimento_fachada: { hidden: { '$set': false } },
+                        publicidad_alimento_otro: { hidden: { '$set': false } },
+                    
+                    }
+                })
+            }
+            else {
+                update_options = t.update(update_options, {
+                    fields: {
+                        publicidad_alimento_paredes: { hidden: { '$set': true } },
+                        publicidad_alimento_mobiliario: { hidden: { '$set': true } },
+                        publicidad_alimento_mesa: { hidden: { '$set': true } },
+                        publicidad_alimento_menu: { hidden: { '$set': true } },
+                        publicidad_alimento_fachada: { hidden: { '$set': true } },
+                        publicidad_alimento_otro: { hidden: { '$set': true } },
+
+                    }
                 })
             }
         }

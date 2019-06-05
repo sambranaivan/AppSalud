@@ -739,22 +739,28 @@ var form_options = {
     },
     // Multiple
     publicidad_alimento_paredes: {
-        label:"G.2. Registre el/los lugar/lugares en los que se encuentran exhibidas las publicidades \n En las paredes"
+        label:"G.2. Registre el/los lugar/lugares en los que se encuentran exhibidas las publicidades \n En las paredes",
+        hidden:true,
     },
     publicidad_alimento_mobiliario: {
-        label:"Sobre el mobiliario"
+        label:"Sobre el mobiliario",
+        hidden:true,
     },
     publicidad_alimento_mesa: {
-        label:"En los accesorios de mesa"
+        label:"En los accesorios de mesa",
+        hidden:true,
     },
     publicidad_alimento_menu: {
-        label: "En el menú"
+        label: "En el menú",
+        hidden:true,
     },
     publicidad_alimento_fachada: {
-        label:"En la fachada"
+        label:"En la fachada",
+        hidden:true,
     },
     publicidad_alimento_otro: {
-        label:"Otro (Especifique)"
+        label:"Otro (Especifique)",
+        hidden:true,
     },
     // 
     incentivo_consumo:{
