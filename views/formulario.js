@@ -400,6 +400,8 @@ const seccion_h = t.struct({
 const seccion_i = t.struct({
     //SECCIÓN I: ACTIVIDAD FÍSICA 	
     // i.1
+    clases_educacion_fisica:si_no,
+    // [[[[
     // educacion_fisica: t.String,
     actividad_fisica_inicial_dias:t.maybe(t.Number),
     actividad_fisica_inicial_minutos: t.maybe(t.Number),
@@ -411,13 +413,13 @@ const seccion_i = t.struct({
     actividad_fisica_secundaria_ciclo_minutos: t.maybe(t.Number),
     actividad_fisica_aclaracion: t.maybe(t.String),
     // i.2
-    profe_titulo: si_no,
+    profe_titulo: t.maybe(si_no),
     profe_titulo_detalle_no: t.maybe(t.String),
     // i.3
-    evaluacion_aptitud: si_no,
+    evaluacion_aptitud: t.maybe(si_no),
     evaluacion_aptitud_detalle_no: t.maybe(t.String),
     // i.4
-    apto_medico: si_no,
+    apto_medico: t.maybe(si_no),
     // por no
     apto_medico_detalle_no:t.maybe(t.String),
     // por si 
@@ -430,41 +432,41 @@ const seccion_i = t.struct({
     detalle_porcentajes_alumnos_secundaria: t.maybe(t.Number),
     //  i.5
    
-    espacio_activ_fisica: si_no,
+    espacio_activ_fisica: t.maybe(si_no),
     espacio_activ_fisica_detalle: t.maybe(t.String),
     // i.6
-    espacio_movimiento_espontaneo: si_no,
+    espacio_movimiento_espontaneo: t.maybe(si_no),
     espacio_movimiento_espontaneo_detalle: t.maybe(t.String),
     // i.7
-    actividad_extracurricular: si_no,
+    actividad_extracurricular: t.maybe(si_no),
     actividad_extracurricular_detalle:t.maybe( t.String),
     // i.8
-    propuestas_sociocultural: si_no,
+    propuestas_sociocultural: t.maybe(si_no),
     propuestas_sociocultural_detalle: t.maybe(t.String),
     // i.9
-    vestimenta: si_no,
+    vestimenta: t.maybe(si_no),
     // i.10
-    clase_mix: t.enums({
+    clase_mix: t.maybe(t.enums({
         no:"No",
         genero:"Mixtas en cuanto a Género",
         nivel_educativo: "Mixtas en cuanto a Nivel Educativo",
         ambos: "Mixtas Génera & Nivel Educativo ",
 
 
-    }),
+    })),
     // clase_mix_nivel_educativo: t.maybe(t.String),
     // i.11
-    enfoque_inclusivo: si_no,
-    enfoque_inclusivo_detalle: t.String,
+    enfoque_inclusivo: t.maybe(si_no),
+    enfoque_inclusivo_detalle: t.maybe(t.String),
     //  i.12 a
-    accesos: si_no,
-    accesos_detalle: t.String,
+    accesos:t.maybe( si_no),
+    accesos_detalle: t.maybe(t.String),
     //  i.12 b
-    promueve_transporte_activo: si_no,
-    promueve_transporte_activo_detalle: t.String,
+    promueve_transporte_activo: t.maybe(si_no),
+    promueve_transporte_activo_detalle: t.maybe(t.String),
 
     // nuevas preguntas
-   
+//    ]]]]
 
 })
 

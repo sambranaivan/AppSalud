@@ -788,6 +788,9 @@ var form_options = {
 
     //SECCIÓN I: ACTIVIDAD FÍSICA 	
     // i.1 todo hidden segun rama
+        clases_educacion_fisica:{
+            label: "Posee clases de educación física?"
+        },
     
     actividad_fisica_inicial_dias: {
         hidden:true,
@@ -822,12 +825,13 @@ var form_options = {
         label: "Minutos por día"
     },
     actividad_fisica_aclaracion:{
-        
+        hidden: true, 
         label: " En el caso de que los minutos destinados a la clase no sean efectivos por traslados u otros motivos por favor aclare."
     },
     // i.2
     profe_titulo: {
-        label: "I.2 ¿El docente a cargo de la clase de educación física tiene título de profesor de educación física?"
+        label: "I.2 ¿El docente a cargo de la clase de educación física tiene título de profesor de educación física?",
+          hidden: true, 
     },
     profe_titulo_detalle_no: {
         label:"No (Detalle)",
@@ -835,7 +839,8 @@ var form_options = {
     },
     // i.3
     evaluacion_aptitud:{
-        label: "I.3 ¿Se realizan evaluaciones de la aptitud física anualmente?"
+        label: "I.3 ¿Se realizan evaluaciones de la aptitud física anualmente?",
+        hidden: true, 
     },
     evaluacion_aptitud_detalle_no: {
         label:"No (detalle)",
@@ -843,6 +848,7 @@ var form_options = {
     },
     // i.4
     apto_medico:{
+        hidden: true, 
         label:"I.4 ¿Se exige apto médico para iniciar las clases?"
     },
     // por no
@@ -883,39 +889,49 @@ var form_options = {
     //  i.5
 
     espacio_activ_fisica: {
+        // hidden: true, 
         label:"I.5 ¿El establecimiento cuenta con un espacio que favorezca la realización de actividad física durante los recreos?"
     },
     espacio_activ_fisica_detalle:{
+        //   hidden:true, 
         label:"I.5.b Detalle"
     },
     // i.6
         espacio_movimiento_espontaneo:{
+            // hidden: true, 
         label:"I.6 En caso de que cuente con un espacio disponible, por favor identificar si está permitido el movimiento espontáneo (se permite correr, saltar, hacer juegos activos)."
     },
     espacio_movimiento_espontaneo_detalle:{
+        // hidden: true, 
         label: "I.6.b Detalle"
     },
 
     // i.7
     actividad_extracurricular: {
+        // hidden: true, 
         label: "I.7 ¿La escuela participa de actividades extracurriculares a favor de la actividad física (torneos deportivo-recreativas, campamentos, caminatas?"
     },
     actividad_extracurricular_detalle:{
+        // hidden: true, 
         label: "I.7.b Detalle"
     },
     // i.8
     propuestas_sociocultural: {
+        // hidden: true, 
         label: "I.8 ¿La escuela ofrece sus instalaciones para propuestas socioeducativas de promoción de la actividad física, fuera del horario de clases?"
     },
     propuestas_sociocultural_detalle:{
+        // hidden: true, 
         label:"I.8.b Detalle"
     },
     // i.9
     vestimenta: {
+        // hidden: true, 
         label:"I.9  ¿La vestimenta recomendada por la escuela favorece la práctica de actividad física diaria?"
     },
     // i.10
     clase_mix: {
+        // hidden: true, 
         label:"I.10 ¿Las clases de educación física son mixtas?"
     },
     // clase_mix_nivel_educatio:
@@ -925,31 +941,39 @@ var form_options = {
     // },
     // i.11
     enfoque_inclusivo: {
+        // hidden: true, 
         label: "I.11 ¿ Los espacios promueven la igualdad de oportunidades frente a la práctica de actividad física del todo el alumnado desde un enfoque inclusivo?"
     },
     enfoque_inclusivo_detalle:{
+        // hidden: true, 
         label: "I.11.b Detalle"
     },
     //  i.12 a
     accesos: {
+        // hidden: true, 
         label:"I.12.a ¿Los accesos a la escuela son social y físicamente seguros para favorecer el transporte activo de sus alumnos/a?"
     },
     accesos_detalle:{
+        // hidden: true, 
         label:"Detalle"
     },
     //  i.12 b
     promueve_transporte_activo: {
+        // hidden: true, 
         label: "I.12.b- ¿La escuela promueve desde sus instalaciones el transporte activo de sus alumnos/as?"
     },
     promueve_transporte_activo_detalle:{
+        // hidden: true, 
         label:"Detalle"
     },
     // j
     prestacion_servicio:{
+        // hidden: false, 
         label:"La prestación del servicio proviene de " 
     },
     califica:{
-        label: " Del 1 al 5, siendo 1 muy malo y 5 muy bueno ¿Cómo califica la aceptación de los productos por parte de los alumnos? (Entendiendo aceptación como tolerancia al alimento y gusto)",
+        // hidden: true, 
+        label: "Del 1 al 5, siendo 1 muy malo y 5 muy bueno ¿Cómo califica la aceptación de los productos por parte de los alumnos? (Entendiendo aceptación como tolerancia al alimento y gusto)",
     }
 }
 }

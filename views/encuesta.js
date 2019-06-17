@@ -100,7 +100,6 @@ export default class Encuesta extends React.Component {
     }
 
 
-
     _getLocationAsync = async () => {
         let { status } = await Permissions.askAsync(Permissions.LOCATION);
         if (status !== 'granted') {
@@ -180,12 +179,13 @@ export default class Encuesta extends React.Component {
         this._scrollToTop();
     }
 
+    
+
     siguiente = () => {
 
         info = this._form.getValue();
         if(true)
         {
-
             switch (this.state.seccion) 
             {
                 case 'inicio':
@@ -193,6 +193,7 @@ export default class Encuesta extends React.Component {
                     break;
                 case 'parte_1':
                     this.setState({ seccion: 'seccion_a' });
+                    //validar parte 1
                     break;
                 case 'seccion_a':
                     this.setState({ seccion: 'seccion_a_2' });
@@ -305,6 +306,76 @@ export default class Encuesta extends React.Component {
         value.foto_menu = this.state.foto_menu
         value.foto_bebedero = this.state.foto_bebedero
 
+
+        /**
+         * pongo a nivel superior la seccion I por
+         * cuestion de prioridad en condicionales
+         * 
+         * 
+         */
+        if(value.clases_educacion_fisica)
+        {
+            if(value.clases_educacion_fisica == 'si')
+            {
+                update_options = t.update(update_options,{
+                    fields:
+                    {
+                        actividad_fisica_inicial_dias:{hidden:{'$set':false}},
+                        actividad_fisica_inicial_minutos:{hidden:{'$set':false}},
+                        actividad_fisica_primer_ciclo_dias:{hidden:{'$set':false}},
+                        actividad_fisica_primer_ciclo_minutos:{hidden:{'$set':false}},
+                        actividad_fisica_segundo_ciclo_dias:{hidden:{'$set':false}},
+                        actividad_fisica_segundo_ciclo_minutos:{hidden:{'$set':false}},
+                        actividad_fisica_secundaria_ciclo_dias:{hidden:{'$set':false}},
+                        actividad_fisica_secundaria_ciclo_minutos:{hidden:{'$set':false}},
+                        actividad_fisica_aclaracion:{hidden:{'$set':false}},
+                        profe_titulo:{hidden:{'$set':false}},
+                        profe_titulo_detalle_no:{hidden:{'$set':false}},
+                        evaluacion_aptitud:{hidden:{'$set':false}},
+                        evaluacion_aptitud_detalle_no:{hidden:{'$set':false}},
+                        apto_medico:{hidden:{'$set':false}},
+                        apto_medico_detalle_no:{hidden:{'$set':false}},
+                        detalle_exigencias:{hidden:{'$set':false}},
+                        detalle_normativa:{hidden:{'$set':false}},
+                        detalle_exige_niveles:{hidden:{'$set':false}},
+                        detalle_cuantos_alumnos:{hidden:{'$set':false}},
+                        detalle_porcentajes_alumnos_primaria:{hidden:{'$set':false}},
+                        detalle_porcentajes_alumnos_secundaria:{hidden:{'$set':false}},
+                       
+                    }
+                })
+            }
+            else
+            {
+                update_options = t.update(update_options, {
+                    fields:
+                    {
+                        actividad_fisica_inicial_dias: { hidden: { '$set': true } },
+                        actividad_fisica_inicial_minutos: { hidden: { '$set': true } },
+                        actividad_fisica_primer_ciclo_dias: { hidden: { '$set': true } },
+                        actividad_fisica_primer_ciclo_minutos: { hidden: { '$set': true } },
+                        actividad_fisica_segundo_ciclo_dias: { hidden: { '$set': true } },
+                        actividad_fisica_segundo_ciclo_minutos: { hidden: { '$set': true } },
+                        actividad_fisica_secundaria_ciclo_dias: { hidden: { '$set': true } },
+                        actividad_fisica_secundaria_ciclo_minutos: { hidden: { '$set': true } },
+                        actividad_fisica_aclaracion: { hidden: { '$set': true } },
+                        profe_titulo: { hidden: { '$set': true } },
+                        profe_titulo_detalle_no: { hidden: { '$set': true } },
+                        evaluacion_aptitud: { hidden: { '$set': true } },
+                        evaluacion_aptitud_detalle_no: { hidden: { '$set': true } },
+                        apto_medico: { hidden: { '$set': true } },
+                        apto_medico_detalle_no: { hidden: { '$set': true } },
+                        detalle_exigencias: { hidden: { '$set': true } },
+                        detalle_normativa: { hidden: { '$set': true } },
+                        detalle_exige_niveles: { hidden: { '$set': true } },
+                        detalle_cuantos_alumnos: { hidden: { '$set': true } },
+                        detalle_porcentajes_alumnos_primaria: { hidden: { '$set': true } },
+                        detalle_porcentajes_alumnos_secundaria: { hidden: { '$set': true } },
+                       
+                    }
+                })
+            }
+        }
         /**
          * CAMPOS CONDICIONALES
          */
@@ -337,19 +408,7 @@ export default class Encuesta extends React.Component {
                 })
             }
         }
-        // if (value.clase_mix) {
-        //     if (value.clase_mix == "no") {
-        //         update_options = t.update(update_options, {
-        //             fields: { clase_mix_nivel_educativo: { hidden: { '$set': false } } }
-        //         })
-        //     }
-        //     else {
-        //         update_options = t.update(update_options, {
-        //             fields: { clase_mix_nivel_educativo: { hidden: { '$set': true } } }
-        //         })
-        //     }
-        // }
-        // 1.11 lugar fumando
+  
         if (value.lugar_fumador) {
             if (value.lugar_fumador == "otro") {
                 update_options = t.update(update_options, {
@@ -870,7 +929,7 @@ export default class Encuesta extends React.Component {
         }
         // I
         if (value.profe_titulo) {
-            if (value.profe_titulo == "si") {
+            if (value.profe_titulo == "no") {
                 update_options = t.update(update_options, {
                     fields: { profe_titulo_detalle_no: { hidden: { '$set': false } } }
                 })
@@ -1073,22 +1132,8 @@ export default class Encuesta extends React.Component {
             }
             
             this.setState({ showCamera: false });
-        // const asset = await MediaLibrary.createAssetAsync(uri);
-        
-        // // console.log('asset', asset);
-        // MediaLibrary.createAlbumAsync('Encuestas', asset)
-        //     .then(() => {
-        //         Alert.alert('Foto Guardada')
-        //         Vibration.vibrate(100);
-        //         console.log(this.state)
-        //     })
-        //     .catch(error => {
-        //         // Alert.alert('An Error Occurred!')
-        //     });
-        
+   
     }
-
-
 
     render() {
         
@@ -1398,8 +1443,6 @@ const styles = StyleSheet.create({
     }
 })
 
-// t.form.Form.stylesheet.textbox.normal.color = 'white';
-// t.form.Form.stylesheet.controlLabel.normal.color ="white";
 t.form.Form.stylesheet.textbox.normal.backgroundColor = "white";
 t.form.Form.stylesheet.select.normal.backgroundColor = "white";
 
