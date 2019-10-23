@@ -17,7 +17,8 @@ const form1 = t.struct(
     }
 )
 
-const parte_1 = t.struct(
+const parte_1 = t.struct( 
+   
     {
         //PARTE 1: IDENTIFICACIÓN DE LA ESCUELA
         localidad: t.String,
@@ -25,7 +26,7 @@ const parte_1 = t.struct(
             publico:"Público",
             privado: "Privado",
         }),
-        cue_anexo: t.String,
+        cue_anexo: t.String, 
         rama: t.enums({
             inicial:"Inicial",
             primaria:'Primaria',
@@ -146,10 +147,10 @@ const seccion_a_2 = t.struct({
 
 const seccion_a_3 = t.struct({
 compra_may_men:si_no,
-compra_may_men_detalle: t.maybe(t.String),//TODO hidden
-capacitacion_comercio:si_no,
+compra_may_men_detalle: t.maybe(t.String),
+capacitacion_comercio: si_no,
 capacitacion_comercio_detalle:t.maybe(t.String),
-comercializacion_inmediacion:si_no,//TODO cambiar columna
+    comercializacion_inmediacion: si_no,
 comercializacion_inmediacion_detalle:t.maybe( t.String)
 })
 
@@ -164,19 +165,15 @@ const seccion_b = t.struct({
     prestacion_servicio_merienda: si_no,
     // multiple
     tipo_gestion_estructurada_merienda: t.maybe(t.String),
-    // 
-    // prestacion_servicio_escolar: t.String,
-    // B2
     
-    
-    foto_plato_desayuno: t.maybe(t.String),//TODO nueva columna
-    foto_plato_almuerzo: t.maybe(t.String),//TODO nueva columna
-    foto_plato_merienda: t.maybe(t.String),//TODO nueva columna
-    compra_insumo: t.String,//a quien se le compra lo unsimo
+    foto_plato_desayuno: t.maybe(t.String),//
+    foto_plato_almuerzo: t.maybe(t.String),//
+    foto_plato_merienda: t.maybe(t.String),//
+    compra_insumo: t.String,//a quien se le compra lo insumo
     salon_comedor: si_no,
     foto_comedor: t.maybe(t.String),
-    foto_area_elaboracion: t.maybe(t.String),//TODO nueva columna
-    foto_servicio_alimentos: t.maybe(t.String),//TODO nueva columna
+    foto_area_elaboracion: t.maybe(t.String),//
+    foto_servicio_alimentos: t.maybe(t.String),//
     lugar_desayuno_merienda: t.enums({
         aula:"Aula",comedor:"Comedor",otro:"Otros"
     }),
@@ -256,11 +253,11 @@ const seccion_c = t.struct(
 const seccion_d = t.struct({
   //SECCIÓN D: ACCESO AL AGUA SEGURA
   //d.1
-agua_corriente:si_no,
+    agua_corriente: si_no,// obligarorio
 //si es no
 
     agua_presentacion: t.maybe(t.String),//
-    agua_donde_se_obtiene: t.maybe(t.enums({
+    agua_donde_se_obtiene: t.maybe(t.enums({// obligarorio
         perforacion:"Agua de Perforación",
         pozo:"Agua de Pozo",
         pastillas:"Pastillas potabilizadoras",
@@ -296,7 +293,7 @@ agua_corriente:si_no,
 })
 const seccion_e = t.struct({
   //SECCIÓN E: COMENSALIDAD Y HÁBITOS
-
+    // TODO Scroll de E a D
 // desde hasta y duracion por tipo  
    permanencia_desde_desayuno_merienda:t.String,
    permanencia_hasta_desayuno_merienda: t.String,
@@ -313,8 +310,8 @@ const seccion_e = t.struct({
 
 // 
 acompanan_nino:t.String,
-nino_lavan:si_no,
-    nino_lavan_donde:t.maybe(t.enums({
+nino_lavan: si_no,// obligatorio
+    nino_lavan_donde: t.maybe(t.enums({// obligatorio si si
         baño:"Baño",
         patio: "Patio",
         otro:"Otro (Especificar)"
@@ -324,8 +321,8 @@ nino_lavan:si_no,
         solos:"Solos",
         adulto:"En compañia de un adulto",
     })),
-nino_cepillan:si_no,
-    nino_cepillan_donde: t.maybe(t.enums({
+    nino_cepillan: si_no,// obligarorio
+    nino_cepillan_donde: t.maybe(t.enums({// obligarorio si si 
         baño: "Baño",
         patio: "Patio",
         otro: "Otro (Especificar)"
@@ -392,15 +389,15 @@ const seccion_g = t.struct({
 })
 const seccion_h = t.struct({
     //SECCIÓN H: LACTANCIA
-    alumna_embarazada: si_no,
-    espacio_lactancia: si_no,
-    promueven_espacio_lactiancia: si_no,
+    alumna_embarazada: si_no,// obligarorio
+    espacio_lactancia: si_no,// obligarorio
+    promueven_espacio_lactiancia: si_no,// obligarorio
     promueven_espacio_lactiancia_detalle: t.maybe(t.String),
 })
 const seccion_i = t.struct({
     //SECCIÓN I: ACTIVIDAD FÍSICA 	
     // i.1
-    clases_educacion_fisica:si_no,
+    clases_educacion_fisica: si_no,// obligarorio
     // [[[[
     // educacion_fisica: t.String,
     actividad_fisica_inicial_dias:t.maybe(t.Number),
@@ -473,17 +470,18 @@ const seccion_i = t.struct({
 
 // j.1
 const seccion_j = t.struct({
-prestacion_servicio: t.enums({
+    prestacion_servicio: t.enums({// obligarorio
     teknofood: "TeknoFood",
-    shonko: "Shonko"
+    shonko: "Shonko",
+    no_tiene:"No tiene prestación"
 }),
-    califica: t.enums({
+    califica: t.maybe(t.enums({// obligarorio
         1: '1 (Muy Malo)',
         2: "2",
         3: "3",
         4: "4",
         5: "5 (Muy Bueno)",
-    })
+    }))
 })
 
 

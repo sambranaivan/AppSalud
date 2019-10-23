@@ -566,7 +566,7 @@ var form_options = {
         label:"Baños"
     },
     lugar_bebedero_espacio_comun: {
-        label:"Espacios comunes abietos"
+        label:"Espacios comunes abiertos"
     },
     lugar_bebedero_otro:{
         label:"Otro (Especificar)"
@@ -974,6 +974,7 @@ var form_options = {
     califica:{
         // hidden: true, 
         label: "Del 1 al 5, siendo 1 muy malo y 5 muy bueno ¿Cómo califica la aceptación de los productos por parte de los alumnos? (Entendiendo aceptación como tolerancia al alimento y gusto)",
+        hidden:false
     }
 }
 }

@@ -167,8 +167,11 @@ export default class Encuesta extends React.Component {
             case 'seccion_j':
                 this.setState({ seccion: 'seccion_i' });
                 break;
-            case 'final':
+            case 'fotos':
                 this.setState({ seccion: 'seccion_j' });
+                break;
+            case 'final':
+                this.setState({ seccion: 'fotos' });
                 break;
             
 
@@ -179,59 +182,288 @@ export default class Encuesta extends React.Component {
         this._scrollToTop();
     }
 
+
     
+    validar = (seccion) =>{
+        v = this.state.value;
+        switch (seccion) {
+            case 'inicio':
+                return (v.coordinador && v.encuestador);
+            break;
+            // 
+            case 'parte_1':
+            
+                if (v.localidad 
+                    && v.establecimiento 
+                    && v.cue_anexo 
+                    && v.rama 
+                    && v.nomynum_establecimiento
+                    && v.cargo_informante
+                    && v.tipo_jornada
+                    && v.matricula_cantitad
+                    && v.obtencion_dato
+                    && v.num_docente_nodocente
+                    && v.ctrl_sanitario
+                    && v.persona_fumando
+                    && v.lugar_fumador
+                    )//obligatorios
+                    {
+                        return true
+                    }
+                    else
+                    {
+                        return false
+                    }
+            break;
+            case 'seccion_a':
+                if (v.punto_comercializacion)
+                {
+                    if(v.punto_comercializacion == 'si')
+                    {
+                        return(v.categoria_comercializacion);
+                    }
+                    else
+                    {
+                        return true;
+                    }
+                }
+                return false
+            break
+            // 
+            case 'seccion_a_2':
+                return true;
+            break;
+            // 
+            case 'seccion_a_3':
+                return (v.compra_may_men &&
+                    v.capacitacion_comercio &&
+                    v.comercializacion_inmediacion)
+                  
+            break;
+
+            case 'seccion_b':
+                return (v.prestacion_servicio_desayuno &&
+                v.prestacion_servicio_almuerzo &&
+                v.prestacion_servicio_merienda           )
+            break;
+            case 'seccion_c':
+                return true;
+            break;
+            case 'seccion_d':
+                if (v.agua_corriente)
+                {
+                    if (v.agua_corriente == 'no')
+                    {
+                        if (v.agua_donde_se_obtiene)
+                            {
+                                return true
+                            }
+                            else
+                            {
+                                return false
+                            }
+                    }
+                    else
+                    {
+                        return true
+                    }
+                }
+                else
+                {
+                    return false
+                }
+            break;
+            case 'seccion_e':
+              
+                if(v.nino_lavan)
+                {
+                    if(v.nino_lavan == "si")
+                    {
+                        return (v.nino_lavan_donde)
+                    }
+                    else
+                    {
+                        return false;
+                    }
+                }
+
+                if (v.nino_cepillan) {
+                    if (v.nino_cepillan == "si") {
+                        return (v.nino_cepillan_donde)
+                    }
+                    else {
+                        return false;
+                    }
+                }
+                return true
+
+            break;
+            case 'seccion_f':
+                   return true;
+                    
+            
+            break;
+            case 'seccion_g':
+            return true;
+            break;
+            case 'seccion_h':
+                return (v.alumna_embarazada &&
+                        v.espacio_lactancia &&
+                        v.promueven_espacio_lactiancia)
+                // return true;
+            break;
+            case 'seccion_i':
+               return (v.clases_educacion_fisica);
+                  
+            break;
+
+            case "seccion_j":
+                if (v.prestacion_servicio)
+                    {
+                        if(v.prestacion_servicio != "no_tiene")
+                        {
+                            return (v.califica)
+                        }
+                        else
+                        {
+                            return true;
+                        }
+                    }
+                    else
+                    {
+                        return false;
+                    }
+                    return true
+
+            break;
+            default:
+            alert("default error avisar a ivan "+seccion);
+                break; 
+        }
+    }
 
     siguiente = () => {
 
-        info = this._form.getValue();
         if(true)
         {
             switch (this.state.seccion) 
             {
                 case 'inicio':
-                    this.setState({seccion:'parte_1'});
+                    // if(this.validar('inicio'))
+                    // {
+                        this.setState({ seccion: 'parte_1' });
+                    // }
+                    // else
+                    // {
+                    //     alert("Complete todos los campos")
+                    // }
                     break;
                 case 'parte_1':
-                    this.setState({ seccion: 'seccion_a' });
-                    //validar parte 1
+                    // if (this.validar('parte_1')) {
+                        this.setState({ seccion: 'seccion_a' });
+                    // }
+                    // else {
+                    //     alert("Complete todos los campos")
+                    // }
                     break;
                 case 'seccion_a':
-                    this.setState({ seccion: 'seccion_a_2' });
+                    // if (this.validar('seccion_a')) {
+                        this.setState({ seccion: 'seccion_a_2' });
+                    // }
+                    // else {
+                    //     alert("Complete todos los campos")
+                    // }
                     break;
                 case 'seccion_a_2':
-                    this.setState({ seccion: 'seccion_a_3' });
+                    // if (this.validar('seccion_a_2')) {
+                        this.setState({ seccion: 'seccion_a_3' });
+                    // }
+                    // else {
+                    //     alert("Complete todos los campos")
+                    // }
                     break;
                 case 'seccion_a_3':
-                    this.setState({ seccion: 'seccion_b' });
+                    // if (this.validar('seccion_a_3')) {
+                        this.setState({ seccion: 'seccion_b' });
+                    // }
+                    // else {
+                    //     alert("Complete todos los campos")
+                    // }
                     break;
                 case 'seccion_b':
-                    this.setState({ seccion: 'seccion_c' });
+                    // if (this.validar('seccion_b')) {
+                        this.setState({ seccion: 'seccion_c' });
+                    // }
+                    // else {
+                    //     alert("Complete todos los campos")
+                    // }
                     break;
                 case 'seccion_c':
-                    this.setState({ seccion: 'seccion_d' });
+                    // if (this.validar('seccion_c')) {
+                        this.setState({ seccion: 'seccion_d' });
+                    // }
+                    // else {
+                    //     alert("Complete todos los campos")
+                    // }
                     break;
                 case 'seccion_d':
-                    this.setState({ seccion: 'seccion_e' });
+                    // if (this.validar('seccion_d')) {
+                        this.setState({ seccion: 'seccion_e' });
+                    // }
+                    // else {
+                    //     alert("Complete todos los campos")
+                    // }
                     break;
-                    case 'seccion_e':
-                    this.setState({ seccion: 'seccion_f' });
-                    break;
+                case 'seccion_e':
+                        // if (this.validar('seccion_e')) {
+                            this.setState({ seccion: 'seccion_f' });
+                        // }
+                        // else {
+                        //     alert("Complete todos los campos")
+                        // }
+                        break;
                 case 'seccion_f':
-                    this.setState({ seccion: 'seccion_g' });
+                    // if (this.validar('seccion_f')) {
+                        this.setState({ seccion: 'seccion_g' });
+                    // }
+                    // else {
+                    //     alert("Complete todos los campos")
+                    // }
                     break;
                 case 'seccion_g':
-                    this.setState({ seccion: 'seccion_h' });
+                    // if (this.validar('seccion_g')) {
+                        this.setState({ seccion: 'seccion_h' });
+                    // }
+                    // else {
+                    //     alert("Complete todos los campos")
+                    // }
                     break;
                 case 'seccion_h':
-                    this.setState({ seccion: 'seccion_i' });
+                    // if (this.validar('seccion_h')) {
+                        this.setState({ seccion: 'seccion_i' });
+                    // }
+                    // else {
+                    //     alert("Complete todos los campos")
+                    // }
                     break;
                 case 'seccion_i':
-                    this.setState({ seccion: 'seccion_j' });
+                    // if (this.validar('seccion_i')) {
+                        this.setState({ seccion: 'seccion_j' });
+                    // }
+                    // else {
+                    //     alert("Complete todos los campos")
+                    // }
                     break;
                 case 'seccion_j':
-                    this.setState({ seccion: 'final' });
+                    // if (this.validar('seccion_j')) {
+                        this.setState({ seccion: 'fotos' });
+                    // }
+                    // else {
+                    //     alert("Complete todos los campos")
+                    // }
                     break;
-            
+                case 'fotos':   
+                    this.setState({ seccion: 'final' });
                 default:
                     break;
             }
@@ -636,29 +868,33 @@ export default class Encuesta extends React.Component {
         // 
         if (value.agua_corriente) {
           
-                // por si
-                update_options = t.update(update_options, {
-                    fields: { 
-                        agua_presentacion: { hidden: { '$set': true } },
-                        agua_estrategia_segura:{hidden:{'$set':true}},
-                        agua_donde_se_obtiene: { hidden: { '$set': true } },
-                        agua_donde_se_obtiene_otro: { hidden: { '$set': true } }
-                        
-                    }
-                })
-            }
-            else {
-                // por no
-                update_options = t.update(update_options, {
+               if(value.agua_corriente !== 'no')
+               {
+                   // por si
+                   update_options = t.update(update_options, {
+                       fields: {
+                           agua_presentacion: { hidden: { '$set': true } },
+                           agua_estrategia_segura: { hidden: { '$set': true } },
+                           agua_donde_se_obtiene: { hidden: { '$set': true } },
+                           agua_donde_se_obtiene_otro: { hidden: { '$set': true } }
 
-                    fields: { 
-                        agua_presentacion: { hidden: { '$set': false } }, 
-                        agua_estrategia_segura: { hidden: { '$set': false } },
-                        agua_donde_se_obtiene: { hidden: { '$set': false } },
-                        agua_donde_se_obtiene_otro: { hidden: { '$set': false } }
-                 }
-                })
+                       }
+                   })
+               }
+               else
+               {
+                   update_options = t.update(update_options, {
+
+                       fields: {
+                           agua_presentacion: { hidden: { '$set': false } },
+                           agua_estrategia_segura: { hidden: { '$set': false } },
+                           agua_donde_se_obtiene: { hidden: { '$set': false } },
+                           agua_donde_se_obtiene_otro: { hidden: { '$set': false } }
+                       }
+                   })
+               }
             }
+            
 
             // subnivel
             if (value.agua_donde_se_obtiene) {
@@ -706,7 +942,7 @@ export default class Encuesta extends React.Component {
                     fields: { 
                         nino_lavan_donde: { hidden: { '$set': true } },
                         nino_lavan_donde_otro: { hidden: { '$set': true } },
-                        nino_lavan_solos: { hidden: { '$set': false } },
+                        nino_lavan_solos: { hidden: { '$set': true } },
                     }
                 })
             }
@@ -981,6 +1217,29 @@ export default class Encuesta extends React.Component {
             }
         }
 
+        if(value.prestacion_servicio)
+        {
+            if(value.prestacion_servicio == 'no_tiene')
+            {
+                // 
+                    update_options = t.update(update_options, {
+                        fields: { 
+                                    califica: { hidden: { '$set': true } } 
+                                    }
+                })
+                // 
+            }
+            else
+            {
+                      update_options = t.update(update_options, {
+                        fields: { 
+                                    califica: { hidden: { '$set': false } } 
+                                    }
+                })
+                // 
+            }
+        }
+
         if(value.rama){
             switch(value.rama)
             {
@@ -1221,35 +1480,6 @@ export default class Encuesta extends React.Component {
 <View>
                             <Text style={styles.titulos}>SECCIÓN B: COMEDORES, CANTINAS Y BUFETES SALUDABLES – CRITERIOS NUTRICIONALES</Text> 
     <Form ref={c => this._form = c} type={seccion_b} options={this.state.options} value={this.state.value} onChange={this.onChange} />
-                            <TouchableOpacity style={this.state.foto_plato_desayuno && styles.buttonSmallCheck || styles.buttonSmall} 
-                                    onPress={() => this.abrirCamara('foto_plato_desayuno')}>
-                                <Text style={styles.buttonTextSmall}>Tomar Foto del Desayuno</Text>
-                            </TouchableOpacity>
-                            <TouchableOpacity style={this.state.foto_plato_almuerzo && styles.buttonSmallCheck || styles.buttonSmall} 
-                                     onPress={() => this.abrirCamara('foto_plato_almuerzo')}>
-                                <Text style={styles.buttonTextSmall}>Tomar Foto del Almuerzo</Text>
-                            </TouchableOpacity>
-                            <TouchableOpacity style={this.state.foto_plato_merienda && styles.buttonSmallCheck || styles.buttonSmall} 
-                                     onPress={() => this.abrirCamara('foto_plato_merienda')}>
-                                <Text style={styles.buttonTextSmall}>Tomar Foto del Merienda</Text>
-                            </TouchableOpacity>
-                            {/*  */}
-                            <TouchableOpacity style={this.state.foto_comedor && styles.buttonSmallCheck || styles.buttonSmall} 
-                                     onPress={() => this.abrirCamara('foto_comedor')}>
-                                <Text style={styles.buttonTextSmall}>Tomar Foto del Comedor</Text>
-                            </TouchableOpacity>
-                            <TouchableOpacity style={this.state.foto_area_elaboracion && styles.buttonSmallCheck || styles.buttonSmall} 
-                                     onPress={() => this.abrirCamara('foto_area_elaboracion')}>
-                                <Text style={styles.buttonTextSmall}>Tomar Foto del area de elaboracion</Text>
-                            </TouchableOpacity>
-                            <TouchableOpacity style={this.state.foto_servicio_alimentos && styles.buttonSmallCheck || styles.buttonSmall} 
-                                     onPress={() => this.abrirCamara('foto_servicio_alimentos')}>
-                                <Text style={styles.buttonTextSmall}>Tomar Foto del area de Servicios</Text>
-                            </TouchableOpacity>
-                            <TouchableOpacity style={this.state.foto_menu && styles.buttonSmallCheck || styles.buttonSmall} 
-                                     onPress={() => this.abrirCamara('foto_menu')}>
-                                <Text style={styles.buttonTextSmall}>Tomar Foto del menú</Text>
-                            </TouchableOpacity>
                            
 </View>}
 {this.state.seccion == 'seccion_c' && 
@@ -1262,10 +1492,7 @@ export default class Encuesta extends React.Component {
                             <Text style={styles.titulos}>SECCIÓN D: ACCESO AL AGUA SEGURA</Text> 
     <Form ref={c => this._form = c} type={seccion_d} options={this.state.options} value={this.state.value} onChange={this.onChange} />
     
-                            <TouchableOpacity style={this.state.foto_bebedero && styles.buttonSmallCheck || styles.buttonSmall} 
-                            onPress={() => this.abrirCamara('foto_bebedero')}>
-                            <Text style={styles.buttonTextSmall}>Tomar Foto del Bebedero</Text>
-    </TouchableOpacity>
+                            
 </View>}
 {this.state.seccion == 'seccion_e' && 
 <View>
@@ -1296,6 +1523,46 @@ export default class Encuesta extends React.Component {
                             <View>
                             <Text style={styles.titulos}>SECCIÓN J: PRESTACIÓN ALIMENTARIA</Text>
                                 <Form ref={c => this._form = c} type={seccion_j} options={this.state.options} value={this.state.value} onChange={this.onChange} />
+                            </View>}
+
+                        {this.state.seccion == 'fotos' &&
+                            <View>
+                                <Text style={styles.titulos}>FOTOS</Text>
+                            <TouchableOpacity style={this.state.foto_plato_desayuno && styles.buttonSmallCheck || styles.buttonSmall}
+                                onPress={() => this.abrirCamara('foto_plato_desayuno')}>
+                                <Text style={styles.buttonTextSmall}>Tomar Foto del Desayuno</Text>
+                            </TouchableOpacity>
+                            <TouchableOpacity style={this.state.foto_plato_almuerzo && styles.buttonSmallCheck || styles.buttonSmall}
+                                onPress={() => this.abrirCamara('foto_plato_almuerzo')}>
+                                <Text style={styles.buttonTextSmall}>Tomar Foto del Almuerzo</Text>
+                            </TouchableOpacity>
+                            <TouchableOpacity style={this.state.foto_plato_merienda && styles.buttonSmallCheck || styles.buttonSmall}
+                                onPress={() => this.abrirCamara('foto_plato_merienda')}>
+                                <Text style={styles.buttonTextSmall}>Tomar Foto del Merienda</Text>
+                            </TouchableOpacity>
+                            {/*  */}
+                            <TouchableOpacity style={this.state.foto_comedor && styles.buttonSmallCheck || styles.buttonSmall}
+                                onPress={() => this.abrirCamara('foto_comedor')}>
+                                <Text style={styles.buttonTextSmall}>Tomar Foto del Comedor</Text>
+                            </TouchableOpacity>
+                            <TouchableOpacity style={this.state.foto_area_elaboracion && styles.buttonSmallCheck || styles.buttonSmall}
+                                onPress={() => this.abrirCamara('foto_area_elaboracion')}>
+                                <Text style={styles.buttonTextSmall}>Tomar Foto del area de elaboracion</Text>
+                            </TouchableOpacity>
+                            <TouchableOpacity style={this.state.foto_servicio_alimentos && styles.buttonSmallCheck || styles.buttonSmall}
+                                onPress={() => this.abrirCamara('foto_servicio_alimentos')}>
+                                <Text style={styles.buttonTextSmall}>Tomar Foto del area de Servicios</Text>
+                            </TouchableOpacity>
+                            <TouchableOpacity style={this.state.foto_menu && styles.buttonSmallCheck || styles.buttonSmall}
+                                onPress={() => this.abrirCamara('foto_menu')}>
+                                <Text style={styles.buttonTextSmall}>Tomar Foto del menú</Text>
+                            </TouchableOpacity>
+                            <TouchableOpacity style={this.state.foto_bebedero && styles.buttonSmallCheck || styles.buttonSmall}
+                                onPress={() => this.abrirCamara('foto_bebedero')}>
+                                <Text style={styles.buttonTextSmall}>Tomar Foto del Bebedero</Text>
+                            </TouchableOpacity>
+
+
                             </View>}
                         {this.state.seccion == 'final' &&
                             <View style={{flex:2}}>

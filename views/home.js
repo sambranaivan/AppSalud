@@ -59,9 +59,9 @@ export default class Home extends Component {
     ///inicializo el contador
     this._getRegCount();
 
-    // this._getPhotosAsync().catch(error => {
-    //   console.error(error);
-    // });
+    this._getPhotosAsync().catch(error => {
+      console.error(error);
+    });
 
     this.getCameraRollPermissions();
   }
@@ -90,7 +90,7 @@ export default class Home extends Component {
 
 
 
-    let photos = await CameraRoll.getPhotos({ first: 1 });
+    let photos = await CameraRoll.getPhotos({ first: 20 });
     this.setState({ photos });
     // console.log(photos);
 
@@ -113,7 +113,7 @@ export default class Home extends Component {
 
     // console.log(formData);
     // response = await fetch('http://192.168.0.100/test/upload.php', 
-    response = await fetch('http://linsse.com.ar/salud/api/subirfoto', 
+    response = await fetch('http://http://13.90.59.76/salud/api/subirfoto', 
     {
       method: 'POST',
       body: formData,
@@ -198,7 +198,7 @@ export default class Home extends Component {
     // let server = "10.1.17.203"//estadistica
     // let server = "13.90.59.76"//Azure Chamaoke
     // let server = "192.168.0.16/salud"//Azure Chamaoke
-      let server = "linsse.com.ar/salud"//Azure Chamaoke
+      let server = "http://linsse.com.ar/salud"//Azure Chamaoke
     console.log("send data to "+server);
     this.setState({spinner:true});
     
@@ -214,7 +214,7 @@ export default class Home extends Component {
       // enviar la data
 
        // http://localhost/apiEncuestoff/public/api/carnaval/send
-       const myRequest = new Request('http://'+server+'/api/subir',
+       const myRequest = new Request('http://linsse.com.ar/salud/api/subir',
          {
            method: 'POST',
            body: data
@@ -407,7 +407,7 @@ export default class Home extends Component {
 
          
         {/* <View> */}
-           <Button title="Limpiar Conteo" onPress={this.CleanData}/>
+           {/* <Button title="Limpiar Conteo" onPress={this.CleanData}/> */}
           <Text>{this.state.isConnected ? 'Online' : 'Offline'}</Text>
           <Text style={{fontSize:12}}>Total de Encuestas: ({this.state.count})</Text>
             <TouchableOpacity onPress={() => this.props.navigation.navigate("Encuesta")} style={styles.button}>
