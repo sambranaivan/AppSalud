@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { StyleSheet, Text, View, NetInfo, Image, TouchableOpacity, BackHandler,AsyncStorage, AppRegistry, Alert, CameraRoll, Button} from 'react-native';
+import { StyleSheet, Text, View, NetInfo, Image, TouchableOpacity, BackHandler,AsyncStorage, AppRegistry, Alert, CameraRoll, Button, Share,Clipboard} from 'react-native';
 import Spinner from 'react-native-loading-spinner-overlay';
 import { Constants, Location, MediaLibrary, Permissions, Camera, FileSystem} from 'expo';
 
@@ -59,9 +59,9 @@ export default class Home extends Component {
     ///inicializo el contador
     this._getRegCount();
 
-    this._getPhotosAsync().catch(error => {
-      console.error(error);
-    });
+    // this._getPhotosAsync().catch(error => {
+    //   console.error(error);
+    // });
 
     this.getCameraRollPermissions();
   }
@@ -282,7 +282,8 @@ export default class Home extends Component {
   ViewData = async()=>{
     try {
       let data = await AsyncStorage.getItem('data');
-     alert(data);
+      Clipboard.setString(data);
+     alert("Datos Copiados");
     
     } catch (error) {
       alert(error)
@@ -380,6 +381,16 @@ export default class Home extends Component {
     
   }
 
+  share = async () => {
+    try {
+      let data = await AsyncStorage.getItem('data');
+      Clipboard.setString(data);
+
+    } catch (error) {
+      alert(error.message);
+    }
+  };
+
   render() {
     
     return (
@@ -417,6 +428,14 @@ export default class Home extends Component {
             <TouchableOpacity onPress={this.enviar} style={styles.button}>
             <Text style={styles.buttonText}>Subir Encuestas</Text>
             </TouchableOpacity>
+
+          <TouchableOpacity onPress={this.ViewData} style={{
+            marginBottom: 30,
+            width: 260,
+            alignItems: 'center',
+            backgroundColor: '#4dbbbd'}}>
+            <Text style={styles.buttonText}>Copiar</Text>
+          </TouchableOpacity>
 
 
           {/* <TouchableOpacity onPress={this.takePicture} style={styles.button}>
